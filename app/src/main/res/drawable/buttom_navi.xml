@@ -1,0 +1,24 @@
+<!-- drawable/bottom_navi.xml -->
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="414dp"
+    android:height="75dp"
+    android:viewportWidth="414"
+    android:viewportHeight="75"
+    >
+
+  <group>
+
+    <clip-path
+        android:pathData="M0 0H414V75H0V0Z"
+        />
+
+    <path
+        android:pathData="M0 0V75H414V0"
+        android:fillColor="#D9821D"
+        />
+
+  </group>
+
+</vector>

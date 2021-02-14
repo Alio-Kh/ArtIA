@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">Artia</string>
+    <string name="search">Search</string>
+    <string name="history">History</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_name">Full Name</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="forget_password">Forget Password?</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="new_here">New Here?</string>
+    <string name="old_memnber">Already Member?</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="camera">Camera</string>
+    <string name="result">Result</string>
+
+
+
+
+    <string name="large_text">
+        "Styles of Moroccan Berber Rugs\n\n"
+       "Handmade rugs and in particular the highly popularised Beni Ourain style,"
+        "have seen a steady growth in popularity in homes in the West in recent years."
+        "Twentieth-Century vintage Moroccan rugs and newer contemporary styles adorn "
+        "many household floors whilst some rugs are hung as wall pieces so that their"
+        "artistic attributes can be admired. Their geometric, abstract or tribal designs"
+        "can provide a captivating centre piece for any room. Interior designers have been"
+        "pairing these rugs with modern interiors to demonstrate how styling vintage with "
+        "new as well as traditional with contemporary can work in so many different and exciting ways.\n\n"
+        "Despite this more recent regard for the traditionally woven Moroccan Berber rugs,"
+        "their incredible history and the different styles of tribal rugs which exist are "
+        "lesser known. For us at Cosy Coco, we believe that it is by understanding the story"
+        "of these rugs that their true value and beauty can be appreciated. By buying as close "
+        "to the source as possible we are often able to offer customers a small glimpse into the "
+        "history of their rug and its origins."
+    </string>
+    <string name="action_settings">Settings</string>
+    <string name="mat_name">Mat Name</string>
+    <string name="origin">Origin</string>
+    <string name="pattern_name">Pattern Name</string>
+
+</resources>

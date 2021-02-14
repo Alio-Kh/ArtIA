@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--<shape xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:shape="rectangle">-->
+<!--    <solid android:color="#E5957B59" />-->
+<!--    <padding-->
+<!--        android:bottom="5dp"-->
+<!--        android:left="5dp"-->
+<!--        android:right="5dp"-->
+<!--        android:top="5dp" />-->
+
+<!--    <corners android:radius="6dp" />-->
+
+
+<!--</shape>-->
+
+
+
+
+<!-- SHADOW CODE -->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--the shadow comes from here-->
+    <item
+        android:left="1dp"
+        android:right="1dp"
+        android:top="3dp">
+        <shape>
+            <corners android:radius="6dp" />
+            <padding
+                android:bottom="1.5dp"
+                android:left="1.3dp"
+                android:right="1.3dp"
+                android:top="1.1dp" />
+            <solid android:color="#47393b" />
+        </shape>
+    </item>
+    <item
+        android:left="1dp"
+        android:right="1dp"
+        android:top="3dp">
+        <shape>
+            <corners android:radius="6dp" />
+            <padding
+                android:bottom="1.4dp"
+                android:left="1dp"
+                android:right="1dp"
+                android:top="1dp" />
+            <solid android:color="#47393b" />
+        </shape>
+    </item>
+
+
+    <item
+        android:bottom="0dp"
+        android:left="0dp"
+        android:right="0dp"
+        android:top="0dp">
+        <!--whatever you want in the background, here i preferred solid white -->
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle">
+            <solid android:color="#E5957B59" />
+            <padding
+                android:bottom="5dp"
+                android:left="5dp"
+                android:right="5dp"
+                android:top="5dp" />
+
+            <corners android:radius="6dp" />
+        </shape>
+    </item>
+</layer-list>

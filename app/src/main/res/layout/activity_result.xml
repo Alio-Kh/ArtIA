@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#809F5E07"
+    tools:context=".ResultActivity">
+
+    <View
+        android:id="@+id/top_title"
+        android:layout_width="436dp"
+        android:layout_height="75dp"
+        android:background="@drawable/buttom_navi"
+        android:forceDarkAllowed="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/buttum_navi"
+        android:layout_width="436dp"
+        android:layout_height="80dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/buttom_navi"
+        android:forceDarkAllowed="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/search_btn"
+        android:layout_width="56dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/img_button_bg"
+        android:src="@drawable/search_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/histo_btn"
+        android:layout_width="54dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/img_button_bg"
+        android:src="@drawable/history_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/buttum_navi" />
+
+    <TextView
+        android:id="@+id/search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="106dp"
+        android:layout_marginTop="48dp"
+        android:fontFamily="@font/nunito_regular"
+        android:text="@string/search"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/search_btn" />
+
+    <TextView
+        android:id="@+id/history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="104dp"
+        android:layout_marginBottom="3dp"
+        android:fontFamily="@font/nunito_regular"
+        android:text="@string/history"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/title_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/nunito_semibold_italic"
+        android:text="@string/result"
+        android:textColor="#FFFFFF"
+        android:textSize="26sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <!--  Scrollable Text  -->
+    <!--    <androidx.core.widget.NestedScrollView-->
+    <!--        android:id="@+id/nestedScrollView"-->
+    <!--        android:layout_width="420dp"-->
+    <!--        android:layout_height="352dp"-->
+    <!--        android:background="#957B59"-->
+    <!--        app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/buttum_navi"-->
+    <!--        app:layout_constraintStart_toStartOf="parent">-->
+
+    <!--        <TextView-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_margin="@dimen/text_margin"-->
+    <!--            android:fontFamily="@font/nunito_regular"-->
+    <!--            android:text="@string/large_text"-->
+    <!--            android:textColor="#FFFFFF"-->
+    <!--            android:textSize="18dp" />-->
+    <!--    </androidx.core.widget.NestedScrollView>-->
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="3dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttum_navi"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView3">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:background="@drawable/mat_info_bg"
+                android:fontFamily="@font/nunito_regular"
+                android:text="@string/large_text"
+                android:textColor="#FFFFFF"
+                android:textSize="18dp" />
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="407dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/mat_info_bg"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/pattern_name_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_semibold_italic"
+                    android:text="@string/pattern_name"
+                    android:textColor="#FFF"
+                    android:textSize="18sp"
+                    tools:layout_editor_absoluteX="21dp"
+                    tools:layout_editor_absoluteY="348dp" />
+
+                <TextView
+                    android:id="@+id/pattern_space1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_semibold_italic"
+                    android:text=" : "
+                    android:textColor="#FFF"
+                    android:textSize="18sp"
+                    tools:layout_editor_absoluteX="21dp"
+                    tools:layout_editor_absoluteY="348dp" />
+
+
+                <TextView
+                    android:id="@+id/pattern_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_bold_italic"
+                    android:text="@string/pattern_name"
+                    android:textColor="#5F3708"
+                    android:textSize="18sp"
+                    tools:layout_editor_absoluteX="21dp"
+                    tools:layout_editor_absoluteY="348dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/pattern_space3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_bold_italic"
+                    android:text=" "
+                    android:textColor="#5F3708"
+                    android:textSize="8sp"
+                    tools:layout_editor_absoluteX="21dp"
+                    tools:layout_editor_absoluteY="348dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/pattern_origin_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_semibold_italic"
+                    android:text="@string/origin"
+                    android:textColor="#FFF"
+                    android:textSize="18sp"
+                    tools:layout_editor_absoluteX="21dp"
+                    tools:layout_editor_absoluteY="348dp" />
+
+                <TextView
+                    android:id="@+id/pattern_space2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_semibold_italic"
+                    android:text=" : "
+                    android:textColor="#FFF"
+                    android:textSize="18sp"
+                    tools:layout_editor_absoluteX="21dp"
+                    tools:layout_editor_absoluteY="348dp" />
+
+                <TextView
+                    android:id="@+id/pattern_origin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_bold_italic"
+                    android:text="@string/origin"
+                    android:textColor="#5F3708"
+                    android:textSize="18sp"
+                    tools:layout_editor_absoluteX="21dp"
+                    tools:layout_editor_absoluteY="348dp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+    <!--    <View-->
+    <!--        android:id="@+id/view"-->
+    <!--        android:layout_width="400dp"-->
+    <!--        android:layout_height="90dp"-->
+    <!--        android:layout_alignParentLeft="true"-->
+    <!--        android:layout_alignParentTop="true"-->
+    <!--        android:layout_marginTop="28dp"-->
+    <!--        android:background="@drawable/mat_info_bg"-->
+    <!--        android:elevation="10dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.512"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/imageView2"/>-->
+
+
+    <TextView
+        android:id="@+id/mat_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/nunito_bold_italic"
+        android:shadowColor="#5F3708"
+        android:shadowDx="1"
+        android:shadowDy="3"
+        android:shadowRadius="3"
+        android:text="@string/mat_name"
+        android:textColor="#5F3708"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_title" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="400dp"
+        android:layout_height="200dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.625"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mat_name"
+        tools:srcCompat="@drawable/tapis1" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

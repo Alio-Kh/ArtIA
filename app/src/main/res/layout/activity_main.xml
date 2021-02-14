@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:forceDarkAllowed="false"
+    tools:context=".MainActivity">
+
+<!--  Activity Background  -->
+    <View
+        android:id="@+id/background"
+        android:layout_width="437dp"
+        android:layout_height="864dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/ic_background"
+        android:forceDarkAllowed="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="MissingConstraints" />
+
+<!--  Image du Logo de l'application ArtIA  -->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="383dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+<!--  Button Get Started -->
+<!--  To navigate from Main Acticity to Search Activity (for pattern detection)  -->
+    <Button
+        android:id="@+id/get_started"
+        android:layout_width="142dp"
+        android:layout_height="59dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="28dp"
+        android:width="142px"
+        android:height="40px"
+        android:background="@drawable/button_bg"
+        android:fontFamily="@font/nunito_regular"
+        android:forceDarkAllowed="true"
+        android:text="Get Started"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
