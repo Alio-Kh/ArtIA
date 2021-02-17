@@ -3,6 +3,7 @@
     package="com.example.artia">
 
     <uses-permission android:name="android.permission.CAMERA" />
+<!--    <uses-permission android:name="android.permission.CAMERA_TAKEPICTURE" />-->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
