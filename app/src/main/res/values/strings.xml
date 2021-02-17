@@ -21,8 +21,6 @@
     <string name="result">Result</string>
 
 
-
-
     <string name="large_text">
         "Styles of Moroccan Berber Rugs\n\n"
        "Handmade rugs and in particular the highly popularised Beni Ourain style,"
@@ -44,5 +42,9 @@
     <string name="mat_name">Mat Name</string>
     <string name="origin">Origin</string>
     <string name="pattern_name">Pattern Name</string>
+    <string name="title_activity_home">MainActivity</string>
+    <string name="title_search">Search</string>
+    <string name="title_history">History</string>
+    <string name="title_account">Account</string>
 
 </resources>
