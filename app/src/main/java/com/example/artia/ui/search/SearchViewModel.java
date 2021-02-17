@@ -6,14 +6,13 @@ import androidx.lifecycle.ViewModel;
 
 public class SearchViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private MutableLiveData<CameraPreview> cameraPreview;
 
     public SearchViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is search fragment");
+        cameraPreview = new MutableLiveData<>();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<CameraPreview> getCameraPreview() {
+        return cameraPreview;
     }
 }
