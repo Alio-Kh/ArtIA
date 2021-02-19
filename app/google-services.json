@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1035717899597",
+    "project_id": "artia-35137",
+    "storage_bucket": "artia-35137.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1035717899597:android:bbcbae48cc562942f67304",
+        "android_client_info": {
+          "package_name": "com.moisegui.artia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1035717899597-5v685f0mdo93d07jmk23nno3qgtpagtu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoqHVtAKeaVVKy7e8Bv2w5Zx1MBm7LxUg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1035717899597-5v685f0mdo93d07jmk23nno3qgtpagtu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
