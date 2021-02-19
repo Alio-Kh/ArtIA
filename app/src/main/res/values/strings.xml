@@ -53,5 +53,22 @@
     <string name="unknown_error">An error has occured</string>
     <string name="log_out">Log out</string>
     <string name="log_in">Log in</string>
+    <string name="account_deleted">Account deleted</string>
+    <string name="press_back_again">Press Back again to Exit.</string>
+    <string name="not_logged_in_message">You are not Logged in</string>
+    <string name="account_settings_message">Update your account</string>
+    <string name="email_label">Your email</string>
+    <string name="name_label">Your full name</string>
+    <string name="update_password_text">Update your password</string>
+    <string name="leave_empty_message">Leave empty if not editing</string>
+    <string name="old_pass_label">Old password</string>
+    <string name="new_pass_label">New password</string>
+    <string name="update_account">Update account</string>
+    <string name="name_updated">Full name updated</string>
+    <string name="two_pass_fields_required">The two password fields are required</string>
+    <string name="pass_must_be_6_or_more">Your password must be at least 6 caracters</string>
+    <string name="old_pass_incorrect">Old password incorrect</string>
+    <string name="account_updated">Account informations updated</string>
+    <string name="no_change_detected">No change detected</string>
 
 </resources>
