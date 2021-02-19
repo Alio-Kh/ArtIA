@@ -46,5 +46,12 @@
     <string name="title_search">Search</string>
     <string name="title_history">History</string>
     <string name="title_account">Account</string>
+    <string name="sign_in_cancelled">Sign in cancelled</string>
+    <string name="log_in_cancelled">Log in cancelled</string>
+    <string name="logged_in">Logged in</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="unknown_error">An error has occured</string>
+    <string name="log_out">Log out</string>
+    <string name="log_in">Log in</string>
 
 </resources>
