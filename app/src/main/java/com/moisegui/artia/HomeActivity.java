@@ -1,5 +1,7 @@
 package com.moisegui.artia;
 
+import android.app.Instrumentation;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -18,7 +20,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.artia.ui.result.ResultFragment;
+import com.moisegui.artia.ui.result.ResultFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
@@ -84,18 +86,15 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    public void goToResult(Fragment fragment,int image,String title,String date){
-        if(fragment != null) {
+    public void goToResult(int image,String title,String date){
 
-            Bundle bundle = new Bundle();
-            bundle.putInt("image",image);
-            bundle.putString("title",title);
-            bundle.putString("date",date);
+Intent bundle = new Intent(this, ResultActivity.class);
+            bundle.putExtra("image",image);
+            bundle.putExtra("title",title);
+            bundle.putExtra("date",date);
 
-            fragment.setArguments(bundle);
-            fragmentManager.replace(R.id.nav_host_fragment, fragment).commit();
-        }else{
-            System.out.println("null");
-        }
+            startActivity(bundle);
+            /*fragment.setArguments(bundle);
+            fragmentManager.replace(R.id.nav_host_fragment, fragment).commit();*/
     }
 }

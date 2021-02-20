@@ -1,4 +1,4 @@
-package com.example.artia.ui.result;
+package com.moisegui.artia.ui.result;
 
 import androidx.lifecycle.ViewModel;
 

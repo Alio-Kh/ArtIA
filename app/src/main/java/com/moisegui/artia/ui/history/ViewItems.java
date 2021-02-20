@@ -1,11 +1,11 @@
-package com.example.artia.ui.history;
+package com.moisegui.artia.ui.history;
 
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.artia.R;
+import com.moisegui.artia.R;
 
 public class ViewItems {
     ImageView image;

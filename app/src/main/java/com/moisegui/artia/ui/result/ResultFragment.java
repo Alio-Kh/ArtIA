@@ -1,4 +1,4 @@
-package com.example.artia.ui.result;
+package com.moisegui.artia.ui.result;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -14,8 +14,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.artia.R;
-
+import com.moisegui.artia.ui.result.ResultViewModel;
+import com.moisegui.artia.R;
+import com.moisegui.artia.ui.result.ResultFragment;
 public class ResultFragment extends Fragment {
 
     private ResultViewModel mViewModel;

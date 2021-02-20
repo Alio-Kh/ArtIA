@@ -1,7 +1,8 @@
-package com.example.artia.ui.history;
+package com.moisegui.artia.ui.history;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.Instrumentation;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,16 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.artia.HomeActivity;
-import com.example.artia.RegisterActivity;
-import com.example.artia.ResultActivity;
-import com.example.artia.ui.result.ResultFragment;
+import com.moisegui.artia.HomeActivity;
+import com.moisegui.artia.RegisterActivity;
+import com.moisegui.artia.ResultActivity;
+import com.moisegui.artia.ui.result.ResultFragment;
+import com.moisegui.artia.ui.history.ViewItems;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-import com.example.artia.R;
+import com.moisegui.artia.R;
 
 public class AppAdapter extends BaseAdapter {
 
@@ -89,8 +92,7 @@ public class AppAdapter extends BaseAdapter {
                 Dialog dialog = new Dialog(context);
                 dialog.setContentView(view_);
                 dialog.show();*/
-                ResultFragment resultFragment= new ResultFragment();
-                homeActivity.goToResult(resultFragment,images[position],titles[position],dates[position]);
+                homeActivity.goToResult(images[position],titles[position],dates[position]);
             }
         });
         items.image.setImageResource(images[position]);
