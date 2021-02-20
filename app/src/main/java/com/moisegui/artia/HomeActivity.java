@@ -9,20 +9,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.moisegui.artia.ui.result.ResultFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
@@ -103,12 +99,12 @@ public class HomeActivity extends AppCompatActivity {
 
     public void goToResult(int image,String title,String date){
 
-Intent bundle = new Intent(this, ResultActivity.class);
-            bundle.putExtra("image",image);
-            bundle.putExtra("title",title);
-            bundle.putExtra("date",date);
+        Intent bundle = new Intent(this, ResultActivity.class);
+        bundle.putExtra("image", image);
+        bundle.putExtra("title", title);
+        bundle.putExtra("date", date);
 
-            startActivity(bundle);
+        startActivity(bundle);
             /*fragment.setArguments(bundle);
             fragmentManager.replace(R.id.nav_host_fragment, fragment).commit();*/
     }
