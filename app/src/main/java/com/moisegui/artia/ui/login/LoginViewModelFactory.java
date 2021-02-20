@@ -1,11 +1,11 @@
-package com.example.artia.ui.login;
+package com.moisegui.artia.ui.login;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.annotation.NonNull;
 
-import com.example.artia.data.LoginDataSource;
-import com.example.artia.data.LoginRepository;
+import com.moisegui.artia.data.LoginDataSource;
+import com.moisegui.artia.data.LoginRepository;
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.

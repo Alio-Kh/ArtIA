@@ -1,6 +1,4 @@
-package com.example.artia;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.moisegui.artia;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +7,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.artia.ui.login.LoginActivity;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.moisegui.artia.ui.login.LoginActivity;
 
 public class RegisterActivity extends AppCompatActivity {
 

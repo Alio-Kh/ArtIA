@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.example.artia.ui.search.SearchFragment"
+        android:name="com.moisegui.artia.ui.search.SearchFragment"
         android:label="@string/title_search"
         tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/navigation_history"
-        android:name="com.example.artia.ui.history.HistoryFragment"
+        android:name="com.moisegui.artia.ui.history.HistoryFragment"
         android:label="@string/title_history"
         tools:layout="@layout/fragment_history" />
 
     <fragment
         android:id="@+id/navigation_account"
-        android:name="com.example.artia.ui.account.AccountsFragment"
+        android:name="com.moisegui.artia.ui.account.AccountsFragment"
         android:label="@string/title_account"
         tools:layout="@layout/fragment_account" />
 </navigation>

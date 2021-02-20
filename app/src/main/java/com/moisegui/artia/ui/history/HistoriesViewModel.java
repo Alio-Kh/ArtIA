@@ -1,16 +1,16 @@
-package com.example.artia.ui.account;
+package com.moisegui.artia.ui.history;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class AccountsViewModel extends ViewModel {
+public class HistoriesViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public AccountsViewModel() {
+    public HistoriesViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is account fragment");
+        mText.setValue("This is history fragment");
     }
 
     public LiveData<String> getText() {

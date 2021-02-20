@@ -1,38 +1,35 @@
-package com.example.artia;
+package com.moisegui.artia;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.artia.ui.login.LoginActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
-public class SearchActivity extends AppCompatActivity {
-
+public class ResultActivity extends AppCompatActivity {
     //    Navigation Bar Buttons
-    private ImageButton loginImgBtn;
+    private ImageButton searchImgBtn;
+    private TextView search;
     private ImageButton historyImgBtn;
-    private TextView login;
     private TextView history;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_result);
 
         // Hide the Action bar
-        try {
+        try
+        {
             this.getSupportActionBar().hide();
-        } catch (NullPointerException e) {
         }
+        catch (NullPointerException e){}
 
+        searchNavi();
         historyNavi();
-        loginNavi();
     }
 
     // To navigate from Search Activity to History Activity (to see detected patterns )
@@ -59,30 +56,27 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
+    // To navigate from Result Activity to Search Activity (for pattern detection)
+    private void searchNavi() {
+        final Intent searchIntent = new Intent(this, SearchActivity.class);
 
-    /********** not finished yet ************/
-    // To navigate from Search Activity to Login Activity
-    private void loginNavi() {
-        final Intent loginIntent = new Intent(this, LoginActivity.class);
-
-//      When the User Click on the Login Icon (ImageButton) he will be navigated to the Login Activity
-        loginImgBtn = findViewById(R.id.login_btn);
-        loginImgBtn.setOnClickListener(new View.OnClickListener() {
+//      When the User Click on the Search Icon (ImageButton) he will be navigated to the Search Activity
+        searchImgBtn = findViewById(R.id.search_btn);
+        searchImgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(loginIntent);
+                startActivity(searchIntent);
             }
         });
 
-//      When the User Click on the Login TextView he will be navigated to the Login Activity
-        login = findViewById(R.id.login);
-        login.setOnClickListener(new View.OnClickListener() {
+//      When the User Click on the Search TextView he will be navigated to the Search Activity
+        search = findViewById(R.id.search);
+        search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(loginIntent);
+                startActivity(searchIntent);
             }
         });
+
     }
-
-
 }

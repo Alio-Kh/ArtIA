@@ -1,4 +1,4 @@
-package com.example.artia.ui.login;
+package com.moisegui.artia.ui.login;
 
 import androidx.annotation.Nullable;
 

@@ -1,4 +1,4 @@
-package com.example.artia;
+package com.moisegui.artia;
 
 import android.content.Intent;
 import android.os.Bundle;

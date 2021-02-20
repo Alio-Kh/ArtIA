@@ -1,4 +1,4 @@
-package com.example.artia.ui.search;
+package com.moisegui.artia.ui.search;
 
 import android.Manifest;
 import android.content.Context;
@@ -20,8 +20,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.artia.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.moisegui.artia.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;

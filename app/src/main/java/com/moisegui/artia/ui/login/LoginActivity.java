@@ -1,17 +1,8 @@
-package com.example.artia.ui.login;
+package com.moisegui.artia.ui.login;
 
 import android.app.Activity;
-
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -23,11 +14,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.artia.R;
-import com.example.artia.RegisterActivity;
-import com.example.artia.SearchActivity;
-import com.example.artia.ui.login.LoginViewModel;
-import com.example.artia.ui.login.LoginViewModelFactory;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
+import com.moisegui.artia.R;
+import com.moisegui.artia.RegisterActivity;
+
 
 public class LoginActivity extends AppCompatActivity {
 

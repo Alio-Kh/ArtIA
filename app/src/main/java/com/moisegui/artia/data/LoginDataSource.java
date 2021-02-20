@@ -1,6 +1,6 @@
-package com.example.artia.data;
+package com.moisegui.artia.data;
 
-import com.example.artia.data.model.LoggedInUser;
+import com.moisegui.artia.data.model.LoggedInUser;
 
 import java.io.IOException;
 

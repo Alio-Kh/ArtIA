@@ -1,4 +1,4 @@
-package com.example.artia.ui.search;
+package com.moisegui.artia.ui.search;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

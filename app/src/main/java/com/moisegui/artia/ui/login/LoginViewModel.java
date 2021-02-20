@@ -1,15 +1,15 @@
-package com.example.artia.ui.login;
+package com.moisegui.artia.ui.login;
+
+import android.util.Patterns;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import android.util.Patterns;
-
-import com.example.artia.data.LoginRepository;
-import com.example.artia.data.Result;
-import com.example.artia.data.model.LoggedInUser;
-import com.example.artia.R;
+import com.moisegui.artia.R;
+import com.moisegui.artia.data.LoginRepository;
+import com.moisegui.artia.data.Result;
+import com.moisegui.artia.data.model.LoggedInUser;
 
 public class LoginViewModel extends ViewModel {
 

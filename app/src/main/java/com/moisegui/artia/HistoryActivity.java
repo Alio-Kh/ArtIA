@@ -1,6 +1,4 @@
-package com.example.artia;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.moisegui.artia;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +6,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.artia.ui.login.LoginActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class HistoryActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.artia;
+package com.moisegui.artia;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -70,7 +70,7 @@ public class HomeActivity extends AppCompatActivity {
             finish(); // finish activity
             moveTaskToBack(true); // close the app
         } else {
-            Toast.makeText(this, "Press Back again to Exit.",
+            Toast.makeText(this, R.string.press_back_again,
                     Toast.LENGTH_SHORT).show();
             exit = true;
             new Handler().postDelayed(new Runnable() {

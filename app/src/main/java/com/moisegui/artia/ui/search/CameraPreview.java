@@ -1,4 +1,4 @@
-package com.example.artia.ui.search;
+package com.moisegui.artia.ui.search;
 
 import android.content.Context;
 import android.hardware.Camera;
