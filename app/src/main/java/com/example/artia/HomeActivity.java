@@ -6,18 +6,24 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.artia.ui.result.ResultFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
 
+    static FragmentTransaction fragmentManager ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +37,8 @@ public class HomeActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        fragmentManager = getSupportFragmentManager().beginTransaction();
 
     }
 
@@ -74,5 +82,20 @@ public class HomeActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    public void goToResult(Fragment fragment,int image,String title,String date){
+        if(fragment != null) {
+
+            Bundle bundle = new Bundle();
+            bundle.putInt("image",image);
+            bundle.putString("title",title);
+            bundle.putString("date",date);
+
+            fragment.setArguments(bundle);
+            fragmentManager.replace(R.id.nav_host_fragment, fragment).commit();
+        }else{
+            System.out.println("null");
+        }
     }
 }
