@@ -2,6 +2,7 @@ package com.moisegui.artia.ui.search;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
@@ -22,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.moisegui.artia.R;
+import com.moisegui.artia.ShowPhoto;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -43,6 +45,7 @@ public class SearchFragment extends Fragment {
     private SearchViewModel searchViewModel;
     private PictureCallback picture;
     View root;
+    private final int CODE_ACTIVITY = 1;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -96,6 +99,9 @@ public class SearchFragment extends Fragment {
                         fos.write(data);
                         fos.close();
                         safeToTakePicture = true;
+                        Intent intent = new Intent(getActivity(), ShowPhoto.class);
+                        intent.putExtra("path", pictureFile.getAbsolutePath().toString());
+                        startActivityForResult(intent, CODE_ACTIVITY);
                     } catch (FileNotFoundException e) {
                         Log.d("TAG", "File not found: " + e.getMessage());
                     } catch (IOException e) {
@@ -151,6 +157,12 @@ public class SearchFragment extends Fragment {
         try {
             c = Camera.open(); // attempt to get a Camera instance
             c.setDisplayOrientation(90);
+            // get Camera parameters
+            Camera.Parameters params = c.getParameters();
+            // set the focus mode
+            params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+            // set Camera parameters
+            c.setParameters(params);
         } catch (Exception e) {
             // Camera is not available (in use or does not exist)
         }
@@ -210,7 +222,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        releaseCamera();
+        //releaseCamera();
     }
 
     @Override
