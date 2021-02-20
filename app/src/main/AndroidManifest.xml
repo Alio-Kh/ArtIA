@@ -2,12 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.moisegui.artia">
 
-    <uses-permission android:name="android.permission.CAMERA" />
-    <!--    <uses-permission android:name="android.permission.CAMERA_TAKEPICTURE" />-->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- <uses-permission android:name="android.permission.CAMERA_TAKEPICTURE" /> -->
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="true" />
-
+        android:required="true"
+        />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -17,7 +19,6 @@
         </intent>
     </queries>
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,9 +26,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ShowPhoto"></activity>
         <activity
             android:name=".HomeActivity"
-            android:label="@string/title_activity_home"></activity>
+            android:label="@string/title_activity_home" />
         <activity android:name=".RegisterActivity" />
         <activity
             android:name=".ui.login.LoginActivity"
