@@ -19,6 +19,11 @@
     <string name="login">Login</string>
     <string name="camera">Camera</string>
     <string name="result">Result</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+    <string name="title">Card</string>
+    <string name="secondary_text">Text</string>
+    <string name="supporting_text">More text</string>
 
 
     <string name="large_text">
