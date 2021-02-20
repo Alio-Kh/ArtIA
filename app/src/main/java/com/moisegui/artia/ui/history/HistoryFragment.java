@@ -4,41 +4,27 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.moisegui.artia.R;
-import com.moisegui.artia.ui.history.HistoriesViewModel;
-import com.moisegui.artia.ui.result.ResultFragment;
-import com.moisegui.artia.ui.result.ResultFragment;
-import com.moisegui.artia.ui.history.AppAdapter;
 
 public class HistoryFragment extends Fragment {
 
@@ -95,8 +81,6 @@ public class HistoryFragment extends Fragment {
             }
         });
 
-        startIfLogin();
-
         AppAdapter appAdapter = new AppAdapter(root.getContext(), titles, images, dates);
         lv.setAdapter(appAdapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -106,13 +90,8 @@ public class HistoryFragment extends Fragment {
             }
         });
 
-        historiesViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                /* textView.setText(s); */
-            }
+        startIfLogin();
 
-        });
         return root;
     }
 

@@ -35,8 +35,8 @@ import java.util.Date;
 public class SearchFragment extends Fragment {
 
     private int REQUEST_CODE_PERMISSIONS = 101;
-    private String[] REQUIRED_PERMISSIONS = new String[]{"android.permission.CAMERA",
-            "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.CAMERA_TAKEPICTURE"};
+    private String[] REQUIRED_PERMISSIONS = new String[]{"Manifest.permission.CAMERA",
+            "Manifest.permission.READ_EXTERNAL_STORAGE", "Manifest.permission.WRITE_EXTERNAL_STORAGE"};
 
     private boolean safeToTakePicture = false;
 
@@ -58,7 +58,7 @@ public class SearchFragment extends Fragment {
         if (checkCameraHardware(getContext())) {
 
             if (!allPermissionGranted()) {
-
+                Toast.makeText(getContext(), "Grant all permissions", Toast.LENGTH_SHORT).show();
                 ActivityCompat.requestPermissions(getActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
             } else {
                 // Create an instance of Camera
@@ -251,7 +251,7 @@ public class SearchFragment extends Fragment {
             if (allPermissionGranted()) {
                 Toast.makeText(getContext(), "Permissions granted.", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getContext(), "You did not granted all the required permissions.", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "You did not granted all the required permissions.", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -268,6 +268,6 @@ public class SearchFragment extends Fragment {
         if (hasStoragePerm == PackageManager.PERMISSION_GRANTED && hasCameraPerm == PackageManager.PERMISSION_GRANTED) {
             return true;
         }
-        return true;
+        return false;
     }
 }
