@@ -26,7 +26,8 @@ import com.moisegui.artia.R;
 
 public class AppAdapter extends BaseAdapter {
 
-    HomeActivity homeActivity = new HomeActivity();
+    HistoryFragment historyFragment = new HistoryFragment();
+
 
     Context context;
     int[] images;
@@ -63,19 +64,19 @@ public class AppAdapter extends BaseAdapter {
         view = layoutInflater.inflate(R.layout.item_history, null);
         items = new ViewItems(view);
 
-        items.btn1.setOnClickListener(new View.OnClickListener() {
+        items.cancel_button_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
-                builder.setTitle("delete the item "+titles[position]+" from history?") ;
-                builder.setMessage("Are you sure you want to delete it from your history ?") ;
+                builder.setTitle(context.getString(R.string.delete_the_item) + titles[position] + context.getString(R.string.from_your_history));
+                builder.setMessage(R.string.verify_delete);
                 builder.setIcon(images[position]);
-                builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                     }
-                }) ;
-                builder.setPositiveButton("accept", new DialogInterface.OnClickListener() {
+                });
+                builder.setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -84,20 +85,24 @@ public class AppAdapter extends BaseAdapter {
                 builder.show();
             }
         });
-        items.btn2.setOnClickListener(new View.OnClickListener() {
+        items.more_button_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*LayoutInflater factory = LayoutInflater.from(context);
-                final View view_ = factory.inflate(R.layout.item_history, null);
-                Dialog dialog = new Dialog(context);
-                dialog.setContentView(view_);
-                dialog.show();*/
-                homeActivity.goToResult(images[position],titles[position],dates[position]);
+                System.out.println(context);
+                Intent intent = new Intent(context, ResultActivity.class);
+                intent.putExtra("image", images[position]);
+                intent.putExtra("title", titles[position]);
+                intent.putExtra("date", dates[position]);
+
+                context.startActivity(intent);
+
             }
         });
-        items.image.setImageResource(images[position]);
-        items.title.setText(titles[position]);
-        items.date.setText("Date : "+dates[position]);
+        items.image_history_item.setImageResource(images[position]);
+        items.title_history_item.setText(titles[position]);
+        items.date_history_item.setText(context.getString(R.string.date) + " : " + dates[position]);
         return view;
     }
+
+
 }

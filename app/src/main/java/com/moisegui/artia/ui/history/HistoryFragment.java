@@ -24,13 +24,16 @@ import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.moisegui.artia.MainActivity;
 import com.moisegui.artia.R;
+import com.moisegui.artia.ResultActivity;
 
 public class HistoryFragment extends Fragment {
 
     private HistoriesViewModel historiesViewModel;
 
     View root;
+    public Context context;
 
     FirebaseAuth auth;
     private static final int RC_SIGN_IN = 123;
@@ -45,10 +48,8 @@ public class HistoryFragment extends Fragment {
     ListView lv;
     String titles[] = {"motif num 1", "motif num 2", "motif num 3"};
     String dates[] = {"12/12/2021", "12/12/2021", "12/12/2021"};
-    /*String descriptions[] = {"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim i Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. d est laborum."
-            , "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim i Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. d est laborum."
-            , "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim i Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. d est laborum."};*/
-    int images[] = {R.drawable.img_button_bg, R.drawable.img_button_bg, R.drawable.img_button_bg};
+
+    int images[] = {R.drawable.motif_bg_1, R.drawable.motif_bg_2, R.drawable.motif_bg_3};
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         historiesViewModel = new ViewModelProvider(this).get(HistoriesViewModel.class);
@@ -83,13 +84,6 @@ public class HistoryFragment extends Fragment {
 
         AppAdapter appAdapter = new AppAdapter(root.getContext(), titles, images, dates);
         lv.setAdapter(appAdapter);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(root.getContext(), "Item clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         startIfLogin();
 
         return root;
@@ -105,13 +99,7 @@ public class HistoryFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
-        Activity a;
-
-        if (context instanceof Activity) {
-            a = (Activity) context;
-        }
-
+         this.context = context;
     }
 
 
@@ -156,7 +144,6 @@ public class HistoryFragment extends Fragment {
 
         if (user != null) {
             // already signed in
-
             lv.setVisibility(View.VISIBLE);
             notConnectedView.setVisibility(View.INVISIBLE);
 

@@ -75,5 +75,14 @@
     <string name="old_pass_incorrect">Old password incorrect</string>
     <string name="account_updated">Account informations updated</string>
     <string name="no_change_detected">No change detected</string>
+    <string name="delete">Delete</string>
+    <string name="show_more">Show more</string>
+    <string name="date">Date</string>
+    <string name="verify_delete">Are you sure you want to delete it from your history ?</string>
+    <string name="from_your_history">\" from history?\"</string>
+    <string name="delete_the_item">\"delete the item \"</string>
+    <string name="accept">accept</string>
+    <string name="back">Back</string>
+    <string name="Result">Result</string>
 
 </resources>

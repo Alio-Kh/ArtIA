@@ -23,7 +23,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
 
-    static FragmentTransaction fragmentManager ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +38,7 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        fragmentManager = getSupportFragmentManager().beginTransaction();
+
 
     }
 
@@ -97,15 +97,5 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    public void goToResult(int image,String title,String date){
 
-        Intent bundle = new Intent(this, ResultActivity.class);
-        bundle.putExtra("image", image);
-        bundle.putExtra("title", title);
-        bundle.putExtra("date", date);
-
-        startActivity(bundle);
-            /*fragment.setArguments(bundle);
-            fragmentManager.replace(R.id.nav_host_fragment, fragment).commit();*/
-    }
 }

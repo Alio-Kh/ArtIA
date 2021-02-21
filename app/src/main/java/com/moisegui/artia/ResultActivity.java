@@ -2,11 +2,16 @@ package com.moisegui.artia;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ResultActivity extends AppCompatActivity {
@@ -50,6 +55,24 @@ public class ResultActivity extends AppCompatActivity {
         pattern.setText(pattern_);
         desc.setText(desc_);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.back, menu);
+        getSupportActionBar().setTitle(R.string.Result);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_back_button) {
+            this.finish();
+            return true;
+        }else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 
 }
