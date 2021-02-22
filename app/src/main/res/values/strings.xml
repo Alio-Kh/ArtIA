@@ -84,5 +84,6 @@
     <string name="accept">accept</string>
     <string name="back">Back</string>
     <string name="Result">Result</string>
+    <string name="should_grant_app_permissions">You should grant all app permissions</string>
 
 </resources>
