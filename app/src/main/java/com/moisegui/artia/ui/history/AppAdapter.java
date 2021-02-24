@@ -18,7 +18,6 @@ import androidx.fragment.app.FragmentManager;
 import com.moisegui.artia.HomeActivity;
 import com.moisegui.artia.RegisterActivity;
 import com.moisegui.artia.ResultActivity;
-import com.moisegui.artia.ui.result.ResultFragment;
 import com.moisegui.artia.ui.history.ViewItems;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
