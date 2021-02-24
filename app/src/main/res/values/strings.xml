@@ -85,5 +85,6 @@
     <string name="back">Back</string>
     <string name="Result">Result</string>
     <string name="should_grant_app_permissions">You should grant all app permissions</string>
+    <string name="no_match_found">No match found.</string>
 
 </resources>

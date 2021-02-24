@@ -11,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class MainActivity extends AppCompatActivity {
 
     private int REQUEST_CODE_PERMISSIONS = 101;
@@ -39,11 +42,10 @@ public class MainActivity extends AppCompatActivity {
         // To navigate from Main Acticity to Search Activity (for pattern detection)
         getStarted();
 
-//        if (!OpenCVLoader.initDebug())
-//            Log.e("OpenCvMOMOMOMMMMMM", "Unable to load OpenCV");
-//        else
-//            Log.d("OpenCv", "OpenCV loaded");
-//
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("message");
+
+        myRef.setValue("Hello, World!");
     }
 
     // To navigate from Main Acticity to Search Activity (for pattern detection)

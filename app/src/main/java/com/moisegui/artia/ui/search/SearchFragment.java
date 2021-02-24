@@ -148,7 +148,7 @@ public class SearchFragment extends Fragment implements CameraBridgeViewBase.CvC
         matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE_HAMMING);
         imgObject = new Mat();
         AssetManager assetManager = getActivity().getAssets();
-        InputStream istr = assetManager.open("a.jpg");
+        InputStream istr = assetManager.open("52486.jpg");
         Bitmap bitmap = BitmapFactory.decodeStream(istr);
         Utils.bitmapToMat(bitmap, imgObject);
         Imgproc.cvtColor(imgObject, imgObject, Imgproc.COLOR_RGB2GRAY);
