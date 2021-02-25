@@ -32,7 +32,7 @@
                 android:left="1.3dp"
                 android:right="1.3dp"
                 android:top="1.1dp" />
-            <solid android:color="#47393b" />
+            <solid android:color="#E8E8E8" />
         </shape>
     </item>
     <item
@@ -46,7 +46,7 @@
                 android:left="1dp"
                 android:right="1dp"
                 android:top="1dp" />
-            <solid android:color="#47393b" />
+            <solid android:color="#E8E8E8" />
         </shape>
     </item>
 
@@ -59,7 +59,7 @@
         <!--whatever you want in the background, here i preferred solid white -->
         <shape xmlns:android="http://schemas.android.com/apk/res/android"
             android:shape="rectangle">
-            <solid android:color="#E5957B59" />
+            <solid android:color="#E8E8E8" />
             <padding
                 android:bottom="5dp"
                 android:left="5dp"

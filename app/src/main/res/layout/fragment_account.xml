@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="?attr/actionBarSize"
     tools:context=".ui.account.AccountsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -159,6 +160,25 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/colorPrimary"
                     android:text="@string/update_account"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+
+                <Button
+                    android:id="@+id/btn_admin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="Go to Admin pannel"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp" />
             </LinearLayout>

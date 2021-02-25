@@ -2,18 +2,18 @@ package com.moisegui.artia.ui.search;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.hardware.Camera;
-import android.hardware.Camera.PictureCallback;
-import android.net.Uri;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,119 +21,89 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.moisegui.artia.R;
-import com.moisegui.artia.ShowPhoto;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.CameraBridgeViewBase;
+import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
+import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
+import org.opencv.android.Utils;
+import org.opencv.core.DMatch;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfByte;
+import org.opencv.core.MatOfDMatch;
+import org.opencv.core.MatOfKeyPoint;
+import org.opencv.core.Scalar;
+import org.opencv.features2d.DescriptorExtractor;
+import org.opencv.features2d.DescriptorMatcher;
+import org.opencv.features2d.FeatureDetector;
+import org.opencv.features2d.Features2d;
+import org.opencv.imgproc.Imgproc;
+
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.InputStream;
+import java.util.LinkedList;
+import java.util.List;
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements CameraBridgeViewBase.CvCameraViewListener2 {
 
-    private int REQUEST_CODE_PERMISSIONS = 101;
-    private String[] REQUIRED_PERMISSIONS = new String[]{"android.permission.CAMERA",
-            "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.CAMERA_TAKEPICTURE"};
+    private final int REQUEST_CODE_PERMISSIONS = 101;
+    private final String[] REQUIRED_PERMISSIONS = new String[]{"Manifest.permission.CAMERA",
+            "Manifest.permission.READ_EXTERNAL_STORAGE", "Manifest.permission.WRITE_EXTERNAL_STORAGE"};
 
-    private boolean safeToTakePicture = false;
+    private static final String TAG = "OCVSample::Activity";
+    private static final int REQUEST_PERMISSION = 100;
+    private int w, h;
+    private CameraBridgeViewBase mOpenCvCameraView;
+    TextView tvName;
+    Scalar RED = new Scalar(255, 0, 0);
+    Scalar GREEN = new Scalar(0, 255, 0);
+    FeatureDetector detector;
+    DescriptorExtractor descriptor;
+    DescriptorMatcher matcher;
+    Mat sceneDescriptor, objDescriptor;
+    Mat imgObject;
+    MatOfKeyPoint objKeyPoints, sceneKeyPoints;
 
-    private Camera mCamera = null;
-    private CameraPreview mPreview;
-    private SearchViewModel searchViewModel;
-    private PictureCallback picture;
     View root;
-    private final int CODE_ACTIVITY = 1;
+
+    static {
+        if (!OpenCVLoader.initDebug())
+            Log.d("ERROR", "Unable to load OpenCV");
+        else
+            Log.d("SUCCESS", "OpenCV loaded");
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        searchViewModel =
-                new ViewModelProvider(this).get(SearchViewModel.class);
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        SearchViewModel searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
         root = inflater.inflate(R.layout.fragment_search, container, false);
+
+        mOpenCvCameraView = (CameraBridgeViewBase) root.findViewById(R.id.tutorial1_activity_java_surface_view);
+        tvName = (TextView) root.findViewById(R.id.cameraErrorTextView);
 
 
         if (checkCameraHardware(getContext())) {
 
             if (!allPermissionGranted()) {
-
+                Toast.makeText(getContext(), R.string.should_grant_app_permissions, Toast.LENGTH_SHORT).show();
                 ActivityCompat.requestPermissions(getActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
+                tvName.setVisibility(View.VISIBLE);
+                tvName.setText(R.string.should_grant_app_permissions);
             } else {
+                //tvName.setVisibility(View.GONE);
                 // Create an instance of Camera
-                prepareInterface();
+               // mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
+                //mOpenCvCameraView.setCvCameraViewListener(this);
             }
 
         }
 
         return root;
-    }
-
-    private void prepareInterface() {
-        mCamera = getCameraInstance();
-
-        if (mCamera != null) {
-
-            // Create our Preview view and set it as the content of our activity.
-            mPreview = new CameraPreview(getContext(), mCamera);
-            safeToTakePicture = true;
-
-            FrameLayout preview = (FrameLayout) root.findViewById(R.id.camera_preview);
-            preview.addView(mPreview);
-
-            picture = new PictureCallback() {
-
-                @Override
-                public void onPictureTaken(byte[] data, Camera camera) {
-
-                    File pictureFile = getOutputMediaFile();
-                    if (pictureFile == null) {
-                        Log.d("TAG", "Error creating media file, check storage permissions");
-                        Toast.makeText(getContext(), "There was an error while trying to save your photo. please try again.", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    try {
-                        FileOutputStream fos = new FileOutputStream(pictureFile);
-                        fos.write(data);
-                        fos.close();
-                        safeToTakePicture = true;
-                        Intent intent = new Intent(getActivity(), ShowPhoto.class);
-                        intent.putExtra("path", pictureFile.getAbsolutePath().toString());
-                        startActivityForResult(intent, CODE_ACTIVITY);
-                    } catch (FileNotFoundException e) {
-                        Log.d("TAG", "File not found: " + e.getMessage());
-                    } catch (IOException e) {
-                        Log.d("TAG", "Error accessing file: " + e.getMessage());
-                    }
-                }
-            };
-
-
-            // Add a listener to the Capture button
-            FloatingActionButton captureButton = (FloatingActionButton) root.findViewById(R.id.button_capture);
-            captureButton.setOnClickListener(
-                    new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (safeToTakePicture) {
-                                // get an image from the camera
-                                safeToTakePicture = false;
-                                mCamera.takePicture(null, null, picture);
-                            }
-
-                        }
-                    }
-            );
-
-
-        } else {
-            Log.d("Search Fragment", "Camera was null");
-
-        }
-
-
     }
 
     /**
@@ -149,99 +119,83 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    /**
-     * A safe way to get an instance of the Camera object.
-     */
-    public static Camera getCameraInstance() {
-        Camera c = null;
-        try {
-            c = Camera.open(); // attempt to get a Camera instance
-            c.setDisplayOrientation(90);
-            // get Camera parameters
-            Camera.Parameters params = c.getParameters();
-            // set the focus mode
-            params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-            // set Camera parameters
-            c.setParameters(params);
-        } catch (Exception e) {
-            // Camera is not available (in use or does not exist)
-        }
-        return c; // returns null if camera is unavailable
-    }
-
-    /**
-     * Create a file Uri for saving an image
-     */
-    private static Uri getOutputMediaFileUri() {
-        File mediaFile = getOutputMediaFile();
-        if (mediaFile != null) return Uri.fromFile(mediaFile);
-        else return null;
-    }
-
-    /**
-     * Create a File for saving an image
-     */
-    private static File getOutputMediaFile() {
-        // To be safe, you should check that the SDCard is mounted
-        // using Environment.getExternalStorageState() before doing this.
-
-        File mediaFile = null;
-
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES), "Artia");
-            // This location works best if you want the created images to be shared
-            // between applications and persist after your app has been uninstalled.
-
-            // Create the storage directory if it does not exist
-            if (!mediaStorageDir.exists()) {
-                if (!mediaStorageDir.mkdirs()) {
-                    Log.d("Artia", "failed to create directory");
-                    return null;
+    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(getContext()) {
+        @Override
+        public void onManagerConnected(int status) {
+            switch (status) {
+                case LoaderCallbackInterface.SUCCESS: {
+                    Log.i(TAG, "OpenCV loaded successfully");
+                    mOpenCvCameraView.enableView();
+                    try {
+                        initializeOpenCVDependencies();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
+                break;
+                default: {
+                    super.onManagerConnected(status);
+                }
+                break;
             }
-
-            // Create a media file name
-            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "IMG_" + timeStamp + ".jpg");
         }
+    };
 
+    private void initializeOpenCVDependencies() throws IOException {
+        mOpenCvCameraView.enableView();
+        detector = FeatureDetector.create(FeatureDetector.ORB);
+        descriptor = DescriptorExtractor.create(DescriptorExtractor.ORB);
+        matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE_HAMMING);
+        imgObject = new Mat();
+        AssetManager assetManager = getActivity().getAssets();
+        InputStream istr = assetManager.open("52486.jpg");
+        Bitmap bitmap = BitmapFactory.decodeStream(istr);
+        Utils.bitmapToMat(bitmap, imgObject);
+        Imgproc.cvtColor(imgObject, imgObject, Imgproc.COLOR_RGB2GRAY);
+        imgObject.convertTo(imgObject, 0); //converting the image to match with the type of the cameras image
+        objDescriptor = new Mat();
+        objKeyPoints = new MatOfKeyPoint();
+        detector.detect(imgObject, objKeyPoints);
+        descriptor.compute(imgObject, objKeyPoints, objDescriptor);
 
-        return mediaFile;
-    }
-
-    private void releaseCamera() {
-        if (mCamera != null) {
-            mCamera.release();        // release the camera for other applications
-            mCamera = null;
-        }
     }
 
 
     @Override
     public void onPause() {
         super.onPause();
-        //releaseCamera();
+        if (mOpenCvCameraView != null)
+            mOpenCvCameraView.disableView();
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
+        if (!OpenCVLoader.initDebug()) {
+            Log.d(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
+            //OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, getContext(), mLoaderCallback);
+        } else {
+            Log.d(TAG, "OpenCV library found inside package. Using it!");
+            //mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+        }
+
         if (checkCameraHardware(getContext())) {
 
             if (!allPermissionGranted()) {
 
                 requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
-            } else {
-                // Create an instance of Camera
-                prepareInterface();
             }
 
         }
 
 
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        if (mOpenCvCameraView != null)
+            mOpenCvCameraView.disableView();
     }
 
     @Override
@@ -251,7 +205,7 @@ public class SearchFragment extends Fragment {
             if (allPermissionGranted()) {
                 Toast.makeText(getContext(), "Permissions granted.", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getContext(), "You did not granted all the required permissions.", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "You did not granted all the required permissions.", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -268,6 +222,130 @@ public class SearchFragment extends Fragment {
         if (hasStoragePerm == PackageManager.PERMISSION_GRANTED && hasCameraPerm == PackageManager.PERMISSION_GRANTED) {
             return true;
         }
-        return true;
+        return false;
     }
+
+    @Override
+    public void onCameraViewStarted(int width, int height) {
+        w = width;
+        h = height;
+    }
+
+    @Override
+    public void onCameraViewStopped() {
+
+    }
+
+    public Mat recognize(Mat aInputFrame) {
+
+        Imgproc.cvtColor(aInputFrame, aInputFrame, Imgproc.COLOR_RGB2GRAY);
+        sceneDescriptor = new Mat();
+        sceneKeyPoints = new MatOfKeyPoint();
+        detector.detect(aInputFrame, sceneKeyPoints);
+        descriptor.compute(aInputFrame, sceneKeyPoints, sceneDescriptor);
+
+        // Matching
+        MatOfDMatch matches = new MatOfDMatch();
+        if (imgObject.type() == aInputFrame.type()) {
+            matcher.match(objDescriptor, sceneDescriptor, matches);
+        } else {
+            return aInputFrame;
+        }
+        List<DMatch> matchesList = matches.toList();
+
+        Double max_dist = 0.0;
+        Double min_dist = 100.0;
+
+        for (int i = 0; i < matchesList.size(); i++) {
+            Double dist = (double) matchesList.get(i).distance;
+            if (dist < min_dist)
+                min_dist = dist;
+            if (dist > max_dist)
+                max_dist = dist;
+        }
+
+        LinkedList<DMatch> good_matches = new LinkedList<>();
+
+        for (int i = 0; i < matchesList.size(); i++) {
+            if (matchesList.get(i).distance <= (1.3 * min_dist))
+                good_matches.addLast(matchesList.get(i));
+        }
+
+        MatOfDMatch goodMatches = new MatOfDMatch();
+        goodMatches.fromList(good_matches);
+        MatOfByte drawnMatches = new MatOfByte();
+        if (aInputFrame.empty() || aInputFrame.cols() < 1 || aInputFrame.rows() < 1) {
+            return aInputFrame;
+        }
+        Mat outputImg = new Mat();
+        Features2d.drawMatches(imgObject, objKeyPoints, aInputFrame, sceneKeyPoints, goodMatches, outputImg, GREEN, RED, drawnMatches, Features2d.NOT_DRAW_SINGLE_POINTS);
+        Imgproc.resize(outputImg, outputImg, aInputFrame.size());
+
+//        //-- Localize the object
+//        List<Point> obj  = new ArrayList<>();
+//        List<Point> scene = new ArrayList<>();
+//
+//        List<KeyPoint> listOfKeypointsObject = keypoints1.toList();
+//        List<KeyPoint> listOfKeypointsScene = sceneKeyPoints.toList();
+//
+//        if(good_matches.size() > 5){
+//            for (int i = 0; i < good_matches.size(); i++) {
+//                //-- Get the keypoints from the good matches
+//                obj.add(listOfKeypointsObject.get(good_matches.get(i).queryIdx).pt);
+//                scene.add(listOfKeypointsScene.get(good_matches.get(i).trainIdx).pt);
+//            }
+//
+//            try {
+//                MatOfPoint2f objMat = new MatOfPoint2f(), sceneMat = new MatOfPoint2f();
+//                objMat.fromList(obj);
+//                sceneMat.fromList(scene);
+//                double ransacReprojThreshold = 2.0;
+//                Mat H = Calib3d.findHomography( objMat, sceneMat, Calib3d.RANSAC, ransacReprojThreshold );
+//                //-- Get the corners from the image_1 ( the object to be "detected" )
+//                Mat objCorners = new Mat(4, 1, CvType.CV_32FC2), sceneCorners = new Mat();
+//
+//                float[] objCornersData = new float[(int) (objCorners.total() * objCorners.channels())];
+//                objCorners.get(0, 0, objCornersData);
+//                objCornersData[0] = 0;
+//                objCornersData[1] = 0;
+//                objCornersData[2] = imgObject.cols();
+//                objCornersData[3] = 0;
+//                objCornersData[4] = imgObject.cols();
+//                objCornersData[5] = imgObject.rows();
+//                objCornersData[6] = 0;
+//                objCornersData[7] = imgObject.rows();
+//                objCorners.put(0, 0, objCornersData);
+//
+//
+//                    Core.perspectiveTransform(objCorners, sceneCorners, H);
+//
+//                float[] sceneCornersData = new float[(int) (sceneCorners.total() * sceneCorners.channels())];
+//                sceneCorners.get(0, 0, sceneCornersData);
+//                //-- Draw lines between the corners (the mapped object in the scene - image_2 )
+//                Imgproc.line(aInputFrame, new Point(sceneCornersData[0] + imgObject.cols(), sceneCornersData[1]),
+//                        new Point(sceneCornersData[2] + imgObject.cols(), sceneCornersData[3]), new Scalar(0, 255, 0), 4);
+//                Imgproc.line(aInputFrame, new Point(sceneCornersData[2] + imgObject.cols(), sceneCornersData[3]),
+//                        new Point(sceneCornersData[4] + imgObject.cols(), sceneCornersData[5]), new Scalar(0, 255, 0), 4);
+//                Imgproc.line(aInputFrame, new Point(sceneCornersData[4] + imgObject.cols(), sceneCornersData[5]),
+//                        new Point(sceneCornersData[6] + imgObject.cols(), sceneCornersData[7]), new Scalar(0, 255, 0), 4);
+//                Imgproc.line(aInputFrame, new Point(sceneCornersData[6] + imgObject.cols(), sceneCornersData[7]),
+//                        new Point(sceneCornersData[0] + imgObject.cols(), sceneCornersData[1]), new Scalar(0, 255, 0), 4);
+//
+//            }
+//            catch (Exception e){
+//                Log.v(TAG, e.getMessage());
+//                return aInputFrame;
+//            }
+//        }
+
+        return outputImg;
+    }
+
+
+    @Override
+    public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
+        return recognize(inputFrame.rgba());
+
+    }
+
 }
