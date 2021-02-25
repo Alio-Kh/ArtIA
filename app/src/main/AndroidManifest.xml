@@ -3,7 +3,8 @@
     package="com.moisegui.artia">
 
     <uses-permission android:name="android.permission.CAMERA" />
-     <uses-permission android:name="android.permission.CAMERA_TAKEPICTURE" />
+    <uses-permission android:name="android.permission.CAMERA_TAKEPICTURE" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -25,7 +26,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AdminActivity"></activity>
+        <activity android:name=".ItemResultActivity"></activity>
+        <activity android:name=".AdminActivity" />
         <activity android:name=".ShowPhoto" />
         <activity
             android:name=".HomeActivity"

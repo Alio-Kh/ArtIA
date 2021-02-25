@@ -1,20 +1,17 @@
 package com.moisegui.artia;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ResultActivity extends AppCompatActivity {
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class ItemResultActivity extends AppCompatActivity {
 
     private ImageView image;
     private TextView title;
@@ -29,6 +26,9 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
+        String libelles[] = {"motif1", "motif2", "motif3","motif4","motif5","motif6","motif7"};
+        int images[] = {R.drawable.camera_icon, R.drawable.camera_icon, R.drawable.camera_icon};
+
         image = findViewById(R.id.image_result_fragment);
         title = findViewById(R.id.title_result_fragment);
         origin = findViewById(R.id.origin_result_fragment);
@@ -42,8 +42,9 @@ public class ResultActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             int image_data = bundle.getInt("image", -1);
-            String title_data = bundle.getString("title");
-            String date_data = bundle.getString("date");
+            String title_data = bundle.getString("libelles");
+
+            Toast.makeText(getApplicationContext(), image_data, Toast.LENGTH_LONG).show();
 
             image.setImageResource(image_data);
             title.setText(title_data);
@@ -55,10 +56,11 @@ public class ResultActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.back, menu);
+        inflater.inflate(R.menu.menu_delete_update, menu);
         getSupportActionBar().setTitle(R.string.Result);
         return true;
     }
@@ -72,5 +74,4 @@ public class ResultActivity extends AppCompatActivity {
             return super.onOptionsItemSelected(item);
         }
     }
-
 }

@@ -20,6 +20,7 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -30,6 +31,7 @@ import android.widget.Toast;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
+import com.moisegui.artia.ItemResultActivity;
 import com.moisegui.artia.R;
 
 import java.io.File;
@@ -68,12 +70,24 @@ public class ListMotifsFragment extends Fragment {
         items.add(new Items(R.drawable.motif_bg_1,"Motif3"));
         items.add(new Items(R.drawable.camera_icon,"Motif4"));
 
+
         CustomAdapter adapter = new CustomAdapter(root.getContext(),R.layout.item_motif,items);
         ArrayAdapter<String> arrayAdapter =new ArrayAdapter<>(root.getContext(),R.layout.item_motif,R.id.lib_motif,libelles);
 
         listMotifs.setAdapter(adapter);
         materialAlertDialogBuilder = new MaterialAlertDialogBuilder(root.getContext());
 
+        listMotifs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                System.out.println(context);
+                Intent intent = new Intent(context, ItemResultActivity.class);
+                intent.putExtra("image", images[position]);
+                intent.putExtra("libelles", libelles[position]);
+
+                context.startActivity(intent);
+            }
+        });
 
         FloatingActionButton captureButton = (FloatingActionButton) root.findViewById(R.id.btn_add);
         captureButton.setOnClickListener(
@@ -169,4 +183,6 @@ public class ListMotifsFragment extends Fragment {
         }
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
+
+
 }
