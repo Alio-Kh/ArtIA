@@ -24,6 +24,12 @@ public class Motif {
         this.motifImageSrc = motifImageSrc;
     }
 
+    public Motif(String motifName, String motifDescription, String motifImageSrc) {
+        this.motifName = motifName;
+        this.motifDescription = motifDescription;
+        this.motifImageSrc = motifImageSrc;
+    }
+
     public String getMotifID() {
         return motifID;
     }

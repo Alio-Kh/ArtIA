@@ -12,15 +12,15 @@ import java.util.Map;
 public class History {
 
     private String historyID;
-    private Date Historydate;
-    private User user;
-    private Motif motif;
+    private String Historydate;
+    private String user;
+    private String motif;
     private String historySrcImage;
 
     public History() {
     }
 
-    public History(String historyID, Date historydate, User user, Motif motif, String historySrcImage) {
+    public History(String historyID, String historydate, String user, String motif, String historySrcImage) {
         this.historyID = historyID;
         Historydate = historydate;
         this.user = user;
@@ -36,19 +36,19 @@ public class History {
         this.historyID = historyID;
     }
 
-    public Date getHistorydate() {
+    public String getHistorydate() {
         return Historydate;
     }
 
-    public void setHistorydate(Date historydate) {
+    public void setHistorydate(String historydate) {
         Historydate = historydate;
     }
 
-    public User getUser() {
+    public String getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(String user) {
         this.user = user;
     }
 
@@ -60,11 +60,11 @@ public class History {
         this.historySrcImage = historySrcImage;
     }
 
-    public Motif getMotif() {
+    public String getMotif() {
         return motif;
     }
 
-    public void setMotif(Motif motif) {
+    public void setMotif(String motif) {
         this.motif = motif;
     }
 
