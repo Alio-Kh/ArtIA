@@ -8,9 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
 import com.moisegui.artia.R;
 import com.moisegui.artia.ResultActivity;
 

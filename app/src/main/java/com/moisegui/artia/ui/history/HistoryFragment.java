@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,14 @@ import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.moisegui.artia.R;
+import com.moisegui.artia.data.model.History;
+
+import java.util.ArrayList;
 
 public class HistoryFragment extends Fragment {
 
@@ -34,6 +42,8 @@ public class HistoryFragment extends Fragment {
 
     FirebaseAuth auth;
     private static final int RC_SIGN_IN = 123;
+
+    private static final String TAG = "ReadAndWriteSnippets";
 
     Button btnLogin;
     TextView textView;
@@ -149,6 +159,29 @@ public class HistoryFragment extends Fragment {
             notConnectedView.setVisibility(View.VISIBLE);
             lv.setVisibility(View.INVISIBLE);
         }
+    }
+
+    private void addHistoryEventListener(DatabaseReference historyReference, ArrayList<History> historyList) {
+        // [START post_value_event_listener]
+        ValueEventListener postListener = new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot dataSnapshot_ : dataSnapshot.getChildren()) {
+
+                }
+                // Get Post object and use the values to update the UI
+                History history = dataSnapshot.getValue(History.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadHistory cancelled", databaseError.toException());
+            }
+        };
+        historyReference.addValueEventListener(postListener);
+        // [END post_value_event_listener]
     }
 
 
