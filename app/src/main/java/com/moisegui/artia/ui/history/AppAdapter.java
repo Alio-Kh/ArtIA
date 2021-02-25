@@ -1,8 +1,5 @@
 package com.moisegui.artia.ui.history;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.app.Instrumentation;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,17 +9,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
-import com.moisegui.artia.HomeActivity;
-import com.moisegui.artia.RegisterActivity;
-import com.moisegui.artia.ResultActivity;
-import com.moisegui.artia.ui.result.ResultFragment;
-import com.moisegui.artia.ui.history.ViewItems;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import com.moisegui.artia.R;
+import com.moisegui.artia.ResultActivity;
 
 public class AppAdapter extends BaseAdapter {
 

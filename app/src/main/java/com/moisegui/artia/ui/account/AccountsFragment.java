@@ -28,6 +28,7 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.moisegui.artia.AdminActivity;
 import com.moisegui.artia.R;
 
 public class AccountsFragment extends Fragment {
@@ -48,6 +49,8 @@ public class AccountsFragment extends Fragment {
     EditText nameEditText;
     EditText oldPassEditText;
     EditText newPassEditText;
+
+    Button btnAdmin;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -102,6 +105,14 @@ public class AccountsFragment extends Fragment {
             }
         });
 
+        btnAdmin= root.findViewById(R.id.btn_admin);
+        btnAdmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AdminActivity.class);
+                startActivity(intent);
+            }
+        });
         refreshInterface();
 
         return root;

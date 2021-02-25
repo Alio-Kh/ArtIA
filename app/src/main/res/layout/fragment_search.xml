@@ -9,7 +9,7 @@
     tools:context=".ui.search.SearchFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/button_capture"
+        android:id="@+id/btn_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"

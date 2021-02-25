@@ -85,5 +85,11 @@
     <string name="back">Back</string>
     <string name="Result">Result</string>
     <string name="should_grant_app_permissions">You should grant all app permissions</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="signification_motif">Signification du motif</string>
+    <string name="libelle_motif">Libelle du motif</string>
+    <string name="new_motif">Nouveau motif</string>
+    <string name="telecharger">Télécharger</string>
 
 </resources>
