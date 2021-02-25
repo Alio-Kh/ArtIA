@@ -41,7 +41,7 @@ public class ItemResultActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            int image_data = bundle.getInt("image", -1);
+            int image_data = bundle.getInt("image");
             String title_data = bundle.getString("libelles");
 
             Toast.makeText(getApplicationContext(), image_data, Toast.LENGTH_LONG).show();
