@@ -161,5 +161,13 @@ public class HistoryService {
         return motifList;
     }
 
+    //**/
+    public void deleteFromHistory(String motifID){
+        if(user != null) {
+            DatabaseReference historyReference = database.getReference().child("Histories").child("UserIds").child(user.getUid());
+            historyReference.child(motifID).removeValue();
+        }
+    }
+
 
 }
