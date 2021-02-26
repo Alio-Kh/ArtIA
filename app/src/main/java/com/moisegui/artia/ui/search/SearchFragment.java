@@ -95,10 +95,10 @@ public class SearchFragment extends Fragment implements CameraBridgeViewBase.CvC
                 tvName.setVisibility(View.VISIBLE);
                 tvName.setText(R.string.should_grant_app_permissions);
             } else {
-                tvName.setVisibility(View.GONE);
+                //tvName.setVisibility(View.GONE);
                 // Create an instance of Camera
-                mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
-                mOpenCvCameraView.setCvCameraViewListener(this);
+               // mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
+                //mOpenCvCameraView.setCvCameraViewListener(this);
             }
 
         }
@@ -148,7 +148,7 @@ public class SearchFragment extends Fragment implements CameraBridgeViewBase.CvC
         matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE_HAMMING);
         imgObject = new Mat();
         AssetManager assetManager = getActivity().getAssets();
-        InputStream istr = assetManager.open("a.jpg");
+        InputStream istr = assetManager.open("52486.jpg");
         Bitmap bitmap = BitmapFactory.decodeStream(istr);
         Utils.bitmapToMat(bitmap, imgObject);
         Imgproc.cvtColor(imgObject, imgObject, Imgproc.COLOR_RGB2GRAY);
@@ -174,10 +174,10 @@ public class SearchFragment extends Fragment implements CameraBridgeViewBase.CvC
 
         if (!OpenCVLoader.initDebug()) {
             Log.d(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
-            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, getContext(), mLoaderCallback);
+            //OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, getContext(), mLoaderCallback);
         } else {
             Log.d(TAG, "OpenCV library found inside package. Using it!");
-            mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+            //mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
         }
 
         if (checkCameraHardware(getContext())) {

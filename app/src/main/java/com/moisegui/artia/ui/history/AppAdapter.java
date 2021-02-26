@@ -12,9 +12,9 @@ import android.widget.BaseAdapter;
 
 import com.moisegui.artia.ResultActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
 import com.moisegui.artia.R;
 import com.squareup.picasso.Picasso;
+import com.moisegui.artia.ResultActivity;
 
 public class AppAdapter extends BaseAdapter {
 

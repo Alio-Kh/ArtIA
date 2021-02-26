@@ -30,7 +30,13 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.auth.User;
+import com.moisegui.artia.AdminActivity;
 import com.moisegui.artia.R;
+import com.moisegui.artia.services.AdminService;
+import com.moisegui.artia.services.MyCallback;
+
+import java.util.List;
 
 public class AccountsFragment extends Fragment {
     // Choose an arbitrary request code value
@@ -38,18 +44,21 @@ public class AccountsFragment extends Fragment {
     private static final String TAG = "AccountsFragment";
 
     private AccountsViewModel accountsViewModel;
-    FirebaseAuth auth;
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseUser user = auth.getCurrentUser();
 
     Button btnLogin;
     TextView textView;
     ConstraintLayout notConnectedView;
     ScrollView settingsView;
-    Button btnLogout;
+    TextView btnLogout;
     Button btnUpdateAccount;
     EditText emailEditText;
     EditText nameEditText;
     EditText oldPassEditText;
     EditText newPassEditText;
+
+   TextView btnAdmin;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -72,15 +81,12 @@ public class AccountsFragment extends Fragment {
         notConnectedView = root.findViewById(R.id.not_connected_view);
         settingsView = root.findViewById(R.id.settings_view);
         btnLogin = root.findViewById(R.id.btnConnexion);
-        btnLogout = root.findViewById(R.id.btnLogOut);
+        btnLogout = (TextView)root.findViewById(R.id.btnLogOut);
         btnUpdateAccount = root.findViewById(R.id.btnUpdateAccount);
         emailEditText = root.findViewById(R.id.emailEditText);
         nameEditText = root.findViewById(R.id.nameEditText);
         oldPassEditText = root.findViewById(R.id.oldPassEditText);
         newPassEditText = root.findViewById(R.id.newPassEditText);
-
-
-        auth = FirebaseAuth.getInstance();
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,10 +115,30 @@ public class AccountsFragment extends Fragment {
             }
         });
 
+        btnAdmin = (TextView)root.findViewById(R.id.btn_admin);
+
+        if (user != null) {
+            AdminService.findAll(new MyCallback() {
+                @Override
+                public void onCallback(List<String> values) {
+                    if(!values.contains(user.getUid()))
+                        btnAdmin.setVisibility(View.GONE);
+                }
+            });
+
+        }
+        btnAdmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AdminActivity.class);
+                startActivity(intent);
+            }
+        });
         refreshInterface();
 
         return root;
     }
+
 
     public void refreshInterface() {
         FirebaseUser user = auth.getCurrentUser();
@@ -310,4 +336,6 @@ public class AccountsFragment extends Fragment {
                     }
                 });
     }
+
+
 }

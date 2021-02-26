@@ -71,5 +71,15 @@
     <string name="back">Back</string>
     <string name="Result">Result</string>
     <string name="should_grant_app_permissions">You should grant all app permissions</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="signification_motif">Signification du motif</string>
+    <string name="libelle_motif">Libelle du motif</string>
+    <string name="new_motif">Nouveau motif</string>
+    <string name="telecharger">Télécharger</string>
+    <string name="no_match_found">No match found.</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Password</string>
+    <string name="go_admin_panel">Go to admin panel</string>
 
 </resources>
