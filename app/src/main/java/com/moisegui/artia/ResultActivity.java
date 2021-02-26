@@ -19,7 +19,6 @@ public class ResultActivity extends AppCompatActivity {
     private ImageView image;
     private TextView title;
     private TextView date;
-    private TextView origin;
     private TextView pattern;
     private TextView desc;
 
@@ -33,7 +32,6 @@ public class ResultActivity extends AppCompatActivity {
         title = findViewById(R.id.title_result_fragment);
 
 
-        origin = findViewById(R.id.origin_result_fragment);
         pattern = findViewById(R.id.pattern_result_fragment);
         desc = findViewById(R.id.desc_result_fragment);
 
@@ -49,8 +47,7 @@ public class ResultActivity extends AppCompatActivity {
             image.setImageResource(image_data);
             title.setText(title_data);
 
-            origin.setText(origin_);
-            pattern.setText(pattern_);
+            pattern.setText(title_data);
             desc.setText(desc_);
         }
 

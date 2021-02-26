@@ -81,5 +81,6 @@
     <string name="login_email_hint">Email</string>
     <string name="login_password_hint">Password</string>
     <string name="go_admin_panel">Go to admin panel</string>
+    <string name="Description">Description :</string>
 
 </resources>
