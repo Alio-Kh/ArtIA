@@ -34,7 +34,7 @@ public class MotifService {
     private static  String file_name ;
     private static StorageReference storageRef = storage.getReference();
 
-    public static void addMotif(Motif motif,MyCallback callback) {
+    public static void addMotif(Motif motif, MyCallback callback) {
         String motif_id = mMotifReference.push().getKey();
         motif.setMotifID(motif_id);
         file_name = motif.getMotifID()+".jpg";
@@ -78,6 +78,7 @@ public class MotifService {
             public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
                 Motif motif;
                 motifs.clear();
+                Motif motif = new Motif();
                 for (DataSnapshot motifSnapshot : dataSnapshot.getChildren()) {
                     motif = motifSnapshot.getValue(Motif.class);
                     motifs.add(motif);
@@ -92,9 +93,7 @@ public class MotifService {
         });
     }
 
-
-
-    public static void deleteById(String id){
+    public static void deleteById(String id) {
 
         mMotifReference.child(id).removeValue();
         file_name = id+".jpg";

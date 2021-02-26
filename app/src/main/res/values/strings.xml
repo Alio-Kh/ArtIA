@@ -82,7 +82,17 @@
     <string name="login_email_hint">Email</string>
     <string name="login_password_hint">Password</string>
     <string name="go_admin_panel">Go to admin panel</string>
+    <string name="Description">Description :</string>
     <string name="List_patterns">List patterns</string>
     <string name="empty_list_motif">You didn\'t add any pattern yet.</string>
+
+    <string name="edit">Edit</string>
+    <string name="a_motif_found">A motif has been found</string>
+    <string name="description">Description</string>
+    <string name="problem_with_image">There was an issue, while loading your image\n please select another one</string>
+    <string name="no_entry_yet">No entry found.\nMake some researches to fill this section</string>
+    <string name="the_item">the item </string>
+    <string name="success_deleted"> was successfully deleted </string>
+
 
 </resources>

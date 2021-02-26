@@ -1,25 +1,22 @@
 package com.moisegui.artia;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.squareup.picasso.Picasso;
+
 public class ResultActivity extends AppCompatActivity {
 
     private ImageView image;
     private TextView title;
     private TextView date;
-    private TextView origin;
     private TextView pattern;
     private TextView desc;
 
@@ -31,24 +28,26 @@ public class ResultActivity extends AppCompatActivity {
 
         image = findViewById(R.id.image_result_fragment);
         title = findViewById(R.id.title_result_fragment);
-        origin = findViewById(R.id.origin_result_fragment);
+
+
         pattern = findViewById(R.id.pattern_result_fragment);
         desc = findViewById(R.id.desc_result_fragment);
 
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            int image_data = bundle.getInt("image", -1);
+            String image_data = bundle.getString("image");
             String title_data = bundle.getString("title");
             String date_data = bundle.getString("date");
             String origin_ = "origin";
             String pattern_ = "pattern";
             String desc_ = bundle.getString("desc");
-            image.setImageResource(image_data);
+            System.out.println(image);
+            Picasso.get().load(image_data).placeholder(R.drawable.mx_bg_gradient1).into(image);
+            /*image.setImageResource(image_data);*/
             title.setText(title_data);
 
-            origin.setText(origin_);
-            pattern.setText(pattern_);
+            pattern.setText(title_data);
             desc.setText(desc_);
         }
 

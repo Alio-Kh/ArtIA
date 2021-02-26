@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
+import com.squareup.picasso.Picasso;
 
 public class ItemResultActivity extends AppCompatActivity {
 
@@ -34,7 +35,7 @@ public class ItemResultActivity extends AppCompatActivity {
     public Context context;
 
     private String title_data;
-    private int image_data;
+    private String image_data;
     private String desc_data;
 
     View alertDialogView;
@@ -62,27 +63,26 @@ public class ItemResultActivity extends AppCompatActivity {
 
         image = findViewById(R.id.image_result_fragment);
         title = findViewById(R.id.title_result_fragment);
-        origin = findViewById(R.id.origin_result_fragment);
         pattern = findViewById(R.id.pattern_result_fragment);
         desc = findViewById(R.id.desc_result_fragment);
 
         String origin_ = "origin";
         String pattern_ = "pattern";
-        String desc_ = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim i Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. d est laborum.";
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            image_data = bundle.getInt("image");
-            title_data = bundle.getString("libelles");
+            image_data = bundle.getString("image");
+            title_data = bundle.getString("title");
 //            desc_data = bundle.getString("description");
-
-            image.setImageResource(image_data);
+            System.out.println(image_data);
+            Picasso.get().load(image_data).placeholder(R.drawable.mx_bg_gradient1).into(image);
             title.setText(title_data);
+            String desc_ = bundle.getString("desc");
+            pattern.setText(title_data);
+            desc.setText(desc_);
         }
 
-        origin.setText(origin_);
-        pattern.setText(title_data);
-        desc.setText(desc_);
+
 
     }
 
@@ -103,7 +103,7 @@ public class ItemResultActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle(getApplication().getString(R.string.delete_the_item) + title_data + getApplication().getString(R.string.from_your_history));
                 builder.setMessage(R.string.verify_delete);
-                builder.setIcon(image_data);
+                /*builder.setIcon(image_data);*/
 
                 // add the buttons
                 builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
