@@ -4,4 +4,209 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ItemResultActivity"/>
+    tools:context=".ItemResultActivity">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- Media -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="16dp"
+                android:paddingTop="5dp"
+                android:paddingRight="16dp">
+
+                <!-- Title, secondary and supporting text -->
+
+                <TextView
+                    android:id="@+id/title_result_fragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:fontFamily="@font/nunito_bold_italic"
+                    android:shadowColor="#222222"
+                    android:shadowDx="1"
+                    android:shadowDy="3"
+                    android:shadowRadius="3"
+                    android:text="@string/mat_name"
+                    android:textColor="#1C1C1C"
+                    android:textSize="24sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/top_title" />
+
+                <ImageView
+                    android:id="@+id/image_result_fragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/motif_bg_1" />
+
+                <ScrollView
+                    android:id="@+id/scrollView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.512"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/image_result_fragment">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/pattern_name_label"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito_semibold_italic"
+                                android:text="@string/pattern_name"
+                                android:textColor="#222222"
+                                android:textSize="18sp"
+                                tools:layout_editor_absoluteX="21dp"
+                                tools:layout_editor_absoluteY="348dp" />
+
+                            <TextView
+                                android:id="@+id/pattern_space1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito_semibold_italic"
+                                android:text=" : "
+                                android:textColor="#222222"
+                                android:textSize="18sp"
+                                tools:layout_editor_absoluteX="21dp"
+                                tools:layout_editor_absoluteY="348dp" />
+
+
+                            <TextView
+                                android:id="@+id/pattern_result_fragment"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito_bold_italic"
+                                android:text="@string/pattern_name"
+                                android:textColor="#EF860A"
+                                android:textSize="18sp"
+                                tools:layout_editor_absoluteX="21dp"
+                                tools:layout_editor_absoluteY="348dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/pattern_space3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito_bold_italic"
+                                android:text=" "
+                                android:textColor="#5F3708"
+                                android:textSize="8sp"
+                                tools:layout_editor_absoluteX="21dp"
+                                tools:layout_editor_absoluteY="348dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/pattern_origin_label"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito_semibold_italic"
+                                android:text="@string/origin"
+                                android:textColor="#222222"
+                                android:textSize="18sp"
+                                tools:layout_editor_absoluteX="21dp"
+                                tools:layout_editor_absoluteY="348dp" />
+
+                            <TextView
+                                android:id="@+id/pattern_space2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito_semibold_italic"
+                                android:text=" : "
+                                android:textColor="#222222"
+                                android:textSize="18sp"
+                                tools:layout_editor_absoluteX="21dp"
+                                tools:layout_editor_absoluteY="348dp" />
+
+                            <TextView
+                                android:id="@+id/origin_result_fragment"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito_bold_italic"
+                                android:text="@string/origin"
+                                android:textColor="#EF860A"
+                                android:textSize="18sp"
+                                tools:layout_editor_absoluteX="21dp"
+                                tools:layout_editor_absoluteY="348dp" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </ScrollView>
+
+                <!-- card text desc -->
+
+
+            </LinearLayout>
+
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="250dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/desc_result_fragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/text_margin"
+                        android:background="#EAE7E7"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/large_text"
+                        android:textColor="#373737"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+            </ScrollView>
+
+        </LinearLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

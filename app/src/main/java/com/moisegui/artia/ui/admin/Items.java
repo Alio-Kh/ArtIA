@@ -1,6 +1,7 @@
 package com.moisegui.artia.ui.admin;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ public class Items {
     public Items(int img_motif, String lib_motif) {
         this.img_motif = img_motif;
         this.lib_motif = lib_motif;
+
     }
 
     public int getImg_motif() {

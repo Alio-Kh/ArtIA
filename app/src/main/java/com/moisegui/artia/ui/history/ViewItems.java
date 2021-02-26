@@ -18,7 +18,7 @@ public class ViewItems {
         image_history_item = view.findViewById(R.id.image_history_item);
         title_history_item = view.findViewById(R.id.title_history_item);
         date_history_item = view.findViewById(R.id.date_history_item);
-        cancel_button_history = view.findViewById(R.id.cancel_button_history);
-        more_button_history = view.findViewById(R.id.more_button_history);
+        cancel_button_history = view.findViewById(R.id.delete_button_admin);
+        more_button_history = view.findViewById(R.id.update_button_admin);
     }
 }
