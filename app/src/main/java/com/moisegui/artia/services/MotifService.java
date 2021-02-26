@@ -5,21 +5,19 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.moisegui.artia.data.model.Admin;
 import com.moisegui.artia.data.model.Motif;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -32,8 +30,8 @@ public class MotifService {
     private static  String folder_name ="motifs";
     private static  String file_name ;
 
-    public static void addMotif(String libelle, String signification, String path,MyCallback callback) {
-        file_name = libelle+".jpg";
+    public static void addMotif(String libelle, String signification, String path, MyCallback callback) {
+        file_name = libelle + ".jpg";
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
 
@@ -47,37 +45,32 @@ public class MotifService {
         Uri file = Uri.fromFile(new File(path));
         UploadTask uploadTask = motifFolderRef.putFile(file);
 
-        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if (!task.isSuccessful()) {
-                    throw task.getException();
-                }
-
-                // Continue with the task to get the download URL
-                return motifFolderRef.getDownloadUrl();
+        Task<Uri> urlTask = uploadTask.continueWithTask(task -> {
+            if (!task.isSuccessful()) {
+                throw task.getException();
             }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                if (task.isSuccessful()) {
-                    Uri downloadUri = task.getResult();
-                    List<String > motifData = new ArrayList<>();
-                    motifData.add(libelle);
-                    motifData.add(signification);
-                    motifData.add(downloadUri.toString());
-                    callback.onCallback(motifData);
-                } else {
-                    Log.w("MotifService","Get downloadUri task failed");
-                }
+
+            // Continue with the task to get the download URL
+            return motifFolderRef.getDownloadUrl();
+        }).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Uri downloadUri = task.getResult();
+                List<String > motifData = new ArrayList<>();
+                motifData.add(libelle);
+                motifData.add(signification);
+                motifData.add(downloadUri.toString());
+                callback.onCallback(motifData);
+            } else {
+                Log.w("MotifService","Get downloadUri task failed");
             }
         });
     }
 
-    public static void saveMotif(List<String> data){
+    public static void saveMotif(List<String> data) {
 
-        Motif motif = new Motif(data.get(0),data.get(1),data.get(2));
-        mMotifReference.child("motif_"+System.currentTimeMillis()).setValue(motif);
+        String motif_id = mMotifReference.push().getKey();
+        Motif motif = new Motif(motif_id, data.get(0), data.get(1), data.get(2));
+        mMotifReference.child(motif_id).setValue(motif);
 
     }
 
@@ -87,6 +80,7 @@ public class MotifService {
         mMotifReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                motifs.clear();
                 Motif motif = new Motif();
                 for (DataSnapshot motifSnapshot : dataSnapshot.getChildren()) {
                     motif = motifSnapshot.getValue(Motif.class);
@@ -98,6 +92,27 @@ public class MotifService {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.w("MotifService", "onCancelled: " + error.getMessage());
+            }
+        });
+    }
+
+    public static void deleteByLibelle(String libelle) {
+
+        Query motifsQuery = mMotifReference.orderByChild("motifName").equalTo(libelle);
+
+        motifsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot motifSnapshot : dataSnapshot.getChildren()) {
+                    motifSnapshot.getRef().removeValue();
+                }
+
+                Log.i("MotifService", "Pattern: " + libelle + " deleted successfully");
+            }
+
+            @Override
+            public void onCancelled(@NotNull DatabaseError databaseError) {
+                Log.e("MotifService", "onCancelled: ", databaseError.toException());
             }
         });
     }

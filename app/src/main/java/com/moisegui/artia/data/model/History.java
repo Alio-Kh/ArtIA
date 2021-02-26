@@ -1,10 +1,8 @@
 package com.moisegui.artia.data.model;
 
-import com.firebase.ui.auth.data.model.User;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,17 +13,22 @@ public class History {
     private String Historydate;
     private String user;
     private String motif;
-    private String historySrcImage;
 
     public History() {
     }
 
-    public History(String historyID, String historydate, String user, String motif, String historySrcImage) {
+    public History(String historyID, String historydate, String user, String motif) {
         this.historyID = historyID;
         Historydate = historydate;
         this.user = user;
         this.motif = motif;
-        this.historySrcImage = historySrcImage;
+    }
+
+    public History(String historydate, String user, String motif) {
+        this.historyID = historyID;
+        Historydate = historydate;
+        this.user = user;
+        this.motif = motif;
     }
 
     public String getHistoryID() {
@@ -52,14 +55,6 @@ public class History {
         this.user = user;
     }
 
-    public String getHistorySrcImage() {
-        return historySrcImage;
-    }
-
-    public void setHistorySrcImage(String historySrcImage) {
-        this.historySrcImage = historySrcImage;
-    }
-
     public String getMotif() {
         return motif;
     }
@@ -75,8 +70,6 @@ public class History {
         result.put("Historydate", Historydate);
         result.put("user", user);
         result.put("motif", motif);
-        result.put("historySrcImage", historySrcImage);
-
         return result;
     }
 }

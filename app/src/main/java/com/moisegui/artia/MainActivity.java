@@ -14,9 +14,6 @@ import androidx.core.content.ContextCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.moisegui.artia.services.AdminService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user =auth.getCurrentUser();
         //AdminService.addAdmin("1",user.getUid());
+
+//        History history = new History(new Date().toString(), user.getUid(), "motif_1614314768128");
+//        HistoryService service = new HistoryService();
+//        service.add(history);
 
     }
 

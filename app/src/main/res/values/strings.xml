@@ -41,7 +41,7 @@
     <string name="log_in_cancelled">Log in cancelled</string>
     <string name="logged_in">Logged in</string>
     <string name="no_internet_connection">No internet connection</string>
-    <string name="unknown_error">An error has occured</string>
+    <string name="unknown_error">An error has occurred</string>
     <string name="log_out">Log out</string>
     <string name="log_in">Log in</string>
     <string name="account_deleted">Account deleted</string>
@@ -71,16 +71,26 @@
     <string name="back">Back</string>
     <string name="Result">Result</string>
     <string name="should_grant_app_permissions">You should grant all app permissions</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="signification_motif">Signification du motif</string>
     <string name="libelle_motif">Libelle du motif</string>
     <string name="new_motif">Nouveau motif</string>
     <string name="telecharger">Télécharger</string>
+    <string name="add">Add</string>
+    <string name="update">Update</string>
     <string name="no_match_found">No match found.</string>
     <string name="login_email_hint">Email</string>
     <string name="login_password_hint">Password</string>
     <string name="go_admin_panel">Go to admin panel</string>
     <string name="Description">Description :</string>
+    <string name="List_patterns">List patterns</string>
+    <string name="empty_list_motif">You didn\'t add any pattern yet.</string>
+
+    <string name="edit">Edit</string>
+    <string name="a_motif_found">A motif has been found</string>
+    <string name="description">Description</string>
+    <string name="problem_with_image">There was an issue, while loading your image\n please select another one</string>
+    <string name="no_entry_yet">No entry found.\nMake some researches to fill this section</string>
+
 
 </resources>

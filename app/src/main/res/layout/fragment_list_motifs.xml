@@ -26,7 +26,18 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:src="@drawable/plus_icon"
+        android:tint="#ffffff"
+        android:tintMode="multiply"
         app:backgroundTint="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/txt_empty_list_motif"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/empty_list_motif"
+        android:textSize="20sp" />
 
 
 </FrameLayout>
