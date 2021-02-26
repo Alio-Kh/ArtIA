@@ -9,27 +9,22 @@
 
     <View
         android:id="@+id/background"
-        android:layout_width="436dp"
-        android:layout_height="791dp"
+        android:layout_width="871dp"
+        android:layout_height="572dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/ic_background"
         android:forceDarkAllowed="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.493"
         tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="383dp"
+        android:layout_width="173dp"
+        android:layout_height="184dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="108dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
@@ -38,7 +33,7 @@
         android:id="@+id/button2"
         android:layout_width="142dp"
         android:layout_height="59dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="68dp"
         android:layout_marginBottom="40dp"
         android:width="142px"
         android:height="40px"

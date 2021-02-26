@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.moisegui.artia.data.model.Admin;
 import com.moisegui.artia.data.model.Motif;
 
 import org.jetbrains.annotations.NotNull;
@@ -97,6 +100,8 @@ public class MotifService {
             }
         });
     }
+
+
 
     public static void deleteByLibelle(String libelle){
 

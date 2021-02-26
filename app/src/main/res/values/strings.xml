@@ -76,6 +76,8 @@
     <string name="libelle_motif">Libelle du motif</string>
     <string name="new_motif">Nouveau motif</string>
     <string name="telecharger">Télécharger</string>
+    <string name="add">Add</string>
+    <string name="update">Update</string>
     <string name="no_match_found">No match found.</string>
     <string name="login_email_hint">Email</string>
     <string name="login_password_hint">Password</string>
