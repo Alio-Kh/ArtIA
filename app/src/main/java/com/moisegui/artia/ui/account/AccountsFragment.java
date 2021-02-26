@@ -30,8 +30,13 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.auth.User;
 import com.moisegui.artia.AdminActivity;
 import com.moisegui.artia.R;
+import com.moisegui.artia.services.AdminService;
+import com.moisegui.artia.services.MyCallback;
+
+import java.util.List;
 
 public class AccountsFragment extends Fragment {
     // Choose an arbitrary request code value
@@ -39,7 +44,8 @@ public class AccountsFragment extends Fragment {
     private static final String TAG = "AccountsFragment";
 
     private AccountsViewModel accountsViewModel;
-    FirebaseAuth auth;
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseUser user = auth.getCurrentUser();
 
     Button btnLogin;
     TextView textView;
@@ -82,9 +88,6 @@ public class AccountsFragment extends Fragment {
         oldPassEditText = root.findViewById(R.id.oldPassEditText);
         newPassEditText = root.findViewById(R.id.newPassEditText);
 
-
-        auth = FirebaseAuth.getInstance();
-
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,7 +115,18 @@ public class AccountsFragment extends Fragment {
             }
         });
 
-        btnAdmin= root.findViewById(R.id.btn_admin);
+        btnAdmin = root.findViewById(R.id.btn_admin);
+
+        if (user != null) {
+            AdminService.findAll(new MyCallback() {
+                @Override
+                public void onCallback(List<String> values) {
+                    if(!values.contains(user.getUid()))
+                        btnAdmin.setVisibility(View.GONE);
+                }
+            });
+
+        }
         btnAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,6 +138,7 @@ public class AccountsFragment extends Fragment {
 
         return root;
     }
+
 
     public void refreshInterface() {
         FirebaseUser user = auth.getCurrentUser();
@@ -321,4 +336,6 @@ public class AccountsFragment extends Fragment {
                     }
                 });
     }
+
+
 }
