@@ -59,7 +59,6 @@ public class ListMotifsFragment extends Fragment {
     TextInputLayout signification;
     Button telecharger;
     ImageView new_motif;
-    final int REQUEST_CODE = 1;
 
     private final int FILE_CHOOSER_REQUEST = 112;
     String picturePath;

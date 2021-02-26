@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import com.moisegui.artia.R;
 import com.moisegui.artia.ResultActivity;
 import com.moisegui.artia.data.model.Motif;
 import com.moisegui.artia.services.MotifService;
+import com.moisegui.artia.services.MyCallback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -67,8 +69,7 @@ public class CustomAdapter extends ArrayAdapter<Motif> {
         TextView textView = convertView.findViewById(R.id.lib_motif);
         Button delete_button = convertView.findViewById(R.id.delete_button_admin);
         Button update_button = convertView.findViewById(R.id.update_button_admin);;
-        Button showMoreButton = convertView.findViewById(R.id.show_more_button_admin);;
-       // Button delete = convertView.findViewById(R.id.delete_motif);
+        Button showMoreButton = convertView.findViewById(R.id.show_more_button_admin);
 
         Picasso.get()
                 .load(getItem(position).getMotifImageSrc())
@@ -76,12 +77,6 @@ public class CustomAdapter extends ArrayAdapter<Motif> {
                 .into(imageView);
         textView.setText(getItem(position).getMotifName());
 
-       /* delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MotifService.deleteByLibelle(getItem(position).getMotifName());
-            }
-        });*/
 
         delete_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +93,7 @@ public class CustomAdapter extends ArrayAdapter<Motif> {
                 builder.setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        MotifService.deleteByLibelle(getItem(position).getMotifName());
                     }
                 });
                 builder.show();
@@ -156,13 +151,13 @@ public class CustomAdapter extends ArrayAdapter<Motif> {
                     String libelle_ = libelle.getEditText().getText().toString();
                     String signification_ = signification.getEditText().getText().toString();
 
-//                    MotifService.addMotif(libelle_, signification_, picturePath, new MyCallback() {
-//                        @Override
-//                        public void onCallback(List<String> values) {
-//                            MotifService.saveMotif(values);
-//                            Log.i("ListMotifFragment", "onCallback save motif");
-//                        }
-//                    });
+                    MotifService.addMotif(libelle_, signification_, picturePath, new MyCallback() {
+                        @Override
+                        public void onCallback(List<String> values) {
+                            MotifService.saveMotif(values);
+                            Log.i("ListMotifFragment", "onCallback save motif");
+                        }
+                    });
                 }
 
             }
