@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/mx_bg_gradient1"
     android:paddingBottom="?attr/actionBarSize"
     tools:context=".ui.history.HistoryFragment">
 
@@ -48,7 +49,7 @@
         android:id="@+id/lv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#D6EFED"
+        android:background="#2FF44336"
         android:divider="@color/cardview_light_background"
         android:dividerHeight="0.8dp"
         android:footerDividersEnabled="false"
@@ -64,6 +65,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="@string/no_entry_yet"
+        android:textColor="#201E1E"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
