@@ -1,7 +1,5 @@
 package com.moisegui.artia.ui.admin;
 
-import android.app.AlertDialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,24 +7,19 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.opengl.Visibility;
 import android.os.Bundle;
-
-import androidx.appcompat.view.ContextThemeWrapper;
-import androidx.fragment.app.Fragment;
-
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -37,9 +30,15 @@ import com.moisegui.artia.services.MotifCallback;
 import com.moisegui.artia.services.MotifService;
 import com.moisegui.artia.services.MyCallback;
 
+import org.opencv.android.Utils;
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class ListMotifsFragment extends Fragment {
@@ -118,15 +117,22 @@ public class ListMotifsFragment extends Fragment {
                 if (libelle.getEditText().getText() == null || signification.getEditText().getText() == null
                         || picturePath == null) {
                     Toast.makeText(context, "You must fill in all the fields!", Toast.LENGTH_LONG).show();
-                }else{
+                }else {
                     String libelle_ = libelle.getEditText().getText().toString();
                     String signification_ = signification.getEditText().getText().toString();
 
-                    MotifService.addMotif(libelle_, signification_, picturePath, new MyCallback() {
+                    Mat image = getMat(picturePath);
+
+                    if (image == null) {
+                        Toast.makeText(context, R.string.problem_with_image, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    MotifService.addMotif(libelle_, signification_, picturePath, image, new MyCallback() {
                         @Override
-                        public void onCallback(List<String> values) {
-                            MotifService.saveMotif(values);
-                            Log.i("ListMotifFragment","onCallback save motif");
+                        public void onCallback(List<String> values, Map<String, Object> result) {
+                            MotifService.saveMotif(values, result);
+                            Log.i("ListMotifFragment", "onCallback save motif");
                         }
                     });
                 }
@@ -163,6 +169,26 @@ public class ListMotifsFragment extends Fragment {
         });
 
         materialAlertDialogBuilder.show();
+    }
+
+    public Mat getMat(String path) {
+        Mat image = null;
+
+        BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
+        bmpFactoryOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+        Uri uri = Uri.fromFile(new File(path));
+        Bitmap bmp = null;
+        try {
+            bmp = MediaStore.Images.Media.getBitmap(
+                    getActivity().getContentResolver(),
+                    uri);
+            image = new Mat(bmp.getWidth(), bmp.getHeight(), CvType.CV_8UC4);
+            Utils.bitmapToMat(bmp, image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return image;
     }
 
 

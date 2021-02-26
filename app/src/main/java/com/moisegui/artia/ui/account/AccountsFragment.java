@@ -30,13 +30,13 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.firestore.auth.User;
 import com.moisegui.artia.AdminActivity;
 import com.moisegui.artia.R;
 import com.moisegui.artia.services.AdminService;
 import com.moisegui.artia.services.MyCallback;
 
 import java.util.List;
+import java.util.Map;
 
 public class AccountsFragment extends Fragment {
     // Choose an arbitrary request code value
@@ -120,8 +120,8 @@ public class AccountsFragment extends Fragment {
         if (user != null) {
             AdminService.findAll(new MyCallback() {
                 @Override
-                public void onCallback(List<String> values) {
-                    if(!values.contains(user.getUid()))
+                public void onCallback(List<String> values, Map<String, Object> result) {
+                    if (!values.contains(user.getUid()))
                         btnAdmin.setVisibility(View.GONE);
                 }
             });

@@ -7,8 +7,6 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,12 +16,19 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.moisegui.artia.data.model.Admin;
 import com.moisegui.artia.data.model.Motif;
+
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfKeyPoint;
+import org.opencv.features2d.DescriptorExtractor;
+import org.opencv.features2d.FeatureDetector;
+import org.opencv.imgproc.Imgproc;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MotifService {
     private static DatabaseReference mMotifReference = FirebaseDatabase.getInstance().getReference("motifs");
@@ -32,8 +37,8 @@ public class MotifService {
     private static  String folder_name ="motifs";
     private static  String file_name ;
 
-    public static void addMotif(String libelle, String signification, String path,MyCallback callback) {
-        file_name = libelle+".jpg";
+    public static void addMotif(String libelle, String signification, String path, Mat image, MyCallback callback) {
+        file_name = libelle + ".jpg";
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
 
@@ -41,8 +46,9 @@ public class MotifService {
         StorageReference motifsRef = storageRef.child(file_name);
 
         // Create a reference to 'folder/file_name'
-        StorageReference motifFolderRef = storageRef.child(folder_name+"/"+file_name);
+        StorageReference motifFolderRef = storageRef.child(folder_name + "/" + file_name);
 
+        Map<String, Object> result = findDescription(image);
 
         Uri file = Uri.fromFile(new File(path));
         UploadTask uploadTask = motifFolderRef.putFile(file);
@@ -66,7 +72,7 @@ public class MotifService {
                     motifData.add(libelle);
                     motifData.add(signification);
                     motifData.add(downloadUri.toString());
-                    callback.onCallback(motifData);
+                    callback.onCallback(motifData, result);
                 } else {
                     Log.w("MotifService","Get downloadUri task failed");
                 }
@@ -74,10 +80,10 @@ public class MotifService {
         });
     }
 
-    public static void saveMotif(List<String> data){
+    public static void saveMotif(List<String> data, Map<String, Object> result) {
 
-        Motif motif = new Motif(data.get(0),data.get(1),data.get(2));
-        mMotifReference.child("motif_"+System.currentTimeMillis()).setValue(motif);
+        Motif motif = new Motif(data.get(0), data.get(1), data.get(2));
+        mMotifReference.child("motif_" + System.currentTimeMillis()).setValue(motif);
 
     }
 
@@ -100,5 +106,42 @@ public class MotifService {
                 Log.w("MotifService", "onCancelled: " + error.getMessage());
             }
         });
+    }
+
+
+    public static Map<String, Object> findDescription(Mat src) {
+        Map<String, Object> result = new HashMap<>();
+        // A grayscale version of the object.
+        Mat mGraySrc = new Mat();
+
+        // A feature detector, which finds features in images.
+        FeatureDetector mFeatureDetector =
+                FeatureDetector.create(FeatureDetector.ORB);
+
+        // A descriptor extractor, which creates descriptors of
+        // features.
+        DescriptorExtractor mDescriptorExtractor =
+                DescriptorExtractor.create(DescriptorExtractor.ORB);
+
+        // Features of the scene (the current frame).
+        MatOfKeyPoint mSceneKeypoints =
+                new MatOfKeyPoint();
+
+        // Descriptors of the scene's features.
+        Mat mSceneDescriptors = new Mat();
+
+        // Convert the scene to grayscale.
+        Imgproc.cvtColor(src, mGraySrc, Imgproc.COLOR_RGBA2GRAY);
+
+        // Detect the scene features, compute their descriptors,
+        // and match the scene descriptors to reference descriptors.
+        mFeatureDetector.detect(mGraySrc, mSceneKeypoints);
+        mDescriptorExtractor.compute(mGraySrc, mSceneKeypoints,
+                mSceneDescriptors);
+
+        result.put("keyPoints", mSceneKeypoints);
+        result.put("descriptor", mSceneDescriptors);
+
+        return result;
     }
 }
