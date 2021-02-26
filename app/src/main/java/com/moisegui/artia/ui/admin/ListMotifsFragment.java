@@ -1,6 +1,7 @@
 package com.moisegui.artia.ui.admin;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -38,6 +39,7 @@ import com.moisegui.artia.data.model.Motif;
 import com.moisegui.artia.services.MotifCallback;
 import com.moisegui.artia.services.MotifService;
 import com.moisegui.artia.services.MyCallback;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -48,10 +50,7 @@ public class ListMotifsFragment extends Fragment {
 
     View root;
     public Context context;
-    ArrayList<Items> items = new ArrayList<>();
     ListView listMotifs;
-    String libelles[] = {"motif1", "motif2", "motif3", "motif4", "motif5", "motif6", "motif7"};
-    int images[] = {R.drawable.camera_icon, R.drawable.camera_icon, R.drawable.camera_icon};
 
     View alertDialogView;
     MaterialAlertDialogBuilder materialAlertDialogBuilder;
@@ -73,7 +72,6 @@ public class ListMotifsFragment extends Fragment {
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
         root = localInflater.inflate(R.layout.fragment_list_motifs, container, false);
         listMotifs = root.findViewById(R.id.listMotifs);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(root.getContext(), R.layout.item_motif, R.id.lib_motif, libelles);
         txt_empty_list = root.findViewById(R.id.txt_empty_list_motif);
         listMotifs.setEmptyView(txt_empty_list);
 
@@ -88,19 +86,10 @@ public class ListMotifsFragment extends Fragment {
 
         materialAlertDialogBuilder = new MaterialAlertDialogBuilder(root.getContext());
 
-        listMotifs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(context, ItemResultActivity.class);
-                intent.putExtra("image", images[position]);
-                intent.putExtra("libelles", libelles[position]);
+;
 
-                context.startActivity(intent);
-            }
-        });
-
-        FloatingActionButton captureButton = (FloatingActionButton) root.findViewById(R.id.btn_add);
-        captureButton.setOnClickListener(
+        FloatingActionButton add_btn = (FloatingActionButton) root.findViewById(R.id.btn_add);
+        add_btn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -113,6 +102,8 @@ public class ListMotifsFragment extends Fragment {
 
         return root;
     }
+
+
 
     public void launchAlertDialog() {
         libelle = alertDialogView.findViewById(R.id.libelle);
@@ -133,13 +124,15 @@ public class ListMotifsFragment extends Fragment {
                         || picturePath == null) {
                     Toast.makeText(context, "You must fill in all the fields!", Toast.LENGTH_LONG).show();
                 } else {
-                    String libelle_ = libelle.getEditText().getText().toString();
-                    String signification_ = signification.getEditText().getText().toString();
+                    Motif motif = new Motif();
+                    motif.setMotifName(libelle.getEditText().getText().toString());
+                    motif.setMotifDescription(signification.getEditText().getText().toString());
+                    motif.setMotifImageSrc(picturePath);
 
-                    MotifService.addMotif(libelle_, signification_, picturePath, new MyCallback() {
+                    MotifService.addMotif(motif, new MyCallback() {
                         @Override
-                        public void onCallback(List<String> values) {
-                            MotifService.saveMotif(values);
+                        public void onCallback(Motif motif) {
+                            MotifService.saveMotif(motif);
                             Log.i("ListMotifFragment", "onCallback save motif");
                         }
                     });
@@ -193,18 +186,23 @@ public class ListMotifsFragment extends Fragment {
 
         if (requestCode == FILE_CHOOSER_REQUEST && data != null) {
             Uri selectedImage = data.getData();
+            Log.i("ListMotifsFragments","UploadImage-Uri: "+selectedImage.toString());
             String[] filePath = {MediaStore.Images.Media.DATA};
             Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePath, null, null, null);
             cursor.moveToFirst();
             int columnIndex = cursor.getColumnIndex(filePath[0]);
             picturePath = cursor.getString(columnIndex);
+            Log.i("ListMotifsFragments","UploadImage-path: "+picturePath);
             cursor.close();
+            /*Picasso.get()
+                    .load(picturePath)
+                    .resize(10,10)
+                    .into(new_motif);*/
             Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
             thumbnail = getResizedBitmap(thumbnail, 1000);
             new_motif.setImageBitmap(thumbnail);
             new_motif.setVisibility(View.VISIBLE);
             telecharger.setVisibility(View.GONE);
-            //BitMapToString(thumbnail);
         }
     }
 

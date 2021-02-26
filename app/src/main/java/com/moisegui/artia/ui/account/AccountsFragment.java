@@ -33,6 +33,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.auth.User;
 import com.moisegui.artia.AdminActivity;
 import com.moisegui.artia.R;
+import com.moisegui.artia.services.AdminCallback;
 import com.moisegui.artia.services.AdminService;
 import com.moisegui.artia.services.MyCallback;
 
@@ -118,7 +119,7 @@ public class AccountsFragment extends Fragment {
         btnAdmin = (TextView)root.findViewById(R.id.btn_admin);
 
         if (user != null) {
-            AdminService.findAll(new MyCallback() {
+            AdminService.findAll(new AdminCallback() {
                 @Override
                 public void onCallback(List<String> values) {
                     if(!values.contains(user.getUid()))

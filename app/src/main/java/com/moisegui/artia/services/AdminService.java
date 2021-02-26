@@ -26,7 +26,7 @@ public class AdminService {
         mAdminReference.child(id).setValue(admin);
     }
 
-    public static void findAll(MyCallback myCallback) {
+    public static void findAll(AdminCallback myCallback) {
         List<String> adminsIds = new ArrayList<>();
 
         mAdminReference.addValueEventListener(new ValueEventListener() {

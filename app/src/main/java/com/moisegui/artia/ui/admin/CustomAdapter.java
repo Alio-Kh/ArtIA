@@ -49,7 +49,7 @@ public class CustomAdapter extends ArrayAdapter<Motif> {
     Button telecharger;
     ImageView new_motif;
 
-    private final int FILE_CHOOSER_REQUEST = 112;
+    private final int FILE_CHOOSER_REQUEST = 111;
     String picturePath;
 
     public CustomAdapter(@NonNull Context context, int resource, @NonNull List<Motif> objects) {
@@ -57,6 +57,12 @@ public class CustomAdapter extends ArrayAdapter<Motif> {
         this.context = context;
         this.resource = resource;
         this.objects = objects;
+    }
+
+    public CustomAdapter(@NonNull Context context, int resource,@NonNull List<Motif> objects,String picturePath){
+        super(context, resource, objects);
+        this.picturePath=picturePath;
+
     }
 
 
@@ -93,7 +99,7 @@ public class CustomAdapter extends ArrayAdapter<Motif> {
                 builder.setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        MotifService.deleteByLibelle(getItem(position).getMotifName());
+                        MotifService.deleteById(getItem(position).getMotifID());
                     }
                 });
                 builder.show();
@@ -130,6 +136,7 @@ public class CustomAdapter extends ArrayAdapter<Motif> {
         libelle = alertDialogView.findViewById(R.id.libelle);
         signification = alertDialogView.findViewById(R.id.signification);
         telecharger = alertDialogView.findViewById(R.id.telecharger);
+        telecharger.setVisibility(View.GONE);
         new_motif = alertDialogView.findViewById(R.id.new_motif);
 
         libelle.getEditText().setText(objects.get(position).getMotifName());
@@ -143,50 +150,28 @@ public class CustomAdapter extends ArrayAdapter<Motif> {
         alertDialogBuilder.setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                Motif motif_updated = new Motif();
+                motif_updated.setMotifID(getItem(position).getMotifID());
 
-                if (libelle.getEditText().getText() == null || signification.getEditText().getText() == null
-                        || picturePath == null) {
-                    Toast.makeText(context, "You must fill in all the fields!", Toast.LENGTH_LONG).show();
-                } else {
-                    String libelle_ = libelle.getEditText().getText().toString();
-                    String signification_ = signification.getEditText().getText().toString();
-
-                    MotifService.addMotif(libelle_, signification_, picturePath, new MyCallback() {
-                        @Override
-                        public void onCallback(List<String> values) {
-                            MotifService.saveMotif(values);
-                            Log.i("ListMotifFragment", "onCallback save motif");
-                        }
-                    });
+                if(libelle.getEditText().getText() == null){
+                    motif_updated.setMotifName(getItem(position).getMotifName());
+                }else {
+                    motif_updated.setMotifName(libelle.getEditText().getText().toString());
                 }
 
+                if(signification.getEditText().getText() == null){
+                    motif_updated.setMotifDescription(getItem(position).getMotifDescription());
+                }else {
+                    motif_updated.setMotifDescription(signification.getEditText().getText().toString());
+                }
+                    motif_updated.setMotifImageSrc(getItem(position).getMotifImageSrc());
+                    MotifService.updateMotif(motif_updated);
             }
         });
         alertDialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-            }
-        });
-
-        telecharger.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                try {
-                    Intent i = new Intent(
-                            Intent.ACTION_PICK,
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-                    ((Activity) context).startActivityForResult(i, FILE_CHOOSER_REQUEST);
-//                    startActivityForResult(
-//                            Intent.createChooser(intent, "Select a File to Upload"),
-//                            FILE_CHOOSER_REQUEST);
-                } catch (ActivityNotFoundException ex) {
-                    // Potentially direct the user to the Market with a Dialog
-                    Toast.makeText(context, "Please install a File Manager.",
-                            Toast.LENGTH_SHORT).show();
-                }
             }
         });
 
