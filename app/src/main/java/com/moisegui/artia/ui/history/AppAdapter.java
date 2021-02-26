@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Toast;
 
 
 import com.moisegui.artia.ResultActivity;
@@ -27,9 +28,10 @@ HistoryService historyService = new HistoryService();
     String[] titles;
     String[] dates;
     String[] descriptions;
+    String[] hist_ids;
 
-    public AppAdapter(Context context, String[] images, String[] titles, String[] dates, String[] descriptions) {
-
+    public AppAdapter(Context context, String[] images, String[] titles, String[] dates, String[] descriptions,String[] hist_ids) {
+this.hist_ids = hist_ids;
         this.context = context;
         this.images = images;
         this.titles = titles;
@@ -77,8 +79,9 @@ HistoryService historyService = new HistoryService();
                 builder.setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String motifId = "";
-//historyService.deleteFromHistory(motifId);
+                        String history_id = hist_ids[position];
+                    historyService.deleteById(history_id);
+                        Toast.makeText(context, context.getString(R.string.the_item)+titles[position]+context.getString(R.string.success_deleted), Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.show();
@@ -99,7 +102,7 @@ HistoryService historyService = new HistoryService();
             }
         });
         String url = images[position];
-        Picasso.get().load(url).placeholder(R.drawable.motif_bg_1).into(items.image_history_item);
+        Picasso.get().load(url).placeholder(R.drawable.mx_bg_gradient1).into(items.image_history_item);
         items.title_history_item.setText(titles[position]);
         items.date_history_item.setText(context.getString(R.string.date) + " : " + dates[position]);
         return view;

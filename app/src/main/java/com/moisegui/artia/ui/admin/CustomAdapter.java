@@ -114,6 +114,8 @@ public class CustomAdapter extends ArrayAdapter<Motif> {
                 Intent intent = new Intent(context, ItemResultActivity.class);
 //                intent.putExtra("image", images[position]);
                 intent.putExtra("title", objects.get(position).getMotifName());
+                intent.putExtra("image", objects.get(position).getMotifImageSrc());
+                intent.putExtra("desc", objects.get(position).getMotifDescription());
 //                intent.putExtra("description", objects.get(position).getMotifDescription());
 
                 context.startActivity(intent);

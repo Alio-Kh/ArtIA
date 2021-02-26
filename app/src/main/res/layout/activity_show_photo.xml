@@ -135,7 +135,7 @@
                             app:layout_constraintTop_toBottomOf="@+id/top_title" />
 
                         <ImageView
-                            android:id="@+id/image_motif"
+                            android:id="@+id/image_result_fragment"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
 
@@ -151,7 +151,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.512"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/image_motif">
+                            app:layout_constraintTop_toBottomOf="@+id/image_result_fragment">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -187,7 +187,7 @@
 
 
                                     <TextView
-                                        android:id="@+id/title_motif"
+                                        android:id="@+id/title_result_fragment"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/nunito_bold_italic"

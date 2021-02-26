@@ -36,13 +36,15 @@ public class ResultActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            int image_data = bundle.getInt("image", -1);
+            String image_data = bundle.getString("image");
             String title_data = bundle.getString("title");
             String date_data = bundle.getString("date");
             String origin_ = "origin";
             String pattern_ = "pattern";
             String desc_ = bundle.getString("desc");
-            image.setImageResource(image_data);
+            System.out.println(image);
+            Picasso.get().load(image_data).placeholder(R.drawable.mx_bg_gradient1).into(image);
+            /*image.setImageResource(image_data);*/
             title.setText(title_data);
 
             pattern.setText(title_data);

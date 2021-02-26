@@ -72,8 +72,8 @@ public class ShowPhoto extends AppCompatActivity {
         btnSubmit = findViewById(R.id.submit);
         progressBar = findViewById(R.id.loadingProgress);
         resultCard = findViewById(R.id.result_card);
-        imgMotif = findViewById(R.id.image_motif);
-        motifTitle = findViewById(R.id.title_motif);
+        imgMotif = findViewById(R.id.image_result_fragment);
+        motifTitle = findViewById(R.id.title_result_fragment);
         motifDescription = findViewById(R.id.motif_description);
 
         img = findViewById(R.id.img);
