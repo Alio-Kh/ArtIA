@@ -60,9 +60,9 @@ public class Motif {
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("motifID", motifID);
-        result.put("author", motifName);
-        result.put("title", motifDescription);
-        result.put("body", motifImageSrc);
+        result.put("motifName", motifName);
+        result.put("motifDescription", motifDescription);
+        result.put("motifImageSrc", motifImageSrc);
 
         return result;
     }

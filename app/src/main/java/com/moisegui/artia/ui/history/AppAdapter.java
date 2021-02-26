@@ -1,27 +1,20 @@
 package com.moisegui.artia.ui.history;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.app.Instrumentation;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
-import com.moisegui.artia.HomeActivity;
-import com.moisegui.artia.RegisterActivity;
 import com.moisegui.artia.ResultActivity;
-import com.moisegui.artia.ui.history.ViewItems;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import com.moisegui.artia.R;
+import com.squareup.picasso.Picasso;
 
 public class AppAdapter extends BaseAdapter {
 
@@ -29,15 +22,18 @@ public class AppAdapter extends BaseAdapter {
 
 
     Context context;
-    int[] images;
+    String[] images;
     String[] titles;
     String[] dates;
+    String[] descriptions;
 
-    public AppAdapter(Context context, String[] titles, int[] images, String[] dates) {
+    public AppAdapter(Context context, String[] images, String[] titles, String[] dates, String[] descriptions) {
+
         this.context = context;
         this.images = images;
         this.titles = titles;
         this.dates = dates;
+        this.descriptions = descriptions;
     }
 
     @Override
@@ -69,7 +65,9 @@ public class AppAdapter extends BaseAdapter {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
                 builder.setTitle(context.getString(R.string.delete_the_item) + titles[position] + context.getString(R.string.from_your_history));
                 builder.setMessage(R.string.verify_delete);
-                builder.setIcon(images[position]);
+                /*String url = images[position];
+                Bitmap bmp = Picasso.get().load(url).get();
+                builder.setIcon(bmp);*/
                 builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -92,12 +90,14 @@ public class AppAdapter extends BaseAdapter {
                 intent.putExtra("image", images[position]);
                 intent.putExtra("title", titles[position]);
                 intent.putExtra("date", dates[position]);
+                intent.putExtra("desc",descriptions[position]);
 
                 context.startActivity(intent);
 
             }
         });
-        items.image_history_item.setImageResource(images[position]);
+        String url = images[position];
+        Picasso.get().load(url).placeholder(R.drawable.motif_bg_1).into(items.image_history_item);
         items.title_history_item.setText(titles[position]);
         items.date_history_item.setText(context.getString(R.string.date) + " : " + dates[position]);
         return view;
