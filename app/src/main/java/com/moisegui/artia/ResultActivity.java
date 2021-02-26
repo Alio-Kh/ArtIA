@@ -27,8 +27,8 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
-        image = findViewById(R.id.image_motif);
-        title = findViewById(R.id.title_motif);
+        image = findViewById(R.id.image_result_fragment);
+        title = findViewById(R.id.title_result_fragment);
 
 
         origin = findViewById(R.id.origin_result_fragment);
@@ -44,8 +44,7 @@ public class ResultActivity extends AppCompatActivity {
             String origin_ = "origin";
             String pattern_ = "pattern";
             String desc_ = bundle.getString("desc");
-            Picasso.get().load(image_data).placeholder(R.drawable.motif_bg_1).into(image);
-//            image.setImageResource(image_data);
+            image.setImageResource(image_data);
             title.setText(title_data);
 
             origin.setText(origin_);

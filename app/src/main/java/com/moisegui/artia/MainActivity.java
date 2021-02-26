@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -43,12 +44,12 @@ public class MainActivity extends AppCompatActivity {
         getStarted();
 
         //FirebaseDatabase database = FirebaseDatabase.getInstance();
-        // DatabaseReference myRef = database.getReference("message");
+       // DatabaseReference myRef = database.getReference("message");
 
-        // myRef.setValue("Hello, World!");
+       // myRef.setValue("Hello, World!");
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
+        FirebaseUser user =auth.getCurrentUser();
         //AdminService.addAdmin("1",user.getUid());
 
 //        History history = new History(new Date().toString(), user.getUid(), "motif_1614314768128");
