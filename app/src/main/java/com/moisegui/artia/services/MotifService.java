@@ -37,7 +37,7 @@ public class MotifService {
     private static  String folder_name ="motifs";
     private static  String file_name ;
 
-    public static void addMotif(String libelle, String signification, String path, Mat image, MyCallback callback) {
+    public static void addMotif(String libelle, String signification, String path, MyCallback callback) {
         file_name = libelle + ".jpg";
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
@@ -48,7 +48,6 @@ public class MotifService {
         // Create a reference to 'folder/file_name'
         StorageReference motifFolderRef = storageRef.child(folder_name + "/" + file_name);
 
-        Map<String, Object> result = findDescription(image);
 
         Uri file = Uri.fromFile(new File(path));
         UploadTask uploadTask = motifFolderRef.putFile(file);
@@ -72,7 +71,7 @@ public class MotifService {
                     motifData.add(libelle);
                     motifData.add(signification);
                     motifData.add(downloadUri.toString());
-                    callback.onCallback(motifData, result);
+                    callback.onCallback(motifData);
                 } else {
                     Log.w("MotifService","Get downloadUri task failed");
                 }
@@ -80,10 +79,11 @@ public class MotifService {
         });
     }
 
-    public static void saveMotif(List<String> data, Map<String, Object> result) {
+    public static void saveMotif(List<String> data) {
 
-        Motif motif = new Motif(data.get(0), data.get(1), data.get(2));
-        mMotifReference.child("motif_" + System.currentTimeMillis()).setValue(motif);
+        String motif_id = mMotifReference.push().getKey();
+        Motif motif = new Motif(motif_id, data.get(0), data.get(1), data.get(2));
+        mMotifReference.child(motif_id).setValue(motif);
 
     }
 
@@ -93,6 +93,7 @@ public class MotifService {
         mMotifReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                motifs.clear();
                 Motif motif = new Motif();
                 for (DataSnapshot motifSnapshot : dataSnapshot.getChildren()) {
                     motif = motifSnapshot.getValue(Motif.class);

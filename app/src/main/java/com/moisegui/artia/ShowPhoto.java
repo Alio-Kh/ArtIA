@@ -20,8 +20,11 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.card.MaterialCardView;
+import com.moisegui.artia.data.model.Motif;
 import com.moisegui.artia.filters.ar.ARFilter;
 import com.moisegui.artia.filters.ar.ImageDetectionFilter;
+import com.moisegui.artia.services.MotifCallback;
+import com.moisegui.artia.services.MotifService;
 import com.squareup.picasso.Picasso;
 
 import org.opencv.android.BaseLoaderCallback;
@@ -34,6 +37,8 @@ import org.opencv.core.Mat;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -55,6 +60,8 @@ public class ShowPhoto extends AppCompatActivity {
     ProgressBar progressBar;
     MaterialCardView resultCard;
     File file;
+    List<Motif> motifs;
+
     private static final String TAG = "OCVSample::Activity";
 
 
@@ -83,6 +90,15 @@ public class ShowPhoto extends AppCompatActivity {
                     .rotate(90)
                     .into(img);
         }
+
+        motifs = new ArrayList<>();
+
+        MotifService.findAll(new MotifCallback() {
+            @Override
+            public void onCallback(List<Motif> motifList) {
+                motifs = motifList;
+            }
+        });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,20 +254,10 @@ public class ShowPhoto extends AppCompatActivity {
             switch (status) {
                 case LoaderCallbackInterface.SUCCESS: {
                     Log.i(TAG, "OpenCV loaded successfully");
-
-                    //Put data in database
-                    int[] tapis = {
-                            R.drawable.motif,
-                            R.drawable.tapis6,
-                            R.drawable.tapis9,
-                            R.drawable.tapis14,
-                            R.drawable.tapis16,
-                    };
-
                     try {
                         mFilter = new ImageDetectionFilter(
                                 getApplicationContext(),
-                                tapis,
+                                motifs,
                                 1.0);
                     } catch (IOException e) {
                         Log.e(TAG, "Failed to load drawable: " +

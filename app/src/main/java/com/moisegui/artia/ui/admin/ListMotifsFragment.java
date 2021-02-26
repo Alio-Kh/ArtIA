@@ -38,7 +38,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 public class ListMotifsFragment extends Fragment {
@@ -128,10 +127,10 @@ public class ListMotifsFragment extends Fragment {
                         return;
                     }
 
-                    MotifService.addMotif(libelle_, signification_, picturePath, image, new MyCallback() {
+                    MotifService.addMotif(libelle_, signification_, picturePath, new MyCallback() {
                         @Override
-                        public void onCallback(List<String> values, Map<String, Object> result) {
-                            MotifService.saveMotif(values, result);
+                        public void onCallback(List<String> values) {
+                            MotifService.saveMotif(values);
                             Log.i("ListMotifFragment", "onCallback save motif");
                         }
                     });

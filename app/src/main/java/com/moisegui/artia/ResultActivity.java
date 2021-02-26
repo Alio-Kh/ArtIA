@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.squareup.picasso.Picasso;
+
 public class ResultActivity extends AppCompatActivity {
 
     private ImageView image;
@@ -42,7 +44,8 @@ public class ResultActivity extends AppCompatActivity {
             String origin_ = "origin";
             String pattern_ = "pattern";
             String desc_ = bundle.getString("desc");
-            image.setImageResource(image_data);
+            Picasso.get().load(image_data).placeholder(R.drawable.motif_bg_1).into(image);
+//            image.setImageResource(image_data);
             title.setText(title_data);
 
             origin.setText(origin_);

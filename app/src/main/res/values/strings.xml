@@ -86,6 +86,7 @@
     <string name="a_motif_found">A motif has been found</string>
     <string name="description">Description</string>
     <string name="problem_with_image">There was an issue, while loading your image\n please select another one</string>
+    <string name="no_entry_yet">No entry found.\nMake some researches to fill this section</string>
 
 
 </resources>

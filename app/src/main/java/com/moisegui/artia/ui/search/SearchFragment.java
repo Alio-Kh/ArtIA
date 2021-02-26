@@ -36,7 +36,7 @@ public class SearchFragment extends Fragment {
 
     private int REQUEST_CODE_PERMISSIONS = 101;
     private String[] REQUIRED_PERMISSIONS = new String[]{"Manifest.permission.CAMERA",
-            "Manifest.permission.READ_EXTERNAL_STORAGE", "Manifest.permission.WRITE_EXTERNAL_STORAGE"};
+            "Manifest.permission.WRITE_EXTERNAL_STORAGE"};
 
     private boolean safeToTakePicture = false;
 
@@ -260,7 +260,7 @@ public class SearchFragment extends Fragment {
 
         PackageManager pm = getContext().getPackageManager();
         int hasStoragePerm = pm.checkPermission(
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 getContext().getPackageName());
         int hasCameraPerm = pm.checkPermission(
                 Manifest.permission.CAMERA,

@@ -128,6 +128,7 @@ public final class ImageDetectionFilter implements ARFilter {
 
     @RequiresApi(api = VERSION_CODES.P)
     public ImageDetectionFilter(final Context context,
+                                //TODO: load images into sqlLite on MainActivity, no need to pass this param
                                 final int[] referenceImageResourceIDs,
 //                                final CameraProjectionAdapter cameraProjectionAdapter,
                                 final double realSize)

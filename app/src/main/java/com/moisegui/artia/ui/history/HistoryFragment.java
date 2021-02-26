@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,21 +18,15 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.moisegui.artia.data.model.Motif;
-import com.moisegui.artia.data.model.History;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
-import com.moisegui.artia.MainActivity;
 import com.moisegui.artia.R;
-import com.moisegui.artia.service.HistoryService;
 import com.moisegui.artia.data.model.History;
+import com.moisegui.artia.data.model.Motif;
+import com.moisegui.artia.service.HistoryService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,8 +57,6 @@ public class HistoryFragment extends Fragment {
     ConstraintLayout notConnectedView;
     Button btnLogout;
 
-
-
     ListView lv;
 
 
@@ -88,6 +78,8 @@ public class HistoryFragment extends Fragment {
         btnLogin = root.findViewById(R.id.btnConnexion);
 
         lv = root.findViewById(R.id.lv);
+        TextView textView = root.findViewById(R.id.enty_list_text);
+        lv.setEmptyView(textView);
 
         auth = FirebaseAuth.getInstance();
 
@@ -103,17 +95,6 @@ public class HistoryFragment extends Fragment {
                 startIfLogin();
             }
         });
-
-
-
-        /*historyService.insertNewMotif();
-        historyService.insertNewHistory();*/
-        historyList = historyService.addHistoryEventListener( root,  lv);
-        System.out.println("////");
-        motifList = historyService.addMotifEventListener();
-        System.out.println("////");
-
-
 
         startIfLogin();
 
@@ -176,6 +157,8 @@ public class HistoryFragment extends Fragment {
 
         if (user != null) {
             // already signed in
+            historyService.findAll(root, lv);
+
             lv.setVisibility(View.VISIBLE);
             notConnectedView.setVisibility(View.INVISIBLE);
 
