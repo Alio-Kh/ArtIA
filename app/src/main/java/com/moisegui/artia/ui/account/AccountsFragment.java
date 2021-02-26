@@ -36,7 +36,6 @@ import com.moisegui.artia.services.AdminService;
 import com.moisegui.artia.services.MyCallback;
 
 import java.util.List;
-import java.util.Map;
 
 public class AccountsFragment extends Fragment {
     // Choose an arbitrary request code value
@@ -120,7 +119,7 @@ public class AccountsFragment extends Fragment {
         if (user != null) {
             AdminService.findAll(new MyCallback() {
                 @Override
-                public void onCallback(List<String> values, Map<String, Object> result) {
+                public void onCallback(List<String> values) {
                     if (!values.contains(user.getUid()))
                         btnAdmin.setVisibility(View.GONE);
                 }

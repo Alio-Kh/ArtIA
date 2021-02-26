@@ -34,7 +34,7 @@ public class AdminService {
                     admin = adminSnapshot.getValue(Admin.class);
                     adminsIds.add(admin.getAdminId());
                 }
-                myCallback.onCallback(adminsIds, null);
+                myCallback.onCallback(adminsIds);
             }
 
             @Override

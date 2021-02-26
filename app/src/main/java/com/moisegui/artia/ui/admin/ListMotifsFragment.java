@@ -30,12 +30,6 @@ import com.moisegui.artia.services.MotifCallback;
 import com.moisegui.artia.services.MotifService;
 import com.moisegui.artia.services.MyCallback;
 
-import org.opencv.android.Utils;
-import org.opencv.core.CvType;
-import org.opencv.core.Mat;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,13 +114,6 @@ public class ListMotifsFragment extends Fragment {
                     String libelle_ = libelle.getEditText().getText().toString();
                     String signification_ = signification.getEditText().getText().toString();
 
-                    Mat image = getMat(picturePath);
-
-                    if (image == null) {
-                        Toast.makeText(context, R.string.problem_with_image, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
                     MotifService.addMotif(libelle_, signification_, picturePath, new MyCallback() {
                         @Override
                         public void onCallback(List<String> values) {
@@ -168,26 +155,6 @@ public class ListMotifsFragment extends Fragment {
         });
 
         materialAlertDialogBuilder.show();
-    }
-
-    public Mat getMat(String path) {
-        Mat image = null;
-
-        BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
-        bmpFactoryOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;
-
-        Uri uri = Uri.fromFile(new File(path));
-        Bitmap bmp = null;
-        try {
-            bmp = MediaStore.Images.Media.getBitmap(
-                    getActivity().getContentResolver(),
-                    uri);
-            image = new Mat(bmp.getWidth(), bmp.getHeight(), CvType.CV_8UC4);
-            Utils.bitmapToMat(bmp, image);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return image;
     }
 
 

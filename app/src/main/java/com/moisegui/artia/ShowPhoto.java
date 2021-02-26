@@ -254,10 +254,17 @@ public class ShowPhoto extends AppCompatActivity {
             switch (status) {
                 case LoaderCallbackInterface.SUCCESS: {
                     Log.i(TAG, "OpenCV loaded successfully");
+                    int[] tapis = {
+                            R.drawable.tapis16,
+                            R.drawable.tapis1,
+                            R.drawable.tapis9,
+                            R.drawable.tapis9,
+                            R.drawable.tapis14
+                    };
                     try {
                         mFilter = new ImageDetectionFilter(
                                 getApplicationContext(),
-                                motifs,
+                                tapis,
                                 1.0);
                     } catch (IOException e) {
                         Log.e(TAG, "Failed to load drawable: " +
