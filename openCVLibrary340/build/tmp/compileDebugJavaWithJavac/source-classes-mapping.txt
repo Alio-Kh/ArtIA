@@ -147,8 +147,12 @@ org/opencv/core/MatOfDouble.java
  org.opencv.core.MatOfDouble
 org/opencv/core/Mat.java
  org.opencv.core.Mat
-org/opencv/ml/SVM.java
- org.opencv.ml.SVM
+org/opencv/android/JavaCameraView.java
+ org.opencv.android.JavaCameraView
+ org.opencv.android.JavaCameraView$1
+ org.opencv.android.JavaCameraView$CameraWorker
+ org.opencv.android.JavaCameraView$JavaCameraFrame
+ org.opencv.android.JavaCameraView$JavaCameraSizeAccessor
 org/opencv/core/Algorithm.java
  org.opencv.core.Algorithm
 org/opencv/ml/ANN_MLP.java
@@ -283,9 +287,5 @@ org/opencv/ml/StatModel.java
  org.opencv.ml.StatModel
 org/opencv/utils/Converters.java
  org.opencv.utils.Converters
-org/opencv/android/JavaCameraView.java
- org.opencv.android.JavaCameraView
- org.opencv.android.JavaCameraView$1
- org.opencv.android.JavaCameraView$CameraWorker
- org.opencv.android.JavaCameraView$JavaCameraFrame
- org.opencv.android.JavaCameraView$JavaCameraSizeAccessor
+org/opencv/ml/SVM.java
+ org.opencv.ml.SVM
