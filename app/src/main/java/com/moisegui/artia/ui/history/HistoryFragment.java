@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,6 +20,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.moisegui.artia.data.model.Motif;
+import com.moisegui.artia.data.model.History;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
@@ -28,20 +31,31 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.moisegui.artia.MainActivity;
 import com.moisegui.artia.R;
+import com.moisegui.artia.service.HistoryService;
 import com.moisegui.artia.data.model.History;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HistoryFragment extends Fragment {
 
+    //
+    private HistoryService historyService = new HistoryService();
+
     private HistoriesViewModel historiesViewModel;
+
 
     View root;
     public Context context;
 
     FirebaseAuth auth;
     private static final int RC_SIGN_IN = 123;
+
+    List<History> historyList = new ArrayList<>();
+
+    List<Motif> motifList = new ArrayList<>();
 
     private static final String TAG = "ReadAndWriteSnippets";
 
@@ -52,11 +66,12 @@ public class HistoryFragment extends Fragment {
     Button btnLogout;
 
 
-    ListView lv;
-    String titles[] = {"motif num 1", "motif num 2", "motif num 3"};
-    String dates[] = {"12/12/2021", "12/12/2021", "12/12/2021"};
 
-    int images[] = {R.drawable.motif_bg_1, R.drawable.motif_bg_2, R.drawable.motif_bg_3};
+    ListView lv;
+
+
+
+    AppAdapter appAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         historiesViewModel = new ViewModelProvider(this).get(HistoriesViewModel.class);
@@ -89,9 +104,19 @@ public class HistoryFragment extends Fragment {
             }
         });
 
-        AppAdapter appAdapter = new AppAdapter(root.getContext(), titles, images, dates);
-        lv.setAdapter(appAdapter);
+
+
+        /*historyService.insertNewMotif();
+        historyService.insertNewHistory();*/
+        historyList = historyService.addHistoryEventListener( root,  lv);
+        System.out.println("////");
+        motifList = historyService.addMotifEventListener();
+        System.out.println("////");
+
+
+
         startIfLogin();
+
 
         return root;
     }
@@ -106,7 +131,7 @@ public class HistoryFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-         this.context = context;
+        this.context = context;
     }
 
 
@@ -161,28 +186,8 @@ public class HistoryFragment extends Fragment {
         }
     }
 
-    private void addHistoryEventListener(DatabaseReference historyReference, ArrayList<History> historyList) {
-        // [START post_value_event_listener]
-        ValueEventListener postListener = new ValueEventListener() {
 
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot dataSnapshot_ : dataSnapshot.getChildren()) {
 
-                }
-                // Get Post object and use the values to update the UI
-                History history = dataSnapshot.getValue(History.class);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w(TAG, "loadHistory cancelled", databaseError.toException());
-            }
-        };
-        historyReference.addValueEventListener(postListener);
-        // [END post_value_event_listener]
-    }
 
 
 }
