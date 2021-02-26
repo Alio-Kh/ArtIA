@@ -41,7 +41,7 @@
     <string name="log_in_cancelled">Log in cancelled</string>
     <string name="logged_in">Logged in</string>
     <string name="no_internet_connection">No internet connection</string>
-    <string name="unknown_error">An error has occured</string>
+    <string name="unknown_error">An error has occurred</string>
     <string name="log_out">Log out</string>
     <string name="log_in">Log in</string>
     <string name="account_deleted">Account deleted</string>
@@ -78,5 +78,7 @@
     <string name="new_motif">Nouveau motif</string>
     <string name="telecharger">Télécharger</string>
     <string name="no_match_found">No match found.</string>
+    <string name="no_pattern_message">You haven\'t add any pattern yet!</string>
+    <string name="List_patterns">List patterns</string>
 
 </resources>
