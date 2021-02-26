@@ -20,9 +20,13 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.moisegui.artia.data.model.History;
 import com.moisegui.artia.data.model.Motif;
 import com.moisegui.artia.filters.ar.ARFilter;
 import com.moisegui.artia.filters.ar.ImageDetectionFilter;
+import com.moisegui.artia.service.HistoryService;
 import com.moisegui.artia.services.MotifCallback;
 import com.moisegui.artia.services.MotifService;
 import com.squareup.picasso.Picasso;
@@ -38,6 +42,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -123,7 +128,7 @@ public class ShowPhoto extends AppCompatActivity {
                     Mat image = new Mat(bmp.getWidth(), bmp.getHeight(), CvType.CV_8UC4);
                     Utils.bitmapToMat(bmp, image);
 
-                    new ImageInitAsyncTask().execute(image);
+                    new ImageDetectionAsyncTask().execute(image);
 
                 }
             }
@@ -132,7 +137,7 @@ public class ShowPhoto extends AppCompatActivity {
 
     int taskStatus = 0;
 
-    final class ImageInitAsyncTask extends AsyncTask<Mat, String, Mat> {
+    final class ImageDetectionAsyncTask extends AsyncTask<Mat, String, Map<String, Object>> {
 
         @Override
         protected void onPreExecute() {
@@ -151,10 +156,10 @@ public class ShowPhoto extends AppCompatActivity {
         }
 
         @Override
-        protected Mat doInBackground(Mat... mats) {
+        protected Map<String, Object> doInBackground(Mat... mats) {
             Mat image = mats[0];
 
-            Map<String, Mat> result = mFilter.recherche(
+            Map<String, Object> result = mFilter.recherche(
                     image, image);
 
             Set<String> cles = result.keySet();
@@ -162,21 +167,23 @@ public class ShowPhoto extends AppCompatActivity {
             Log.v("******* RESULT ********", cles.toString());
 
             if (cles.contains("SUCCESS")) {
-                image = result.get("SUCCESS");
-            } else image = null;
+                return result;
+            } else return null;
 
-            return image;
         }
 
         @Override
-        protected void onPostExecute(Mat result) {
+        protected void onPostExecute(Map<String, Object> result) {
             if (result == null) {
                 Toast.makeText(ShowPhoto.this, R.string.no_match_found, Toast.LENGTH_LONG).show();
             } else {
+
+                Mat image = (Mat) result.get("SUCCESS");
+
                 Uri imageUri = Uri.fromFile(file);
                 Bitmap bmp = getBitmap(imageUri);
 
-                Utils.matToBitmap(result, bmp);
+                Utils.matToBitmap(image, bmp);
 
                 Uri uri = getImageUri(getApplicationContext(), bmp);
 
@@ -189,12 +196,14 @@ public class ShowPhoto extends AppCompatActivity {
                         .into(img);
 
                 //TODO: Show the motif details under the picture at the place of the buttons
-//                Picasso.get()
-//                        .load(motif.getImage())
-//                        .into(imgMotif);
+                Motif motif = (Motif) result.get("motif");
 
-                motifTitle.setText("Titre du motif");
-                motifDescription.setText("Description du motif");
+                Picasso.get()
+                        .load(motif.getMotifImageSrc())
+                        .into(imgMotif);
+
+                motifTitle.setText(motif.getMotifName());
+                motifDescription.setText(motif.getMotifDescription());
 
                 resultCard.setVisibility(View.VISIBLE);
 
@@ -211,6 +220,28 @@ public class ShowPhoto extends AppCompatActivity {
 //            }
             progressBar.setVisibility(View.GONE);
             taskStatus = 0;
+        }
+    }
+
+    final class HistorySaverAsyncTask extends AsyncTask<Motif, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Motif... motifs) {
+            Motif motif = motifs[0];
+
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            FirebaseUser user = auth.getCurrentUser();
+
+            if (user == null) return null;
+
+            History history = new History(new Date().toString(), user.getUid(), motif.getMotifID());
+
+            HistoryService service = new HistoryService();
+            String historyId = service.add(history);
+
+            if (historyId != null) Log.v(TAG, "New History added");
+
+            return null;
         }
     }
 
