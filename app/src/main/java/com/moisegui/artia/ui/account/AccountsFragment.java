@@ -51,14 +51,14 @@ public class AccountsFragment extends Fragment {
     TextView textView;
     ConstraintLayout notConnectedView;
     ScrollView settingsView;
-    Button btnLogout;
+    TextView btnLogout;
     Button btnUpdateAccount;
     EditText emailEditText;
     EditText nameEditText;
     EditText oldPassEditText;
     EditText newPassEditText;
 
-    Button btnAdmin;
+   TextView btnAdmin;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -81,7 +81,7 @@ public class AccountsFragment extends Fragment {
         notConnectedView = root.findViewById(R.id.not_connected_view);
         settingsView = root.findViewById(R.id.settings_view);
         btnLogin = root.findViewById(R.id.btnConnexion);
-        btnLogout = root.findViewById(R.id.btnLogOut);
+        btnLogout = (TextView)root.findViewById(R.id.btnLogOut);
         btnUpdateAccount = root.findViewById(R.id.btnUpdateAccount);
         emailEditText = root.findViewById(R.id.emailEditText);
         nameEditText = root.findViewById(R.id.nameEditText);
@@ -115,7 +115,7 @@ public class AccountsFragment extends Fragment {
             }
         });
 
-        btnAdmin = root.findViewById(R.id.btn_admin);
+        btnAdmin = (TextView)root.findViewById(R.id.btn_admin);
 
         if (user != null) {
             AdminService.findAll(new MyCallback() {
