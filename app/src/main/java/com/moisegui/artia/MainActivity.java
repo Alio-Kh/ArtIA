@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user =auth.getCurrentUser();
-        //AdminService.addAdmin("1",user.getUid());
+        //AdminService.addAdmin(user.getUid(),user.getUid());
 
     }
 

@@ -57,9 +57,9 @@ public class ListMotifsFragment extends Fragment {
     TextInputLayout signification;
     Button telecharger;
     ImageView new_motif;
-    final int REQUEST_CODE = 1;
     private final int FILE_CHOOSER_REQUEST = 112;
     String picturePath;
+    TextView txt_empty_list;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,6 +70,8 @@ public class ListMotifsFragment extends Fragment {
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
         root = localInflater.inflate(R.layout.fragment_list_motifs, container, false);
         listMotifs = root.findViewById(R.id.listMotifs);
+        txt_empty_list = root.findViewById(R.id.txt_empty_list_motif);
+        listMotifs.setEmptyView(txt_empty_list);
 
         MotifService.findAll(new MotifCallback() {
             @Override
