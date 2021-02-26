@@ -78,7 +78,5 @@
     <string name="new_motif">Nouveau motif</string>
     <string name="telecharger">Télécharger</string>
     <string name="no_match_found">No match found.</string>
-    <string name="no_pattern_message">You haven\'t add any pattern yet!</string>
-    <string name="List_patterns">List patterns</string>
 
 </resources>

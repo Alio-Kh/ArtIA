@@ -4,4 +4,14 @@
     <color name="colorPrimaryDark">#7e4b10</color>
 <!--    <color name="colorPrimaryDark">#e1a560</color>-->
     <color name="colorAccent">#ae6817</color>
+    <color name="themeColor">#CA791D</color>
+    <color name="darkTextColor">#020000</color>
+    <color name="contentTextColor">#020000</color>
+    <color name="register_bk_color">#d9a160</color>
+    <color name="login_bk_color">#fff</color>
+    <color name="whiteTextColor">#fff</color>
+    <color name="primaryTextColor">#CA791D</color>
+
+
+    <color name="bg_button_login">#CA791D</color>
 </resources>
