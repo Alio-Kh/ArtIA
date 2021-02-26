@@ -5,12 +5,18 @@ import android.content.Context;
 import android.database.AbstractWindowedCursor;
 import android.database.Cursor;
 import android.database.CursorWindow;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build.VERSION_CODES;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
-import com.moisegui.artia.SqlTable;
+import com.moisegui.artia.MotifContrat;
+import com.moisegui.artia.MotifDbHelper;
+import com.moisegui.artia.data.model.Motif;
 
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
@@ -32,9 +38,9 @@ import org.opencv.core.Scalar;
 import org.opencv.features2d.DescriptorExtractor;
 import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
-import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,6 +58,7 @@ public final class ImageDetectionFilter implements ARFilter {
     // The reference image (this detector's target).
     private Mat mReferenceImage;
     List<Mat> mReferencesImage = new ArrayList<Mat>();
+    List<Motif> motifList = new ArrayList<>();
     List<Mat> dbReferencesImages = new ArrayList<Mat>();
     // Features of the reference image.
     private final MatOfKeyPoint mReferenceKeypoints =
@@ -139,17 +146,7 @@ public final class ImageDetectionFilter implements ARFilter {
         // It is loaded in BGR (blue, green, red) format.
 
 
-        SqlTable sql = new SqlTable(context, "imgs", null, 1);
-
-        sql.deleteDb();
-
-        for (int i = 0; i < referenceImageResourceIDs.length; i++) {
-
-            sql.dbput("hello" + i, Utils.loadResource(context,
-                    referenceImageResourceIDs[i],
-                    Imgcodecs.CV_LOAD_IMAGE_COLOR));
-            Log.i(TAG, "That Works" + i);
-        }
+        MotifDbHelper sql = new MotifDbHelper(context);
 
         Cursor cursor = sql.dbget();
         CursorWindow cw = new CursorWindow("test", 100 * 1024 * 1024);
@@ -162,16 +159,28 @@ public final class ImageDetectionFilter implements ARFilter {
             cursor.moveToFirst();
 
         while (cursor.isAfterLast() == false) {
-            int t = cursor.getInt(0);
-            int w = cursor.getInt(1);
-            int h = cursor.getInt(2);
-            byte[] p = cursor.getBlob(3);
+            int t = cursor.getInt(cursor.getColumnIndex(MotifContrat.MotifTable.t));
+            int w = cursor.getInt(cursor.getColumnIndex(MotifContrat.MotifTable.w));
+            int h = cursor.getInt(cursor.getColumnIndex(MotifContrat.MotifTable.h));
+            byte[] p = cursor.getBlob(cursor.getColumnIndex(MotifContrat.MotifTable.pix));
+            Motif motif = new Motif(
+                    cursor.getString(cursor.getColumnIndex(MotifContrat.MotifTable.motifID)),
+                    cursor.getString(cursor.getColumnIndex(MotifContrat.MotifTable.motifName)),
+                    cursor.getString(cursor.getColumnIndex(MotifContrat.MotifTable.motifDescription)),
+                    cursor.getString(cursor.getColumnIndex(MotifContrat.MotifTable.motifImageSrc))
+            );
+
             Mat m = new Mat(h, w, t);
             m.put(0, 0, p);
+
             dbReferencesImages.add(m);
+            motifList.add(motif);
+            Log.i(TAG, "Motif" + m.toString());
             Log.i(TAG, "Images Mat Blobs" + m.toString());
             cursor.moveToNext();
         }
+
+        Log.i(TAG, "TOus les motifs" + motifList.toString());
 
 
         // m = new Mat(200,400, CvType.CV_8UC3, new Scalar(0,100,0));
@@ -190,6 +199,36 @@ public final class ImageDetectionFilter implements ARFilter {
 
 */
 //        mCameraProjectionAdapter = cameraProjectionAdapter;
+    }
+
+    public static void saveMotif(Context context, Motif motif, File file) throws IOException {
+        MotifDbHelper sql = new MotifDbHelper(context);
+
+//        sql.deleteDb();
+
+        BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
+        bmpFactoryOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+        Uri uri = Uri.fromFile(file);
+        Bitmap bmp = getBitmap(context, uri);
+
+        Mat image = new Mat(bmp.getWidth(), bmp.getHeight(), CvType.CV_8UC4);
+        Utils.bitmapToMat(bmp, image);
+
+        sql.dbput(motif, image);
+        Log.i("TAG", "That Works");
+    }
+
+    public static Bitmap getBitmap(final Context context, Uri uri) {
+        Bitmap bmp = null;
+        try {
+            bmp = MediaStore.Images.Media.getBitmap(
+                    context.getContentResolver(),
+                    uri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmp;
     }
 
     @Override

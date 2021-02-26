@@ -1,11 +1,9 @@
 package com.moisegui.artia;
 
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +12,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,21 +29,39 @@ import org.opencv.core.Mat;
 import java.io.File;
 import java.io.IOException;
 
-public class SqlTable extends SQLiteOpenHelper {
-    String table = "mydb";
+public class MotifDbHelper extends SQLiteOpenHelper {
+    static final String DB_NAME = "VILLES.DB";
+    static final int DB_VERSION = 1;
 
-    public SqlTable(Context context, CursorFactory factory, int version) {
-        super(context, "imgs", factory, version);
+    private static final String CREATE_TABLE = "create table " + MotifContrat.MotifTable.TABLE_NAME + "("
+            + MotifContrat.MotifTable._ID
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + MotifContrat.MotifTable.t + " INTEGER, "
+            + MotifContrat.MotifTable.w + " INTEGER, "
+            + MotifContrat.MotifTable.h + " INTEGER, "
+            + MotifContrat.MotifTable.pix + " BLOB, "
+            + MotifContrat.MotifTable.motifID + " TEXT UNIQUE, "
+            + MotifContrat.MotifTable.motifName + " TEXT, "
+            + MotifContrat.MotifTable.motifDescription + " TEXT, "
+            + MotifContrat.MotifTable.motifImageSrc + " TEXT);";
+
+    private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + MotifContrat.MotifTable.TABLE_NAME;
+
+    public MotifDbHelper(@Nullable Context context) {
+        super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + table + " (t INTEGER, w INTEGER, h INTEGER, pix BLOB, motifID TEXT UNIQUE, motifName TEXT, motifDescription TEXT, motifImageSrc TEXT);");
+        db.execSQL(CREATE_TABLE);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL(DROP_TABLE);
+        db.execSQL(CREATE_TABLE);
     }
+
 
     public void dbput(Motif motif, Mat m) {
         long nbytes = m.total() * m.elemSize();
@@ -67,7 +84,7 @@ public class SqlTable extends SQLiteOpenHelper {
         values.put("motifDescription", motif.getMotifDescription());
         values.put("motifImageSrc", motif.getMotifImageSrc());
         try {
-            db.insert(table, null, values);
+            db.insert(MotifContrat.MotifTable.TABLE_NAME, null, values);
         } catch (Exception e) {
             // do nothing
         }
@@ -76,13 +93,13 @@ public class SqlTable extends SQLiteOpenHelper {
 
     public void deleteDb() {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(table, null, null);
+        db.delete(MotifContrat.MotifTable.TABLE_NAME, null, null);
     }
 
     public Cursor dbget() {
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns = {"t", "w", "h", "pix", "motifID", "motifName", "motifDescription", "motifImageSrc"};
-        Cursor cursor = db.query(table, columns, null,
+        Cursor cursor = db.query(MotifContrat.MotifTable.TABLE_NAME, columns, null,
                 null,//new String[] { name }, // d. selections args
                 null, // e. group by
                 null, // f. having
@@ -101,7 +118,7 @@ public class SqlTable extends SQLiteOpenHelper {
     }
 
     public static void saveMotif(Context context, Motif motif, File file) throws IOException {
-        SqlTable sql = new SqlTable(context, null, 1);
+        MotifDbHelper sql = new MotifDbHelper(context);
 
 //        sql.deleteDb();
 
@@ -158,4 +175,4 @@ public class SqlTable extends SQLiteOpenHelper {
         }
         return bmp;
     }
-};
+}

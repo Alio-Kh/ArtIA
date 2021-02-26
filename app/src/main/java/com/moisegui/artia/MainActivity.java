@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -14,6 +13,13 @@ import androidx.core.content.ContextCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+import com.moisegui.artia.data.model.Motif;
+import com.moisegui.artia.services.MotifCallback;
+import com.moisegui.artia.services.MotifService;
+
+import java.io.IOException;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,13 +55,19 @@ public class MainActivity extends AppCompatActivity {
        // myRef.setValue("Hello, World!");
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser user =auth.getCurrentUser();
+        FirebaseUser user = auth.getCurrentUser();
         //AdminService.addAdmin("1",user.getUid());
 
 //        History history = new History(new Date().toString(), user.getUid(), "motif_1614314768128");
 //        HistoryService service = new HistoryService();
 //        service.add(history);
 
+    }
+
+    private void enablePersistence() {
+        // [START rtdb_enable_persistence]
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        // [END rtdb_enable_persistence]
     }
 
     // To navigate from Main Acticity to Search Activity (for pattern detection)
@@ -69,6 +81,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        MotifService.findAll(new MotifCallback() {
+            @Override
+            public void onCallback(List<Motif> motifs) {
+                for (Motif motif : motifs) {
+                    try {
+                        MotifDbHelper.downloadMotifAndSave(getApplicationContext(), motif);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
     }
+
 
 }
