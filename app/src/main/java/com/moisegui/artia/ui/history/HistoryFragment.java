@@ -34,7 +34,7 @@ import java.util.List;
 public class HistoryFragment extends Fragment {
 
     //
-    private HistoryService historyService = new HistoryService();
+    private HistoryService historyService;
 
     private HistoriesViewModel historiesViewModel;
 
@@ -58,6 +58,7 @@ public class HistoryFragment extends Fragment {
     Button btnLogout;
 
     ListView lv;
+    TextView emptyTextView;
 
 
 
@@ -78,7 +79,7 @@ public class HistoryFragment extends Fragment {
         btnLogin = root.findViewById(R.id.btnConnexion);
 
         lv = root.findViewById(R.id.lv);
-        TextView textView = root.findViewById(R.id.enty_list_text);
+        emptyTextView = root.findViewById(R.id.enty_list_text);
         lv.setEmptyView(textView);
 
         auth = FirebaseAuth.getInstance();
@@ -156,16 +157,21 @@ public class HistoryFragment extends Fragment {
         FirebaseUser user = auth.getCurrentUser();
 
         if (user != null) {
+            historyService = new HistoryService();
             // already signed in
             historyService.findAll(root, lv);
 
             lv.setVisibility(View.VISIBLE);
+            lv.setEmptyView(emptyTextView);
+//            emptyTextView.setVisibility(View.VISIBLE);
             notConnectedView.setVisibility(View.INVISIBLE);
 
         } else {
             // not signed in
             notConnectedView.setVisibility(View.VISIBLE);
             lv.setVisibility(View.INVISIBLE);
+            emptyTextView.setVisibility(View.INVISIBLE);
+
         }
     }
 

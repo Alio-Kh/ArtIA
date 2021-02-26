@@ -2,14 +2,9 @@ package com.moisegui.artia.services;
 
 import android.net.Uri;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,14 +15,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.moisegui.artia.data.model.Admin;
 import com.moisegui.artia.data.model.Motif;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MotifService {
     private static DatabaseReference mMotifReference = FirebaseDatabase.getInstance().getReference("motifs");
@@ -98,6 +92,27 @@ public class MotifService {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.w("MotifService", "onCancelled: " + error.getMessage());
+            }
+        });
+    }
+
+    public static void deleteByLibelle(String libelle) {
+
+        Query motifsQuery = mMotifReference.orderByChild("motifName").equalTo(libelle);
+
+        motifsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot motifSnapshot : dataSnapshot.getChildren()) {
+                    motifSnapshot.getRef().removeValue();
+                }
+
+                Log.i("MotifService", "Pattern: " + libelle + " deleted successfully");
+            }
+
+            @Override
+            public void onCancelled(@NotNull DatabaseError databaseError) {
+                Log.e("MotifService", "onCancelled: ", databaseError.toException());
             }
         });
     }

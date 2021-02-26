@@ -25,10 +25,9 @@ import java.util.List;
 
 public class HistoryService {
 
-    FirebaseAuth auth = FirebaseAuth.getInstance();
-    ;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    FirebaseUser user = auth.getCurrentUser();
+    FirebaseAuth auth;
+    FirebaseDatabase database;
+    FirebaseUser user;
     DatabaseReference historyReference;
     private static final String TAG = "ReadAndWriteSnippets";
 
@@ -44,6 +43,9 @@ public class HistoryService {
     AppAdapter appAdapter;
 
     public HistoryService() {
+        auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        user = auth.getCurrentUser();
         historyReference = database.getReference().child("Histories").child("UserIds").child(user.getUid());
         MotifService.findAll(new MotifCallback() {
             @Override
