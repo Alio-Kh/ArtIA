@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -20,6 +21,11 @@ import com.moisegui.artia.services.MotifService;
 
 import java.io.IOException;
 import java.util.List;
+import com.moisegui.artia.data.model.History;
+import com.moisegui.artia.service.HistoryService;
+import com.moisegui.artia.services.AdminService;
+
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
        // myRef.setValue("Hello, World!");
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
+        FirebaseUser user =auth.getCurrentUser();
         //AdminService.addAdmin("1",user.getUid());
 
 //        History history = new History(new Date().toString(), user.getUid(), "motif_1614314768128");
@@ -96,6 +102,5 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
 
 }

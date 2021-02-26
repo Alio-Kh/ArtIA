@@ -35,6 +35,7 @@ public class HistoryService {
     static List<Motif> motifList = new ArrayList<>();
 
     List<String> titles_list = new ArrayList<>();
+    List<String> historyIDs_list = new ArrayList<>();
     List<String> images_list = new ArrayList<>();
     List<String> dates_list = new ArrayList<>();
     List<String> desc_list = new ArrayList<>();
@@ -79,6 +80,7 @@ public class HistoryService {
                 images_list.clear();
                 dates_list.clear();
                 desc_list.clear();
+                historyIDs_list.clear();
                 for (DataSnapshot dataSnapshot_ : dataSnapshot.getChildren()) {
                     System.out.println(dataSnapshot_.getValue());
                     History history = dataSnapshot_.getValue(History.class);
@@ -88,6 +90,7 @@ public class HistoryService {
                     for (Motif motif : motifList) {
                         String motifId = motif.getMotifID();
                         if (motifId.equals(motifIDHistory)) {
+                            historyIDs_list.add(history.getHistoryID());
                             titles_list.add(motif.getMotifName());
                             images_list.add(motif.getMotifImageSrc());
                             dates_list.add(history.getHistorydate());
@@ -95,11 +98,12 @@ public class HistoryService {
                         }
                     }
 
+                    String historyIDs_array[] = historyIDs_list.toArray(new String[0]);
                     String titles_array[] = titles_list.toArray(new String[0]);
                     String images_array[] = images_list.toArray(new String[0]);
                     String date_array[] = dates_list.toArray(new String[0]);
                     String desc_array[] = desc_list.toArray(new String[0]);
-                    appAdapter = new AppAdapter(root.getContext(), images_array, titles_array, date_array, desc_array);
+                    appAdapter = new AppAdapter(root.getContext(), images_array, titles_array, date_array, desc_array,historyIDs_array);
                     lv.setAdapter(appAdapter);
 
                 }
