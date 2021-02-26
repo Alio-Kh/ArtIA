@@ -1,5 +1,7 @@
 package com.moisegui.artia.ui.admin;
 
+import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,7 +9,13 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.Bundle;
+
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.fragment.app.Fragment;
+
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,7 +41,9 @@ import com.moisegui.artia.data.model.Motif;
 import com.moisegui.artia.services.MotifCallback;
 import com.moisegui.artia.services.MotifService;
 import com.moisegui.artia.services.MyCallback;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,10 +52,7 @@ public class ListMotifsFragment extends Fragment {
 
     View root;
     public Context context;
-    ArrayList<Items> items = new ArrayList<>();
     ListView listMotifs;
-    String libelles[] = {"motif1", "motif2", "motif3", "motif4", "motif5", "motif6", "motif7"};
-    int images[] = {R.drawable.camera_icon, R.drawable.camera_icon, R.drawable.camera_icon};
 
     View alertDialogView;
     MaterialAlertDialogBuilder materialAlertDialogBuilder;
@@ -53,7 +60,7 @@ public class ListMotifsFragment extends Fragment {
     TextInputLayout signification;
     Button telecharger;
     ImageView new_motif;
-    final int REQUEST_CODE = 1;
+
     private final int FILE_CHOOSER_REQUEST = 112;
     String picturePath;
     TextView txt_empty_list;
@@ -67,7 +74,6 @@ public class ListMotifsFragment extends Fragment {
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
         root = localInflater.inflate(R.layout.fragment_list_motifs, container, false);
         listMotifs = root.findViewById(R.id.listMotifs);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(root.getContext(), R.layout.item_motif, R.id.lib_motif, libelles);
         txt_empty_list = root.findViewById(R.id.txt_empty_list_motif);
         listMotifs.setEmptyView(txt_empty_list);
 
@@ -82,19 +88,10 @@ public class ListMotifsFragment extends Fragment {
 
         materialAlertDialogBuilder = new MaterialAlertDialogBuilder(root.getContext());
 
-        listMotifs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(context, ItemResultActivity.class);
-                intent.putExtra("image", images[position]);
-                intent.putExtra("libelles", libelles[position]);
+;
 
-                context.startActivity(intent);
-            }
-        });
-
-        FloatingActionButton captureButton = (FloatingActionButton) root.findViewById(R.id.btn_add);
-        captureButton.setOnClickListener(
+        FloatingActionButton add_btn = (FloatingActionButton) root.findViewById(R.id.btn_add);
+        add_btn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -107,6 +104,8 @@ public class ListMotifsFragment extends Fragment {
 
         return root;
     }
+
+
 
     public void launchAlertDialog() {
         libelle = alertDialogView.findViewById(R.id.libelle);
@@ -127,13 +126,15 @@ public class ListMotifsFragment extends Fragment {
                         || picturePath == null) {
                     Toast.makeText(context, "You must fill in all the fields!", Toast.LENGTH_LONG).show();
                 } else {
-                    String libelle_ = libelle.getEditText().getText().toString();
-                    String signification_ = signification.getEditText().getText().toString();
+                    Motif motif = new Motif();
+                    motif.setMotifName(libelle.getEditText().getText().toString());
+                    motif.setMotifDescription(signification.getEditText().getText().toString());
+                    motif.setMotifImageSrc(picturePath);
 
-                    MotifService.addMotif(libelle_, signification_, picturePath, new MyCallback() {
+                    MotifService.addMotif(motif, new MyCallback() {
                         @Override
-                        public void onCallback(List<String> values) {
-                            MotifService.saveMotif(values);
+                        public void onCallback(Motif motif) {
+                            MotifService.saveMotif(motif);
                             Log.i("ListMotifFragment", "onCallback save motif");
                         }
                     });
@@ -198,7 +199,6 @@ public class ListMotifsFragment extends Fragment {
             new_motif.setImageBitmap(thumbnail);
             new_motif.setVisibility(View.VISIBLE);
             telecharger.setVisibility(View.GONE);
-            //BitMapToString(thumbnail);
         }
     }
 

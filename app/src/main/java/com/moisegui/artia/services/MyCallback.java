@@ -1,7 +1,9 @@
 package com.moisegui.artia.services;
 
+import com.moisegui.artia.data.model.Motif;
+
 import java.util.List;
 
 public interface MyCallback {
-    void onCallback(List<String> values);
+    void onCallback(Motif motif);
 }
