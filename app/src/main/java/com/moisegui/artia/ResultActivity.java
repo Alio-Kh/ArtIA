@@ -1,13 +1,9 @@
 package com.moisegui.artia;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,8 +25,8 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
-        image = findViewById(R.id.image_result_fragment);
-        title = findViewById(R.id.title_result_fragment);
+        image = findViewById(R.id.image_motif);
+        title = findViewById(R.id.title_motif);
 
 
         origin = findViewById(R.id.origin_result_fragment);

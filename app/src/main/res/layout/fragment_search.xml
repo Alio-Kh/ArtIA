@@ -4,40 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:opencv="http://schemas.android.com/apk/res-auto"
     android:screenOrientation="portrait"
     tools:context=".ui.search.SearchFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_add"
+        android:id="@+id/button_capture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:src="@drawable/camera_icon"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.85" />
 
-    <org.opencv.android.JavaCameraView
-        android:id="@+id/tutorial1_activity_java_surface_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:screenOrientation="portrait"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        opencv:camera_id="any"
-        opencv:show_fps="true" />
-
-    <TextView
-        android:id="@+id/cameraErrorTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+    <FrameLayout
+        android:id="@+id/camera_preview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

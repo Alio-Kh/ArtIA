@@ -33,7 +33,7 @@
                 <!-- Title, secondary and supporting text -->
 
                 <TextView
-                    android:id="@+id/title_result_fragment"
+                    android:id="@+id/title_motif"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="12dp"
@@ -49,7 +49,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/top_title" />
 
                 <ImageView
-                    android:id="@+id/image_result_fragment"
+                    android:id="@+id/image_motif"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
@@ -65,7 +65,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.512"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/image_result_fragment">
+                    app:layout_constraintTop_toBottomOf="@+id/image_motif">
 
                     <LinearLayout
                         android:layout_width="match_parent"
