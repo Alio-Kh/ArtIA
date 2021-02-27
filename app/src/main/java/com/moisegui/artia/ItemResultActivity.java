@@ -114,6 +114,7 @@ public class ItemResultActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         MotifService.deleteById(motif.getMotifID());
+                        finish();
                     }
                 });
                 // create and show the alert dialog
