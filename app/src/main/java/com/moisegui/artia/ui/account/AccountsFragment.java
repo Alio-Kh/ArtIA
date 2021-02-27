@@ -121,8 +121,8 @@ public class AccountsFragment extends Fragment {
             AdminService.findAll(new AdminCallback() {
                 @Override
                 public void onCallback(List<String> values) {
-                    if (!values.contains(user.getUid()))
-                        btnAdmin.setVisibility(View.GONE);
+                    if (values.contains(user.getUid()))
+                        btnAdmin.setVisibility(View.VISIBLE);
                 }
             });
 

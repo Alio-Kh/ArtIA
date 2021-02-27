@@ -217,7 +217,8 @@
                     android:text="@string/go_admin_panel"
                     android:textAlignment="center"
                     android:textColor="@color/bg_button_login"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:visibility="gone"/>
                 <TextView
                     android:id="@+id/btnLogOut"
                     style="@style/viewParent.headerText.NoMode"

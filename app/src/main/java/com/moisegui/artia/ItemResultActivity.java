@@ -44,6 +44,7 @@ public class ItemResultActivity extends AppCompatActivity {
     TextInputLayout libelle;
     TextInputLayout signification;
     ImageView new_motif;
+    Button telecharger;
 
     private final int FILE_CHOOSER_REQUEST = 112;
     String picturePath;
@@ -133,6 +134,8 @@ public class ItemResultActivity extends AppCompatActivity {
         libelle = alertDialogView.findViewById(R.id.libelle);
         signification = alertDialogView.findViewById(R.id.signification);
         new_motif = alertDialogView.findViewById(R.id.new_motif);
+        telecharger = alertDialogView.findViewById(R.id.telecharger);
+        telecharger.setVisibility(View.GONE);
 
         libelle.getEditText().setText(motif.getMotifName());
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
