@@ -93,6 +93,7 @@
     <string name="no_entry_yet">No entry found.\nMake some researches to fill this section</string>
     <string name="the_item">the item </string>
     <string name="success_deleted"> was successfully deleted </string>
+    <string name="go_back">Go back</string>
 
 
 </resources>

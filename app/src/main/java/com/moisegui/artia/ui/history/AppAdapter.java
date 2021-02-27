@@ -3,20 +3,17 @@ package com.moisegui.artia.ui.history;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Toast;
 
-
-import com.moisegui.artia.ResultActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.moisegui.artia.R;
+import com.moisegui.artia.ResultActivity;
 import com.moisegui.artia.service.HistoryService;
 import com.squareup.picasso.Picasso;
-import com.moisegui.artia.ResultActivity;
 
 public class AppAdapter extends BaseAdapter {
 
@@ -80,8 +77,8 @@ this.hist_ids = hist_ids;
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String history_id = hist_ids[position];
-                    historyService.deleteById(history_id);
-                        Toast.makeText(context, context.getString(R.string.the_item)+titles[position]+context.getString(R.string.success_deleted), Toast.LENGTH_SHORT).show();
+                        historyService.deleteById(history_id);
+                        Toast.makeText(context, context.getString(R.string.the_item) + " " + titles[position] + " " + context.getString(R.string.success_deleted), Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.show();

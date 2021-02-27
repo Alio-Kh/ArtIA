@@ -81,6 +81,7 @@ public class ShowPhoto extends AppCompatActivity {
         motifTitle = findViewById(R.id.title_result_fragment);
         motifDescription = findViewById(R.id.motif_description);
 
+
         img = findViewById(R.id.img);
 
         Bundle bundle = this.getIntent().getExtras();
@@ -189,11 +190,11 @@ public class ShowPhoto extends AppCompatActivity {
 
                 Toast.makeText(ShowPhoto.this, R.string.a_motif_found, Toast.LENGTH_SHORT).show();
 
-                Picasso.get()
-                        .load(uri)
-                        .fit()
-                        .rotate(90)
-                        .into(img);
+//                Picasso.get()
+//                        .load(uri)
+//                        .fit()
+//                        .rotate(90)
+//                        .into(img);
 
                 //TODO: Show the motif details under the picture at the place of the buttons
                 Motif motif = (Motif) result.get("motif");
@@ -209,6 +210,7 @@ public class ShowPhoto extends AppCompatActivity {
 
 
                 //TODO Create an async Task to save it to the History of the current user
+                new HistorySaverAsyncTask().execute(motif);
             }
 
             btnCancel.setEnabled(true);

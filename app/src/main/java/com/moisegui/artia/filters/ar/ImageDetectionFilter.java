@@ -34,7 +34,6 @@ import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.MatOfPoint3f;
 import org.opencv.core.Point;
 import org.opencv.core.Point3;
-import org.opencv.core.Scalar;
 import org.opencv.features2d.DescriptorExtractor;
 import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
@@ -253,6 +252,7 @@ public final class ImageDetectionFilter implements ARFilter {
                 mSceneDescriptors);
 
 
+        Log.v("TAILLE DE LA DB", String.valueOf(dbReferencesImages.size()));
 //////////////Check in local
         for (int i = 0; i < dbReferencesImages.size(); i++) {
 
@@ -341,6 +341,7 @@ public final class ImageDetectionFilter implements ARFilter {
 
 
             if (mTargetFound) {
+                Log.v("FOUND MATCH", "Trouvé");
                 Map<String, Object> result = new HashMap<>();
                 result.put("SUCCESS", res);
                 result.put("motif", motifList.get(i));
@@ -350,6 +351,7 @@ public final class ImageDetectionFilter implements ARFilter {
         }
 
 
+        Log.v("FAIL", "FAIL");
         Map<String, Object> result = new HashMap<>();
         result.put("FAIL", src);
         return result;
@@ -453,153 +455,10 @@ public final class ImageDetectionFilter implements ARFilter {
             return sourceMat;
         }
 
-        final double[] sceneCorner0 =
-                mCandidateSceneCorners.get(0, 0);
-        final double[] sceneCorner1 =
-                mCandidateSceneCorners.get(1, 0);
-        final double[] sceneCorner2 =
-                mCandidateSceneCorners.get(2, 0);
-        final double[] sceneCorner3 =
-                mCandidateSceneCorners.get(3, 0);
-        mSceneCorners2D.fromArray(
-                new Point(sceneCorner0[0], sceneCorner0[1]),
-                new Point(sceneCorner1[0], sceneCorner1[1]),
-                new Point(sceneCorner2[0], sceneCorner2[1]),
-                new Point(sceneCorner3[0], sceneCorner3[1]));
-
-        Imgproc.polylines(destinationMat, null, true, new Scalar(0, 255, 0), 4);
-
-//        final MatOfDouble projection = mCameraProjectionAdapter.getProjectionCV();
-
-        float[] sceneCornersData = new float[(int) (mCandidateSceneCorners.total() * mCandidateSceneCorners.channels())];
-        mCandidateSceneCorners.get(0, 0, sceneCornersData);
-        //-- Draw lines between the corners (the mapped object in the scene - image_2 )
-        Imgproc.line(destinationMat, new Point(sceneCornersData[0] + sourceMat.cols(), sceneCornersData[1]),
-                new Point(sceneCornersData[2] + sourceMat.cols(), sceneCornersData[3]), new Scalar(0, 255, 0), 4);
-        Imgproc.line(destinationMat, new Point(sceneCornersData[2] + sourceMat.cols(), sceneCornersData[3]),
-                new Point(sceneCornersData[4] + sourceMat.cols(), sceneCornersData[5]), new Scalar(0, 255, 0), 4);
-        Imgproc.line(destinationMat, new Point(sceneCornersData[4] + sourceMat.cols(), sceneCornersData[5]),
-                new Point(sceneCornersData[6] + sourceMat.cols(), sceneCornersData[7]), new Scalar(0, 255, 0), 4);
-        Imgproc.line(destinationMat, new Point(sceneCornersData[6] + sourceMat.cols(), sceneCornersData[7]),
-                new Point(sceneCornersData[0] + sourceMat.cols(), sceneCornersData[1]), new Scalar(0, 255, 0), 4);
 
         mTargetFound = true;
         return destinationMat;
     }
-
-//    @Override
-//    public void apply(final Mat src, Mat dst) {
-//        destinationMat = dst;
-//        sourceMat = src;
-//
-//        // Convert the scene to grayscale.
-//        Imgproc.cvtColor(src, mGraySrc, Imgproc.COLOR_RGBA2GRAY);
-//
-//        // Detect the scene features, compute their descriptors,
-//        // and match the scene descriptors to reference descriptors.
-//        mFeatureDetector.detect(mGraySrc, mSceneKeypoints);
-//        mDescriptorExtractor.compute(mGraySrc, mSceneKeypoints,
-//                mSceneDescriptors);
-//
-//
-////////////////Check in local
-//        for (int i = 0; i < dbReferencesImages.size(); i++) {
-//
-//            mReferenceImage = dbReferencesImages.get(i);
-//            // Create grayscale and RGBA versions of the reference image.
-//            final Mat referenceImageGray = new Mat();
-//            Imgproc.cvtColor(mReferenceImage, referenceImageGray,
-//                    Imgproc.COLOR_BGR2GRAY);
-//            Imgproc.cvtColor(mReferenceImage, mReferenceImage,
-//                    Imgproc.COLOR_BGR2RGBA);
-//
-//
-//            // Store the reference image's corner coordinates, in pixels.
-//            mReferenceCorners.put(0, 0,
-//                    new double[]{0.0, 0.0});
-//            mReferenceCorners.put(1, 0,
-//                    new double[]{referenceImageGray.cols(), 0.0});
-//            mReferenceCorners.put(2, 0,
-//                    new double[]{referenceImageGray.cols(),
-//                            referenceImageGray.rows()});
-//            mReferenceCorners.put(3, 0,
-//                    new double[]{0.0, referenceImageGray.rows()});
-//            Log.i(TAG, "mReferenceCorners  " + mReferenceCorners);
-//
-//
-//            // Compute the image's width and height in real units, based
-//            // on the specified real size of the image's smaller
-//            // dimension.
-//            final double aspectRatio =
-//                    (double) referenceImageGray.cols() /
-//                            (double) referenceImageGray.rows();
-//            final double halfRealWidth;
-//            final double halfRealHeight;
-//            if (referenceImageGray.cols() > referenceImageGray.rows()) {
-//                halfRealHeight = 0.5f * realSize;
-//                halfRealWidth = halfRealHeight * aspectRatio;
-//            } else {
-//                halfRealWidth = 0.5f * realSize;
-//                halfRealHeight = halfRealWidth / aspectRatio;
-//            }
-//
-//
-//            // Define the real corner coordinates of the printed image
-//            // so that it normally lies in the xy plane (like a painting
-//            // or poster on a wall).
-//            // That is, +z normally points out of the page toward the
-//            // viewer.
-//            mReferenceCorners3D.fromArray(
-//                    new Point3(-halfRealWidth, -halfRealHeight, 0.0),
-//                    new Point3(halfRealWidth, -halfRealHeight, 0.0),
-//                    new Point3(halfRealWidth, halfRealHeight, 0.0),
-//                    new Point3(-halfRealWidth, halfRealHeight, 0.0));
-//            Log.i(TAG, "mReferenceCorners3D  " + mReferenceCorners3D);
-//
-//            // Detect the reference features and compute their
-//            // descriptors.
-//            mFeatureDetector.detect(referenceImageGray,
-//                    mReferenceKeypoints);
-//            Log.i(TAG, "mReferenceKeypoints  " + mReferenceKeypoints);
-//
-//            mDescriptorExtractor.compute(referenceImageGray,
-//                    mReferenceKeypoints, mReferenceDescriptors);
-//            Log.i(TAG, "mReferenceDescriptors  " + mReferenceDescriptors);
-//            //  mReferencesImage.add(mReferenceImage);
-//            //  mReferencesCorners.add(mReferenceCorners);
-//            // mReferencesCorners3D.add(mReferenceCorners3D);
-//            //mReferencesKeypoints.add(mReferenceKeypoints);
-//            // mReferencesDescriptors.add(mReferenceDescriptors);
-//
-//            Log.i(TAG, "mReferencesImage " + mReferencesImage);
-//            Log.i(TAG, "mReferencesCorners " + mReferencesCorners);
-//
-//            Log.i(TAG, "mReferencesCorners3D " + mReferencesCorners3D);
-//
-//            Log.i(TAG, "mReferencesKeypoints " + mReferencesKeypoints);
-//
-//            Log.i(TAG, "mReferencesDescriptors " + mReferencesDescriptors);
-//
-//
-//            mDescriptorMatcher.match(mSceneDescriptors,
-//                    mReferenceDescriptors, mMatches);
-//
-//            // Attempt to find the target image's 3D pose in the scene.
-//            dst = findPose();
-//            //draw(src, dst);
-//
-//            if (mTargetFound) {
-//
-//                break;
-//            }
-//
-//        }
-//        // draw(src, dst);
-//
-//        // If the pose has not been found, draw a thumbnail of the
-//        // target image.
-//    }
-
 
     protected void draw(final Mat src, final Mat dst) {
 
