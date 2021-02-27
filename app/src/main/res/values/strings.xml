@@ -94,6 +94,7 @@
     <string name="the_item">the item </string>
     <string name="success_deleted"> was successfully deleted </string>
     <string name="add_new_pattern">Add new pattern</string>
+    <string name="go_back">Go back</string>
 
 
 </resources>

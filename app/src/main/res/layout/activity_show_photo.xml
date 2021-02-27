@@ -60,7 +60,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="60dp"
                             android:backgroundTint="@color/colorPrimary"
-                            android:text="@string/cancel"
+                            android:text="@string/go_back"
                             app:cornerRadius="20dp" />
 
                         <com.google.android.material.button.MaterialButton
@@ -93,8 +93,9 @@
                 android:id="@+id/result_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_marginLeft="8dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginRight="8dp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -122,7 +123,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="12dp"
-                            android:layout_marginTop="-10dp"
+                            android:layout_marginBottom="10dp"
                             android:fontFamily="@font/nunito_bold_italic"
                             android:shadowColor="#222222"
                             android:shadowDx="1"
@@ -141,7 +142,7 @@
 
                             android:adjustViewBounds="true"
                             android:scaleType="centerInside"
-                            android:src="@drawable/motif_bg_1" />
+                            android:src="@drawable/mx_bg_gradient1" />
 
                         <ScrollView
                             android:id="@+id/scrollView3"
@@ -233,7 +234,7 @@
                                         tools:layout_editor_absoluteY="348dp" />
 
                                     <TextView
-                                        android:id="@+id/pattern_space2"
+                                        android:id="@+id/bizare"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/nunito_semibold_italic"

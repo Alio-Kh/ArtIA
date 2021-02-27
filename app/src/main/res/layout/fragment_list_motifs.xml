@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_list"
+    android:background="@drawable/mx_bg_gradient1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.admin.ListMotifsFragment">
@@ -13,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:paddingTop="10dp">
+        android:paddingTop="10dp"
+        android:divider="@null">
 
     </ListView>
 
@@ -37,6 +39,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:text="@string/empty_list_motif"
+        android:textColor="#FFFFFF"
         android:textSize="20sp" />
 
 

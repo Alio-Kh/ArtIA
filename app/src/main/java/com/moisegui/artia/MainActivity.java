@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -14,11 +13,13 @@ import androidx.core.content.ContextCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.moisegui.artia.data.model.History;
-import com.moisegui.artia.service.HistoryService;
-import com.moisegui.artia.services.AdminService;
+import com.google.firebase.database.FirebaseDatabase;
+import com.moisegui.artia.data.model.Motif;
+import com.moisegui.artia.services.MotifCallback;
+import com.moisegui.artia.services.MotifService;
 
-import java.util.Date;
+import java.io.IOException;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,12 +56,18 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user =auth.getCurrentUser();
-        //AdminService.addAdmin("10",user.getUid());
+        //AdminService.addAdmin("1",user.getUid());
 
-      /*History history = new History(new Date().toString(), user.getUid(), "motif_1614315509045");
-      HistoryService service = new HistoryService();
-        service.add(history);*/
+//        History history = new History(new Date().toString(), user.getUid(), "motif_1614314768128");
+//        HistoryService service = new HistoryService();
+//        service.add(history);
 
+    }
+
+    private void enablePersistence() {
+        // [START rtdb_enable_persistence]
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        // [END rtdb_enable_persistence]
     }
 
     // To navigate from Main Acticity to Search Activity (for pattern detection)
@@ -71,6 +78,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(searchAct);
+            }
+        });
+
+
+        MotifService.findAll(new MotifCallback() {
+            @Override
+            public void onCallback(List<Motif> motifs) {
+                MotifDbHelper helper = new MotifDbHelper(getApplicationContext());
+                helper.deleteDb();
+                for (Motif motif : motifs) {
+                    try {
+                        MotifDbHelper.downloadMotifAndSave(getApplicationContext(), motif);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
 
