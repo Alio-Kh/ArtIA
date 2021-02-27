@@ -3,18 +3,19 @@ package com.moisegui.artia.data.model;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 @IgnoreExtraProperties
-public class Motif {
+public class Motif implements Serializable {
 
     private String motifID;
     private String motifName;
     private String motifDescription;
     private String motifImageSrc;
 
-    public Motif() {
+    public Motif(){
     }
 
     public Motif(String motifID, String motifName, String motifDescription, String motifImageSrc) {

@@ -33,6 +33,7 @@ import com.moisegui.artia.services.MotifService;
 import com.moisegui.artia.services.MyCallback;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class CustomAdapter extends ArrayAdapter<Motif> {
@@ -59,13 +60,6 @@ public class CustomAdapter extends ArrayAdapter<Motif> {
         this.objects = objects;
     }
 
-    public CustomAdapter(@NonNull Context context, int resource,@NonNull List<Motif> objects,String picturePath){
-        super(context, resource, objects);
-        this.picturePath=picturePath;
-
-    }
-
-
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
@@ -79,7 +73,8 @@ public class CustomAdapter extends ArrayAdapter<Motif> {
 
         Picasso.get()
                 .load(getItem(position).getMotifImageSrc())
-                .resize(163,141)
+                .fit()
+                .centerCrop()
                 .into(imageView);
         textView.setText(getItem(position).getMotifName());
 
@@ -90,7 +85,6 @@ public class CustomAdapter extends ArrayAdapter<Motif> {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
                 builder.setTitle(context.getString(R.string.delete_the_item) + objects.get(position).getMotifName() + context.getString(R.string.from_your_history));
                 builder.setMessage(R.string.verify_delete);
-//                builder.setIcon();
                 builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -118,14 +112,8 @@ public class CustomAdapter extends ArrayAdapter<Motif> {
             public void onClick(View v) {
 
                 Intent intent = new Intent(context, ItemResultActivity.class);
-//                intent.putExtra("image", images[position]);
-                intent.putExtra("title", objects.get(position).getMotifName());
-                intent.putExtra("image", objects.get(position).getMotifImageSrc());
-                intent.putExtra("desc", objects.get(position).getMotifDescription());
-//                intent.putExtra("description", objects.get(position).getMotifDescription());
-
+                intent.putExtra("motif", (Serializable) objects.get(position));
                 context.startActivity(intent);
-
             }
         });
 

@@ -88,8 +88,6 @@ public class ListMotifsFragment extends Fragment {
 
         materialAlertDialogBuilder = new MaterialAlertDialogBuilder(root.getContext());
 
-;
-
         FloatingActionButton add_btn = (FloatingActionButton) root.findViewById(R.id.btn_add);
         add_btn.setOnClickListener(
                 new View.OnClickListener() {
@@ -115,10 +113,9 @@ public class ListMotifsFragment extends Fragment {
 
         //Building alert dialog
         materialAlertDialogBuilder.setView(alertDialogView);
-        materialAlertDialogBuilder.setTitle("Ajouter un nouveau motif");
-        materialAlertDialogBuilder.setMessage("Nouveau motif");
+        materialAlertDialogBuilder.setTitle(R.string.add_new_pattern);
         materialAlertDialogBuilder.setCancelable(false);
-        materialAlertDialogBuilder.setPositiveButton("Ajouter", new DialogInterface.OnClickListener() {
+        materialAlertDialogBuilder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -142,7 +139,7 @@ public class ListMotifsFragment extends Fragment {
 
             }
         });
-        materialAlertDialogBuilder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+        materialAlertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();

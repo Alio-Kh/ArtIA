@@ -6,8 +6,8 @@
 6
 7    <uses-sdk
 8        android:minSdkVersion="21"
-8-->D:\ADMAX STUFF\IRISI\SEMESTRE 3\ANDROID\GITKECH\PROJECT\ArtIAGit\openCVLibrary340\src\main\AndroidManifest.xml
+8-->C:\Users\21266\Desktop\IRISI S3\Programmation Mobile\Projet\Artia\openCVLibrary340\src\main\AndroidManifest.xml
 9        android:targetSdkVersion="28" />
-9-->D:\ADMAX STUFF\IRISI\SEMESTRE 3\ANDROID\GITKECH\PROJECT\ArtIAGit\openCVLibrary340\src\main\AndroidManifest.xml
+9-->C:\Users\21266\Desktop\IRISI S3\Programmation Mobile\Projet\Artia\openCVLibrary340\src\main\AndroidManifest.xml
 10
 11</manifest>

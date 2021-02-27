@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
+import com.moisegui.artia.data.model.Motif;
+import com.moisegui.artia.services.MotifService;
 import com.squareup.picasso.Picasso;
 
 public class ItemResultActivity extends AppCompatActivity {
@@ -34,15 +36,13 @@ public class ItemResultActivity extends AppCompatActivity {
     View root;
     public Context context;
 
-    private String title_data;
-    private String image_data;
-    private String desc_data;
+
+    private Motif motif;
 
     View alertDialogView;
     MaterialAlertDialogBuilder materialAlertDialogBuilder;
     TextInputLayout libelle;
     TextInputLayout signification;
-    Button telecharger;
     ImageView new_motif;
 
     private final int FILE_CHOOSER_REQUEST = 112;
@@ -66,20 +66,18 @@ public class ItemResultActivity extends AppCompatActivity {
         pattern = findViewById(R.id.pattern_result_fragment);
         desc = findViewById(R.id.desc_result_fragment);
 
-        String origin_ = "origin";
-        String pattern_ = "pattern";
-
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            image_data = bundle.getString("image");
-            title_data = bundle.getString("title");
-//            desc_data = bundle.getString("description");
-            System.out.println(image_data);
-            Picasso.get().load(image_data).placeholder(R.drawable.mx_bg_gradient1).into(image);
-            title.setText(title_data);
-            String desc_ = bundle.getString("desc");
-            pattern.setText(title_data);
-            desc.setText(desc_);
+            motif = (Motif) bundle.getSerializable("motif");
+            Picasso.get()
+                    .load(motif.getMotifImageSrc())
+                    .placeholder(R.drawable.mx_bg_gradient1)
+                    .fit()
+                    .centerCrop()
+                    .into(image);
+            title.setText(motif.getMotifName());
+            pattern.setText(motif.getMotifName());
+            desc.setText(motif.getMotifDescription());
         }
 
 
@@ -101,9 +99,8 @@ public class ItemResultActivity extends AppCompatActivity {
             case R.id.action_delete_button:
                 // setup the alert builder
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle(getApplication().getString(R.string.delete_the_item) + title_data + getApplication().getString(R.string.from_your_history));
+                builder.setTitle(getApplication().getString(R.string.delete_the_item) + motif.getMotifName());
                 builder.setMessage(R.string.verify_delete);
-                /*builder.setIcon(image_data);*/
 
                 // add the buttons
                 builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -115,7 +112,7 @@ public class ItemResultActivity extends AppCompatActivity {
                 builder.setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        MotifService.deleteById(motif.getMotifID());
                     }
                 });
                 // create and show the alert dialog
@@ -123,7 +120,6 @@ public class ItemResultActivity extends AppCompatActivity {
                 dialog.show();
                 return true;
             case R.id.action_update_button:
-
                 launchAlertDialog();
                 return true;
             default:
@@ -136,66 +132,41 @@ public class ItemResultActivity extends AppCompatActivity {
                 .inflate(R.layout.add_motif_custom_dialog, null, false);
         libelle = alertDialogView.findViewById(R.id.libelle);
         signification = alertDialogView.findViewById(R.id.signification);
-        telecharger = alertDialogView.findViewById(R.id.telecharger);
         new_motif = alertDialogView.findViewById(R.id.new_motif);
 
-        libelle.getEditText().setText(title_data);
-//        signification.getEditText().setText();
-
+        libelle.getEditText().setText(motif.getMotifName());
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setView(alertDialogView);
-        alertDialogBuilder.setTitle("Update " + title_data +" pattern");
-        alertDialogBuilder.setMessage("Updating" + title_data);
+        alertDialogBuilder.setTitle("Update " + motif.getMotifName() +" pattern");
+        alertDialogBuilder.setMessage("Updating" + motif.getMotifName());
         alertDialogBuilder.setCancelable(false);
         alertDialogBuilder.setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                Motif motif_updated = new Motif();
+                motif_updated.setMotifID(motif.getMotifID());
 
-                if (libelle.getEditText().getText() == null || signification.getEditText().getText() == null
-                        || picturePath == null) {
-                    Toast.makeText(getApplicationContext(), "You must fill in all the fields!", Toast.LENGTH_LONG).show();
-                } else {
-                    String libelle_ = libelle.getEditText().getText().toString();
-                    String signification_ = signification.getEditText().getText().toString();
-
-//                    MotifService.addMotif(libelle_, signification_, picturePath, new MyCallback() {
-//                        @Override
-//                        public void onCallback(List<String> values) {
-//                            MotifService.saveMotif(values);
-//                            Log.i("ListMotifFragment", "onCallback save motif");
-//                        }
-//                    });
+                if(libelle.getEditText().getText() == null){
+                    motif_updated.setMotifName(motif.getMotifName());
+                }else {
+                    motif_updated.setMotifName(libelle.getEditText().getText().toString());
                 }
 
+                if(signification.getEditText().getText() == null){
+                    motif_updated.setMotifDescription(motif.getMotifDescription());
+                }else {
+                    motif_updated.setMotifDescription(signification.getEditText().getText().toString());
+                }
+                motif_updated.setMotifImageSrc(motif.getMotifImageSrc());
+                MotifService.updateMotif(motif_updated);
             }
+
+
         });
         alertDialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-            }
-        });
-
-        telecharger.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                //Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                //startActivityForResult(intent, REQUEST_CODE);
-
-                try {
-                    Intent i = new Intent(
-                            Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(i, FILE_CHOOSER_REQUEST);
-//                    startActivityForResult(
-//                            Intent.createChooser(intent, "Select a File to Upload"),
-//                            FILE_CHOOSER_REQUEST);
-                } catch (android.content.ActivityNotFoundException ex) {
-                    // Potentially direct the user to the Market with a Dialog
-                    Toast.makeText(getApplicationContext(), "Please install a File Manager.",
-                            Toast.LENGTH_SHORT).show();
-                }
             }
         });
 

@@ -78,7 +78,7 @@ public class MotifService {
             public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
                 Motif motif;
                 motifs.clear();
-                Motif motif = new Motif();
+                motif = new Motif();
                 for (DataSnapshot motifSnapshot : dataSnapshot.getChildren()) {
                     motif = motifSnapshot.getValue(Motif.class);
                     motifs.add(motif);

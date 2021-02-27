@@ -49,7 +49,6 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside"
                     android:src="@drawable/motif_bg_1" />

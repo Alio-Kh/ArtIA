@@ -72,10 +72,10 @@
     <string name="Result">Result</string>
     <string name="should_grant_app_permissions">You should grant all app permissions</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="signification_motif">Signification du motif</string>
-    <string name="libelle_motif">Libelle du motif</string>
-    <string name="new_motif">Nouveau motif</string>
-    <string name="telecharger">Télécharger</string>
+    <string name="signification_motif">Pattern meaning</string>
+    <string name="libelle_motif">Pattern name</string>
+    <string name="new_motif">New pattern</string>
+    <string name="telecharger">Upload</string>
     <string name="add">Add</string>
     <string name="update">Update</string>
     <string name="no_match_found">No match found.</string>
@@ -93,6 +93,7 @@
     <string name="no_entry_yet">No entry found.\nMake some researches to fill this section</string>
     <string name="the_item">the item </string>
     <string name="success_deleted"> was successfully deleted </string>
+    <string name="add_new_pattern">Add new pattern</string>
 
 
 </resources>
