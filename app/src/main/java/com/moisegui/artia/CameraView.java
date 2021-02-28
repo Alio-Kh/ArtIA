@@ -12,7 +12,7 @@ import org.opencv.android.JavaCameraView;
 import java.io.FileOutputStream;
 import java.util.List;
 
-//https://stackoverflow.com/questions/16626343/what-is-the-difference-between-opencv-android-javacameraview-and-opencv-andro
+
 
 public class CameraView extends JavaCameraView implements PictureCallback {
 

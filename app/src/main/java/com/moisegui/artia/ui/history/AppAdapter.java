@@ -17,8 +17,6 @@ import com.squareup.picasso.Picasso;
 
 public class AppAdapter extends BaseAdapter {
 
-    HistoryFragment historyFragment = new HistoryFragment();
-
 HistoryService historyService = new HistoryService();
     Context context;
     String[] images;
@@ -59,15 +57,15 @@ this.hist_ids = hist_ids;
         view = layoutInflater.inflate(R.layout.item_history, null);
         items = new ViewItems(view);
 
-        items.cancel_button_history.setOnClickListener(new View.OnClickListener() {
+        // Button supprimer un element de l'hitrorique
+        // Il lance une boite de dialogue
+        items.delete_button_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
                 builder.setTitle(context.getString(R.string.delete_the_item) + titles[position] + context.getString(R.string.from_your_history));
                 builder.setMessage(R.string.verify_delete);
-                /*String url = images[position];
-                Bitmap bmp = Picasso.get().load(url).get();
-                builder.setIcon(bmp);*/
+
                 builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -84,6 +82,8 @@ this.hist_ids = hist_ids;
                 builder.show();
             }
         });
+
+        // Button pour afficher plus d'information sur un element de l'historique
         items.more_button_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,12 +98,13 @@ this.hist_ids = hist_ids;
 
             }
         });
+
         String url = images[position];
+        // On charge l'image avec la librairie Picasso
         Picasso.get().load(url).placeholder(R.drawable.mx_bg_gradient1).into(items.image_history_item);
         items.title_history_item.setText(titles[position]);
         items.date_history_item.setText(context.getString(R.string.date) + " : " + dates[position]);
         return view;
     }
-
 
 }

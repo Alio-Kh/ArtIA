@@ -30,7 +30,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class MotifDbHelper extends SQLiteOpenHelper {
-    static final String DB_NAME = "VILLES.DB";
+    static final String DB_NAME = "ARTIA.DB";
     static final int DB_VERSION = 1;
 
     private static final String CREATE_TABLE = "create table " + MotifContrat.MotifTable.TABLE_NAME + "("
@@ -106,34 +106,9 @@ public class MotifDbHelper extends SQLiteOpenHelper {
                 null, // g. order by
                 null); // h. limit
 
-
-        // int t = cursor.getInt(0);
-        //int w = cursor.getInt(1);
-        //int h = cursor.getInt(2);
-        // byte[] p = cursor.getBlob(3);
-        //  Mat m = new Mat(h,w,t);
-        // m.put(0,0,p);
-        //  Log.d("dbget("+name+")", m.toString());
         return cursor;
     }
 
-    public static void saveMotif(Context context, Motif motif, File file) throws IOException {
-        MotifDbHelper sql = new MotifDbHelper(context);
-
-//        sql.deleteDb();
-
-        BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
-        bmpFactoryOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;
-
-        Uri uri = Uri.fromFile(file);
-        Bitmap bmp = getBitmap(context, uri);
-
-        Mat image = new Mat(bmp.getWidth(), bmp.getHeight(), CvType.CV_8UC4);
-        Utils.bitmapToMat(bmp, image);
-
-        sql.dbput(motif, image);
-        Log.i("TAG", "That Works");
-    }
 
     public static void downloadMotifAndSave(Context context, Motif motif) throws IOException {
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -162,17 +137,5 @@ public class MotifDbHelper extends SQLiteOpenHelper {
             }
         });
         // [END download_to_local_file]
-    }
-
-    public static Bitmap getBitmap(final Context context, Uri uri) {
-        Bitmap bmp = null;
-        try {
-            bmp = MediaStore.Images.Media.getBitmap(
-                    context.getContentResolver(),
-                    uri);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bmp;
     }
 }

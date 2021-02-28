@@ -30,14 +30,10 @@ import com.moisegui.artia.service.HistoryService;
 
 import java.util.ArrayList;
 import java.util.List;
-
+// Fragment qui affiche l'historique de l'utilisateur
 public class HistoryFragment extends Fragment {
 
-    //
     private HistoryService historyService;
-
-    private HistoriesViewModel historiesViewModel;
-
 
     View root;
     public Context context;
@@ -45,27 +41,17 @@ public class HistoryFragment extends Fragment {
     FirebaseAuth auth;
     private static final int RC_SIGN_IN = 123;
 
-    List<History> historyList = new ArrayList<>();
-
-    List<Motif> motifList = new ArrayList<>();
-
     private static final String TAG = "ReadAndWriteSnippets";
 
     Button btnLogin;
     TextView textView;
 
     ConstraintLayout notConnectedView;
-    Button btnLogout;
 
     ListView lv;
     TextView emptyTextView;
 
-
-
-    AppAdapter appAdapter;
-
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        historiesViewModel = new ViewModelProvider(this).get(HistoriesViewModel.class);
 
         // create ContextThemeWrapper from the original Activity Context with the custom theme
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.AppTheme2);
@@ -73,7 +59,6 @@ public class HistoryFragment extends Fragment {
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
 
         root = localInflater.inflate(R.layout.fragment_history, container, false);
-        //final TextView textView = root.findViewById(R.id.text_dashboard);
 
         notConnectedView = root.findViewById(R.id.not_connected_view);
         btnLogin = root.findViewById(R.id.btnConnexion);
@@ -99,7 +84,6 @@ public class HistoryFragment extends Fragment {
 
         startIfLogin();
 
-
         return root;
     }
 
@@ -117,6 +101,7 @@ public class HistoryFragment extends Fragment {
     }
 
 
+    // Verification des informations de l'authentification
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -131,11 +116,7 @@ public class HistoryFragment extends Fragment {
                 // ...
                 startIfLogin();
             } else {
-//                Toast.makeText(getContext(), R.string.login_failed, Toast.LENGTH_SHORT).show();
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
-                // ...
+                Toast.makeText(getContext(), R.string.login_failed, Toast.LENGTH_SHORT).show();
                 // Sign in failed
                 if (response == null) {
                     // User pressed back button
@@ -153,6 +134,7 @@ public class HistoryFragment extends Fragment {
         }
     }
 
+    // Charger le contenue de l'interface si l'utilisateur est authentifie
     public void startIfLogin() {
         FirebaseUser user = auth.getCurrentUser();
 
@@ -163,7 +145,6 @@ public class HistoryFragment extends Fragment {
 
             lv.setVisibility(View.VISIBLE);
             lv.setEmptyView(emptyTextView);
-//            emptyTextView.setVisibility(View.VISIBLE);
             notConnectedView.setVisibility(View.INVISIBLE);
 
         } else {
@@ -174,9 +155,4 @@ public class HistoryFragment extends Fragment {
 
         }
     }
-
-
-
-
-
 }

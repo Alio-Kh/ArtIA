@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+// Le fragment qui contient la camera
 public class SearchFragment extends Fragment {
 
     private int REQUEST_CODE_PERMISSIONS = 101;
@@ -42,7 +43,6 @@ public class SearchFragment extends Fragment {
 
     private Camera mCamera = null;
     private CameraPreview mPreview;
-    private SearchViewModel searchViewModel;
     private PictureCallback picture;
     View root;
     private final int CODE_ACTIVITY = 1;
@@ -50,13 +50,11 @@ public class SearchFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        searchViewModel =
-                new ViewModelProvider(this).get(SearchViewModel.class);
         root = inflater.inflate(R.layout.fragment_search, container, false);
 
-
+        // On verifie si l'appareil possede une camera
         if (checkCameraHardware(getContext())) {
-
+            // On verifie si toutes les permissions sont accordees
             if (!allPermissionGranted()) {
                 Toast.makeText(getContext(), "Grant all permissions", Toast.LENGTH_SHORT).show();
                 ActivityCompat.requestPermissions(getActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
@@ -64,24 +62,27 @@ public class SearchFragment extends Fragment {
                 // Create an instance of Camera
                 prepareInterface();
             }
-
         }
 
         return root;
     }
 
+    // Preparation de l'interface de la camera
     private void prepareInterface() {
+        // Recuperer la camera
         mCamera = getCameraInstance();
 
         if (mCamera != null) {
-
             // Create our Preview view and set it as the content of our activity.
             mPreview = new CameraPreview(getContext(), mCamera);
+            // Pour eviter de cliquer sur le boutton capturer photo deux fois de suite
             safeToTakePicture = true;
 
             FrameLayout preview = (FrameLayout) root.findViewById(R.id.camera_preview);
             preview.addView(mPreview);
 
+
+            // On recupere la photo capturer et on l'envoie à l'activite showPhoto
             picture = new PictureCallback() {
 
                 @Override
@@ -132,8 +133,6 @@ public class SearchFragment extends Fragment {
             Log.d("Search Fragment", "Camera was null");
 
         }
-
-
     }
 
     /**
@@ -169,14 +168,6 @@ public class SearchFragment extends Fragment {
         return c; // returns null if camera is unavailable
     }
 
-    /**
-     * Create a file Uri for saving an image
-     */
-    private static Uri getOutputMediaFileUri() {
-        File mediaFile = getOutputMediaFile();
-        if (mediaFile != null) return Uri.fromFile(mediaFile);
-        else return null;
-    }
 
     /**
      * Create a File for saving an image
@@ -206,7 +197,6 @@ public class SearchFragment extends Fragment {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator +
                     "IMG_" + timeStamp + ".jpg");
         }
-
 
         return mediaFile;
     }
@@ -241,9 +231,9 @@ public class SearchFragment extends Fragment {
 
         }
 
-
     }
 
+    // Traitement a faire si les permissions sont accordees
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
@@ -256,8 +246,8 @@ public class SearchFragment extends Fragment {
         }
     }
 
+    // Verifie si toutes les permissions sont accordees
     private boolean allPermissionGranted() {
-
         PackageManager pm = getContext().getPackageManager();
         int hasStoragePerm = pm.checkPermission(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,

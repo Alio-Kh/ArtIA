@@ -1,7 +1,5 @@
 package com.moisegui.artia.ui.admin;
 
-import android.app.AlertDialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,20 +7,12 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.opengl.Visibility;
 import android.os.Bundle;
-
-import androidx.appcompat.view.ContextThemeWrapper;
-import androidx.fragment.app.Fragment;
-
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -35,19 +25,15 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
-import com.moisegui.artia.ItemResultActivity;
 import com.moisegui.artia.R;
 import com.moisegui.artia.data.model.Motif;
 import com.moisegui.artia.services.MotifCallback;
 import com.moisegui.artia.services.MotifService;
 import com.moisegui.artia.services.MyCallback;
-import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
-
+// Fragment qui affiche la list des motifs pour l'admin
 public class ListMotifsFragment extends Fragment {
 
     View root;
@@ -77,6 +63,7 @@ public class ListMotifsFragment extends Fragment {
         txt_empty_list = root.findViewById(R.id.txt_empty_list_motif);
         listMotifs.setEmptyView(txt_empty_list);
 
+        // Recuperation des motifs
         MotifService.findAll(new MotifCallback() {
             @Override
             public void onCallback(List<Motif> motifs) {
@@ -88,6 +75,8 @@ public class ListMotifsFragment extends Fragment {
 
         materialAlertDialogBuilder = new MaterialAlertDialogBuilder(root.getContext());
 
+        // Boutton pour ajouter un nouveau motif
+        // Il lance une boite de dialogue
         FloatingActionButton add_btn = (FloatingActionButton) root.findViewById(R.id.btn_add);
         add_btn.setOnClickListener(
                 new View.OnClickListener() {
@@ -104,7 +93,7 @@ public class ListMotifsFragment extends Fragment {
     }
 
 
-
+    // Pour creer lancer la boite de dialogue
     public void launchAlertDialog() {
         libelle = alertDialogView.findViewById(R.id.libelle);
         signification = alertDialogView.findViewById(R.id.signification);
@@ -146,21 +135,16 @@ public class ListMotifsFragment extends Fragment {
             }
         });
 
+        // Boutton pour telecharger une photo d'un motif a partir du stockage local
         telecharger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                //startActivityForResult(intent, REQUEST_CODE);
-
                 try {
                     Intent i = new Intent(
                             Intent.ACTION_PICK,
                             android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(i, FILE_CHOOSER_REQUEST);
-//                    startActivityForResult(
-//                            Intent.createChooser(intent, "Select a File to Upload"),
-//                            FILE_CHOOSER_REQUEST);
+
                 } catch (android.content.ActivityNotFoundException ex) {
                     // Potentially direct the user to the Market with a Dialog
                     Toast.makeText(root.getContext(), "Please install a File Manager.",
@@ -182,7 +166,8 @@ public class ListMotifsFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        // On recupere la photo choisie et on la tansforme en bitmap pour l'afficher
+        // sur la boite de dialogue
         if (requestCode == FILE_CHOOSER_REQUEST && data != null) {
             Uri selectedImage = data.getData();
             String[] filePath = {MediaStore.Images.Media.DATA};
@@ -191,14 +176,15 @@ public class ListMotifsFragment extends Fragment {
             int columnIndex = cursor.getColumnIndex(filePath[0]);
             picturePath = cursor.getString(columnIndex);
             cursor.close();
-            Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-            thumbnail = getResizedBitmap(thumbnail, 1000);
-            new_motif.setImageBitmap(thumbnail);
+            Bitmap bitmap = (BitmapFactory.decodeFile(picturePath));
+            bitmap = getResizedBitmap(bitmap, 1000);
+            new_motif.setImageBitmap(bitmap);
             new_motif.setVisibility(View.VISIBLE);
             telecharger.setVisibility(View.GONE);
         }
     }
 
+    // Redimensionner la photo transformet en bitmap
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
         int width = image.getWidth();
         int height = image.getHeight();
@@ -213,6 +199,5 @@ public class ListMotifsFragment extends Fragment {
         }
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
-
 
 }

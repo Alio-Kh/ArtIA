@@ -134,9 +134,6 @@ public final class ImageDetectionFilter implements ARFilter {
 
     @RequiresApi(api = VERSION_CODES.P)
     public ImageDetectionFilter(final Context context,
-                                //TODO: load images into sqlLite on MainActivity, no need to pass this param
-                                final int[] referenceImageResourceIDs,
-//                                final CameraProjectionAdapter cameraProjectionAdapter,
                                 final double realSize)
             throws IOException {
 
@@ -180,24 +177,6 @@ public final class ImageDetectionFilter implements ARFilter {
         }
 
         Log.i(TAG, "TOus les motifs" + motifList.toString());
-
-
-        // m = new Mat(200,400, CvType.CV_8UC3, new Scalar(0,100,0));
-        //Core.putText(m, "world (~)", new Point(30,80), Core.FONT_HERSHEY_SCRIPT_SIMPLEX, 2.2, new Scalar(200,200,200));
-        // sql.dbput("hello",m);
-        // m2 = sql.dbget("hello");
-
-        //Toast.makeText(getApplicationContext(), m2.toString(), Toast.LENGTH_LONG).show();
-
-/*
-        for (int i = 0; i< referenceImageResourceIDs.length; i++){
-             mReferencesImage.add( Utils.loadResource(context,
-                     referenceImageResourceIDs[i],
-                     Imgcodecs.CV_LOAD_IMAGE_COLOR) );
-        }
-
-*/
-//        mCameraProjectionAdapter = cameraProjectionAdapter;
     }
 
     public static void saveMotif(Context context, Motif motif, File file) throws IOException {
@@ -337,8 +316,6 @@ public final class ImageDetectionFilter implements ARFilter {
 
             // Attempt to find the target image's 3D pose in the scene.
             Mat res = findPose();
-            //draw(src, dst);
-
 
             if (mTargetFound) {
                 Log.v("FOUND MATCH", "Trouvé");
@@ -355,10 +332,6 @@ public final class ImageDetectionFilter implements ARFilter {
         Map<String, Object> result = new HashMap<>();
         result.put("FAIL", src);
         return result;
-        // draw(src, dst);
-
-        // If the pose has not been found, draw a thumbnail of the
-        // target image.
     }
 
     private Mat findPose() {
@@ -458,43 +431,5 @@ public final class ImageDetectionFilter implements ARFilter {
 
         mTargetFound = true;
         return destinationMat;
-    }
-
-    protected void draw(final Mat src, final Mat dst) {
-
-
-        if (dst != src) {
-            src.copyTo(dst);
-        }
-        //Log.d("test" , mTargetFound + "");
-        if (mTargetFound) {
-            // The target has not been found.
-
-            // Draw a thumbnail of the target in the upper-left
-            // corner so that the user knows what it is.
-
-            // Compute the thumbnail's larger dimension as half the
-            // video frame's smaller dimension.
-            int height = mReferenceImage.height();
-            int width = mReferenceImage.width();
-            final int maxDimension = Math.min(dst.width(),
-                    dst.height()) / 2;
-            final double aspectRatio = width / (double) height;
-            if (height > width) {
-                height = maxDimension;
-                width = (int) (height * aspectRatio);
-            } else {
-                width = maxDimension;
-                height = (int) (width / aspectRatio);
-            }
-
-            // Select the region of interest (ROI) where the thumbnail
-            // will be drawn.
-            final Mat dstROI = dst.submat(0, height, 0, width);
-
-            // Copy a resized reference image into the ROI.
-            Imgproc.resize(mReferenceImage, dstROI, dstROI.size(),
-                    0.0, 0.0, Imgproc.INTER_AREA);
-        }
     }
 }

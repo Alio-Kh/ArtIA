@@ -40,9 +40,6 @@ public class HomeActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-
-
-
     }
 
 
@@ -51,21 +48,15 @@ public class HomeActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.add_picture, menu);
 
+        // Button ajout d'image a partir du stockage local
         menu.getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-
-//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//                intent.setType("image/*");
-
                 try {
                     Intent i = new Intent(
                             Intent.ACTION_PICK,
                             android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(i, FILE_CHOOSER_REQUEST);
-//                    startActivityForResult(
-//                            Intent.createChooser(intent, "Select a File to Upload"),
-//                            FILE_CHOOSER_REQUEST);
                 } catch (android.content.ActivityNotFoundException ex) {
                     // Potentially direct the user to the Market with a Dialog
                     Toast.makeText(getApplicationContext(), "Please install a File Manager.",
@@ -84,6 +75,7 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        // Gestion de la ferméture d l'appliation (deux cliques pour quitter)
         if (exit) {
             finish(); // finish activity
             moveTaskToBack(true); // close the app
@@ -107,6 +99,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
+            // Recuperer l'image selectionée
             case FILE_CHOOSER_REQUEST: {
                 if (resultCode == RESULT_OK && data != null) {
                     // Get the Uri of the selected file
@@ -144,17 +137,4 @@ public class HomeActivity extends AppCompatActivity {
 
 
     }
-
-    public String getPath(Uri uri) {
-        String[] projection = {MediaStore.Images.Media.DATA};
-        CursorLoader loader = new CursorLoader(this, uri, projection, null, null, null);
-        Cursor cursor = loader.loadInBackground();
-//        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        startManagingCursor(cursor);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
-
-
 }

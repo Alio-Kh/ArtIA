@@ -29,8 +29,6 @@ public class ItemResultActivity extends AppCompatActivity {
 
     private ImageView image;
     private TextView title;
-    private TextView date;
-    private TextView origin;
     private TextView pattern;
     private TextView desc;
     View root;
@@ -45,9 +43,6 @@ public class ItemResultActivity extends AppCompatActivity {
     TextInputLayout signification;
     ImageView new_motif;
     Button telecharger;
-
-    private final int FILE_CHOOSER_REQUEST = 112;
-    String picturePath;
 
 
 
@@ -80,9 +75,6 @@ public class ItemResultActivity extends AppCompatActivity {
             pattern.setText(motif.getMotifName());
             desc.setText(motif.getMotifDescription());
         }
-
-
-
     }
 
 
@@ -97,6 +89,8 @@ public class ItemResultActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            // Si le button supprimer un motif est clique
+            // Il lance une boite de dialogue
             case R.id.action_delete_button:
                 // setup the alert builder
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -121,6 +115,8 @@ public class ItemResultActivity extends AppCompatActivity {
                 AlertDialog dialog = builder.create();
                 dialog.show();
                 return true;
+                 //Si le button modifier est clique
+            // Il lance une boite de dialogue
             case R.id.action_update_button:
                 launchAlertDialog();
                 return true;
@@ -129,6 +125,7 @@ public class ItemResultActivity extends AppCompatActivity {
         }
     }
 
+    // Creer et lance la boite de dialogue pour modifier
     private void launchAlertDialog() {
         alertDialogView = LayoutInflater.from(root.getContext())
                 .inflate(R.layout.add_motif_custom_dialog, null, false);

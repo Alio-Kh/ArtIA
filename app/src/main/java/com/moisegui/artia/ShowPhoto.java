@@ -91,7 +91,6 @@ public class ShowPhoto extends AppCompatActivity {
 
             Picasso.get()
                     .load(file)
-//                    .fit().centerCrop()
                     .fit()
                     .rotate(90)
                     .into(img);
@@ -186,17 +185,9 @@ public class ShowPhoto extends AppCompatActivity {
 
                 Utils.matToBitmap(image, bmp);
 
-                Uri uri = getImageUri(getApplicationContext(), bmp);
 
                 Toast.makeText(ShowPhoto.this, R.string.a_motif_found, Toast.LENGTH_SHORT).show();
 
-//                Picasso.get()
-//                        .load(uri)
-//                        .fit()
-//                        .rotate(90)
-//                        .into(img);
-
-                //TODO: Show the motif details under the picture at the place of the buttons
                 Motif motif = (Motif) result.get("motif");
 
                 Picasso.get()
@@ -208,18 +199,10 @@ public class ShowPhoto extends AppCompatActivity {
 
                 resultCard.setVisibility(View.VISIBLE);
 
-
-                //TODO Create an async Task to save it to the History of the current user
                 new HistorySaverAsyncTask().execute(motif);
             }
 
             btnCancel.setEnabled(true);
-//            try {
-//                Thread.sleep(500);
-//            } catch (InterruptedException e) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            }
             progressBar.setVisibility(View.GONE);
             taskStatus = 0;
         }
@@ -287,17 +270,9 @@ public class ShowPhoto extends AppCompatActivity {
             switch (status) {
                 case LoaderCallbackInterface.SUCCESS: {
                     Log.i(TAG, "OpenCV loaded successfully");
-                    int[] tapis = {
-                            R.drawable.tapis16,
-                            R.drawable.tapis1,
-                            R.drawable.tapis9,
-                            R.drawable.tapis9,
-                            R.drawable.tapis14
-                    };
                     try {
                         mFilter = new ImageDetectionFilter(
                                 getApplicationContext(),
-                                tapis,
                                 1.0);
                     } catch (IOException e) {
                         Log.e(TAG, "Failed to load drawable: " +
@@ -318,7 +293,5 @@ public class ShowPhoto extends AppCompatActivity {
             }
         }
     };
-
-
 
 }

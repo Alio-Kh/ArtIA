@@ -31,10 +31,6 @@
         <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_home" />
-        <activity android:name=".RegisterActivity" />
-        <activity
-            android:name=".ui.login.LoginActivity"
-            android:label="@string/title_activity_login" />
         <activity android:name=".ResultActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

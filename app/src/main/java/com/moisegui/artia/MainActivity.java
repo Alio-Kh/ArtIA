@@ -49,25 +49,6 @@ public class MainActivity extends AppCompatActivity {
         // To navigate from Main Acticity to Search Activity (for pattern detection)
         getStarted();
 
-        //FirebaseDatabase database = FirebaseDatabase.getInstance();
-       // DatabaseReference myRef = database.getReference("message");
-
-       // myRef.setValue("Hello, World!");
-
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser user =auth.getCurrentUser();
-        //AdminService.addAdmin("1",user.getUid());
-
-//        History history = new History(new Date().toString(), user.getUid(), "motif_1614314768128");
-//        HistoryService service = new HistoryService();
-//        service.add(history);
-
-    }
-
-    private void enablePersistence() {
-        // [START rtdb_enable_persistence]
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        // [END rtdb_enable_persistence]
     }
 
     // To navigate from Main Acticity to Search Activity (for pattern detection)
@@ -81,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        // Récupération des motifs
         MotifService.findAll(new MotifCallback() {
             @Override
             public void onCallback(List<Motif> motifs) {

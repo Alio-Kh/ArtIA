@@ -1,22 +1,15 @@
 package com.moisegui.artia.ui.admin;
 
-import android.app.Activity;
-import android.content.ActivityNotFoundException;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,11 +19,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 import com.moisegui.artia.ItemResultActivity;
 import com.moisegui.artia.R;
-
-import com.moisegui.artia.ResultActivity;
 import com.moisegui.artia.data.model.Motif;
 import com.moisegui.artia.services.MotifService;
-import com.moisegui.artia.services.MyCallback;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
@@ -44,14 +34,10 @@ public class CustomAdapter extends ArrayAdapter<Motif> {
 
 
     View alertDialogView;
-    MaterialAlertDialogBuilder materialAlertDialogBuilder;
     TextInputLayout libelle;
     TextInputLayout signification;
     Button telecharger;
     ImageView new_motif;
-
-    private final int FILE_CHOOSER_REQUEST = 111;
-    String picturePath;
 
     public CustomAdapter(@NonNull Context context, int resource, @NonNull List<Motif> objects) {
         super(context, resource, objects);
@@ -71,6 +57,7 @@ public class CustomAdapter extends ArrayAdapter<Motif> {
         Button update_button = convertView.findViewById(R.id.update_button_admin);;
         Button showMoreButton = convertView.findViewById(R.id.show_more_button_admin);
 
+        // Charger l'image avec la librairie Picasso
         Picasso.get()
                 .load(getItem(position).getMotifImageSrc())
                 .fit()
@@ -78,7 +65,8 @@ public class CustomAdapter extends ArrayAdapter<Motif> {
                 .into(imageView);
         textView.setText(getItem(position).getMotifName());
 
-
+        // Boutton pour supprimer un motif
+        // Il lance une boite de dialogue
         delete_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,6 +88,8 @@ public class CustomAdapter extends ArrayAdapter<Motif> {
             }
         });
 
+        // Button pour modifier un motif
+        // Il lance une boite de dialogue
         update_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,6 +97,7 @@ public class CustomAdapter extends ArrayAdapter<Motif> {
             }
         });
 
+        // Button pour afficher les details d'un motif
         showMoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,6 +111,7 @@ public class CustomAdapter extends ArrayAdapter<Motif> {
         return convertView;
     }
 
+    // Pour creer et lancer la boite de dialogue
     private void launchAlertDialog(int position) {
         alertDialogView = LayoutInflater.from(getContext())
                 .inflate(R.layout.add_motif_custom_dialog, null, false);
@@ -130,7 +122,6 @@ public class CustomAdapter extends ArrayAdapter<Motif> {
         new_motif = alertDialogView.findViewById(R.id.new_motif);
 
         libelle.getEditText().setText(objects.get(position).getMotifName());
-//        signification.getEditText().setText();
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setView(alertDialogView);

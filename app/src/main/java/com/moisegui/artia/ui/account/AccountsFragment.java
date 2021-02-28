@@ -39,11 +39,10 @@ import com.moisegui.artia.services.MyCallback;
 import java.util.List;
 
 public class AccountsFragment extends Fragment {
-    // Choose an arbitrary request code value
+    // request code value for sign-in
     private static final int RC_SIGN_IN = 123;
     private static final String TAG = "AccountsFragment";
 
-    private AccountsViewModel accountsViewModel;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
 
@@ -58,12 +57,11 @@ public class AccountsFragment extends Fragment {
     EditText oldPassEditText;
     EditText newPassEditText;
 
-   TextView btnAdmin;
+    TextView btnAdmin;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        accountsViewModel =
-                new ViewModelProvider(this).get(AccountsViewModel.class);
+
         // create ContextThemeWrapper from the original Activity Context with the custom theme
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.AppTheme2);
         // clone the inflater using the ContextThemeWrapper
@@ -71,17 +69,11 @@ public class AccountsFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_account, container, false);
         textView = root.findViewById(R.id.text_notifications);
-//        accountsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
 
         notConnectedView = root.findViewById(R.id.not_connected_view);
         settingsView = root.findViewById(R.id.settings_view);
         btnLogin = root.findViewById(R.id.btnConnexion);
-        btnLogout = (TextView)root.findViewById(R.id.btnLogOut);
+        btnLogout = (TextView) root.findViewById(R.id.btnLogOut);
         btnUpdateAccount = root.findViewById(R.id.btnUpdateAccount);
         emailEditText = root.findViewById(R.id.emailEditText);
         nameEditText = root.findViewById(R.id.nameEditText);
@@ -115,9 +107,12 @@ public class AccountsFragment extends Fragment {
             }
         });
 
-        btnAdmin = (TextView)root.findViewById(R.id.btn_admin);
+        btnAdmin = (TextView) root.findViewById(R.id.btn_admin);
 
+        // On fait le test si l'utilisateur est admin pour lui afficher le button
+        // qui mene vers l'interface admin
         if (user != null) {
+            // On recupere la liste des admins
             AdminService.findAll(new AdminCallback() {
                 @Override
                 public void onCallback(List<String> values) {
@@ -135,11 +130,10 @@ public class AccountsFragment extends Fragment {
             }
         });
         refreshInterface();
-
         return root;
     }
 
-
+    // Verification de l'authentification de l'utilisateur pour lui afficher le contenue de l'interface
     public void refreshInterface() {
         FirebaseUser user = auth.getCurrentUser();
         if (user != null) {
@@ -158,6 +152,7 @@ public class AccountsFragment extends Fragment {
         }
     }
 
+    // Verification des informations de l'authentification
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -174,11 +169,7 @@ public class AccountsFragment extends Fragment {
                 refreshInterface();
             } else {
                 Log.v(TAG, "Login failed");
-//                Toast.makeText(getContext(), R.string.login_failed, Toast.LENGTH_SHORT).show();
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
-                // ...
+                Toast.makeText(getContext(), R.string.login_failed, Toast.LENGTH_SHORT).show();
                 // Sign in failed
                 if (response == null) {
                     // User pressed back button
